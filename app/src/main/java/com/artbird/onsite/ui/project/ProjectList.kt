@@ -52,7 +52,6 @@ fun ProjectList(
             )
         }
     }
-
 }
 
 @Preview(

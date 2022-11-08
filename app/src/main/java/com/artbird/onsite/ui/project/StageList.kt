@@ -1,7 +1,6 @@
 package com.artbird.onsite.ui.project
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -9,11 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.artbird.onsite.domain.Address
 import com.artbird.onsite.domain.Stage
 import com.artbird.onsite.ui.theme.SLTheme
-import com.artbird.onsite.ui.utils.getAddressString
-
 
 @Composable
 fun StageListItem(item: Stage, selected: Boolean, index:Int){
@@ -40,7 +36,7 @@ fun StageListItem(item: Stage, selected: Boolean, index:Int){
 
 @Composable
 fun StageList(
-    projects: List<Stage>,
+    stages: List<Stage>,
     selectedIndex: Int,
     onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
@@ -49,9 +45,9 @@ fun StageList(
             .padding(8.dp)
     ) {
 
-        if (projects != null && projects.isNotEmpty()!!) {
+        if (stages != null && stages.isNotEmpty()!!) {
             com.artbird.onsite.ui.components.List<Stage>(
-                projects,
+                stages,
                 selectedIndex,
                 onSelect = onSelect,
                 itemContent = { it, selected, index ->
