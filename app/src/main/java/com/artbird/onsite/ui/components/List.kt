@@ -41,8 +41,8 @@ import com.artbird.onsite.ui.theme.SLTheme
 fun <T> List(
     items: List<T>,
     selectedIndex: Int,
-    fields: List<String>,
-    onGetLabel: (it: T, fieldName: String) -> String,
+    fields: List<String> = listOf(),
+    onGetLabel: (it: T, fieldName: String) -> String = {it, fn -> "Hi"},
     onSelect: (index: Int) -> Unit,
     onSelectMenu: (index: Int) -> Unit = {},
     menus: List<DropdownMenuItem> = listOf(),

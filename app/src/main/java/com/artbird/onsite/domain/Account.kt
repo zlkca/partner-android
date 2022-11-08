@@ -23,4 +23,5 @@ data class AccountDetails(
 data class BaseAccount(
     var id: String = "",
     var username: String = "",
+//    var email: String = "",
 )

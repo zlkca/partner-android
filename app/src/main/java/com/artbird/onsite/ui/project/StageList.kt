@@ -10,29 +10,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.Address
-import com.artbird.onsite.domain.BaseProject
+import com.artbird.onsite.domain.Stage
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.utils.getAddressString
 
 
 @Composable
-fun ProjectListItem(item: BaseProject, selected: Boolean, index:Int){
+fun StageListItem(item: Stage, selected: Boolean, index:Int){
     val colorScheme = MaterialTheme.colorScheme
     Column(){
         Text(
-            text = getAddressString(item.address),
+            text = item.name,
             color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
         )
         Text(
-            text = item.created,
+            text = item.status,
+            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
+        )
+        Text(
+            text = item.start,
+            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
+        )
+        Text(
+            text = item.end,
             color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
         )
     }
 }
 
 @Composable
-fun ProjectList(
-    projects: List<BaseProject>,
+fun StageList(
+    projects: List<Stage>,
     selectedIndex: Int,
     onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
@@ -42,12 +50,12 @@ fun ProjectList(
     ) {
 
         if (projects != null && projects.isNotEmpty()!!) {
-            com.artbird.onsite.ui.components.List<BaseProject>(
+            com.artbird.onsite.ui.components.List<Stage>(
                 projects,
                 selectedIndex,
                 onSelect = onSelect,
                 itemContent = { it, selected, index ->
-                    ProjectListItem(item=it, selected =selected, index =index)
+                    StageListItem(item=it, selected =selected, index =index)
                 }
             )
         }
@@ -61,14 +69,15 @@ fun ProjectList(
 )
 @Preview(showBackground = true)
 @Composable
-fun PreviewProjectList(){
-    val projects = listOf<BaseProject>(
-        BaseProject("1", address= Address("1", "A2", "3", "QianMen St", "Toronto", "ON", "L3R 0C7"), created = "2022-11-07"),
-        BaseProject("1", address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"), created = "2022-11-08"),
-        )
+fun PreviewStageList(){
+    val stages = listOf<Stage>(
+        Stage("make sales appointment", status="done", start = "2022-11-07", end = "2022-11-08"),
+        Stage("send quote", status="done", start = "2022-11-08", end = "2022-11-10"),
+        Stage("sign contract", status="in progress", start = "2022-11-12", end = "2022-11-12"),
+    )
     SLTheme {
-        ProjectList(
-            projects,
+        StageList(
+            stages,
             0
         )
     }
