@@ -18,8 +18,7 @@ import com.artbird.onsite.ui.components.ListActionBar
 fun ClientListScreen(
     navController: NavController,
     clientViewModel: ClientViewModel,
-//    roleViewModel: RoleViewModel,
-    recommender: BaseAccount,
+    recommender: Account,
 ) {
     val clients by clientViewModel.clients.observeAsState()
 //    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
@@ -30,10 +29,6 @@ fun ClientListScreen(
         if (recommender.id.isNotEmpty()) {
             clientViewModel.getClientsByRecommenderId(recommender.id)
         }
-    }
-
-    fun getClientLabel(item: Client, name: String): String {
-        return item.username
     }
 
     fun handleSelectClient(index: Int) {
@@ -62,14 +57,12 @@ fun ClientListScreen(
         ))
 
         if (clients != null && clients?.isNotEmpty()!!) {
-            com.artbird.onsite.ui.components.List<Client>(
+            ClientList(
                 clients!!,
                 selectedIndex,
-                fields = listOf("name"),
-                onGetLabel = ::getClientLabel,
                 onSelect = ::handleSelectClient,
-                onSelectMenu = { index -> selectedIndex = index },
-                menus = menus
+//                onSelectMenu = { index -> selectedIndex = index },
+//                menus = menus
             )
         }
     }

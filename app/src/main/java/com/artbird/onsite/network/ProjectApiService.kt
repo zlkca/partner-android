@@ -20,24 +20,29 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface RecordApiService {
-//    @GET("records")
+//    @GET("projects")
 //    suspend fun getRecords(): List<Record>
 
-    @GET("records")
+    @GET("projects")
     suspend fun getRecordsByClientId(
         @Query("client.id") clientId : String
     ): Response<List<Project>>
 
-    @GET("records/{id}")
+    @GET("projects")
+    suspend fun getProjectsByRecommenderId(
+        @Query("recommender.id") recommenderId : String
+    ): Response<List<Project>>
+
+    @GET("projects/{id}")
     suspend fun getRecord(@Path("id") id: String): Response<Project>
 
-    @DELETE("records/{id}")
+    @DELETE("projects/{id}")
     suspend fun deleteRecord(@Path("id") id: String): DeleteResponse?
 
-    @POST("records")
+    @POST("projects")
     suspend fun createRecord(@Body user: Project): PostResponse
 
-    @PUT("records/{id}")
+    @PUT("projects/{id}")
     suspend fun updateRecord(@Path("id") id: String, @Body updates: Project): PutResponse
 }
 

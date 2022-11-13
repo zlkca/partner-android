@@ -22,7 +22,7 @@ fun QuoteListScreen(
     navController: NavController,
     quoteViewModel: QuoteViewModel,
     appointment: Appointment,
-    client: ClientDetails
+    client: Client2
 ) {
     val quotes: List<Quote> by quoteViewModel.quotes.observeAsState(listOf())
 
@@ -84,7 +84,7 @@ fun QuoteListScreen(
                     if (appointment != null) {
                         val data = QuoteRequest(
                             BaseAppointment(appointment!!._id, appointment?.title!!),
-                            getAddressString(client.address),
+                            "test address", // getAddressString(client.address),
                             BaseAccount(appointment?.client!!.id,
                                 appointment?.client!!.account.username),
                             BaseAccount(appointment?.employee!!.id,

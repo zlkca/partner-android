@@ -9,13 +9,14 @@ data class Stage(
 
 data class Project(
     var _id: String = "",
-    var client: BaseClient = BaseClient(),
+    var client: Client2 = Client2(),
     var address: Address = Address(),
-    var recommender: BaseAccount = BaseAccount(),
-    var sales: BaseAccount = BaseAccount(),
-    var technician: BaseAccount = BaseAccount(),
+    var recommender: Account = Account(),
+    var sales: Account = Account(),
+    var technician: Account = Account(),
     var stages: List<Stage> = listOf(),
     var notes: String = "",
+    var status: String = "in progress",
     var created: String = "",
     var updated: String = "",
 )

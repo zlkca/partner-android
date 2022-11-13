@@ -1,6 +1,6 @@
 package com.artbird.onsite.domain
 
-// For the client list
+//// For the client list
 data class Client (
     val id: String = "",
     val username: String = "",
@@ -19,19 +19,31 @@ data class Client (
     val created: String = "",
     val updated: String = "",
 )
+//
+//data class Client2 (
+//    var id: String = "",
+//    var firstName: String = "",
+//    var middleName: String = "",
+//    var lastName: String = "",
+//    var address: Address = Address(),
+//    var account: Account2 = Account2(),
+//    var recommender: BaseAccount = BaseAccount(),
+//    var created: String = "",
+//    var updated: String = "",
+//)
 
-data class ClientDetails (
-    var id: String = "",
+data class Client2 (
+    val id: String = "",
+    var account: Account = Account(),
+//    val address: Address = Address(),
+    var recommender: Account = Account(),
+    // @Json(name="imageurl") val imageUrl: String,
+    // client related
     var firstName: String = "",
     var middleName: String = "",
     var lastName: String = "",
-    var address: Address = Address(),
-    var account: AccountDetails = AccountDetails(),
-    var recommender: BaseAccount = BaseAccount(),
-    var created: String = "",
-    var updated: String = "",
-    var stage: Stage = Stage(),
-    var records: List<BaseProject> = listOf()
+    val created: String = "",
+    val updated: String = "",
 )
 
 data class BaseClient (

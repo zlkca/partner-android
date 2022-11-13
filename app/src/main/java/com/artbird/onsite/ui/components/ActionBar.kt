@@ -121,6 +121,7 @@ fun SearchActionBar(
 fun DetailsViewActionBar(
     onBack: () -> Unit = {},
     onEdit: () -> Unit = {},
+    readOnly: Boolean = false,
 ){
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -136,13 +137,15 @@ fun DetailsViewActionBar(
                 ActionButton(Icons.Outlined.ArrowBack, "Back", onBack)
             }
 
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp),
-                horizontalArrangement = Arrangement.End
-            ){
-                ActionButton(Icons.Outlined.Edit, "Edit", onEdit)
+            if(!readOnly) {
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    ActionButton(Icons.Outlined.Edit, "Edit", onEdit)
+                }
             }
         }
     }

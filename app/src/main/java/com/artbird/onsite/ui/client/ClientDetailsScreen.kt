@@ -9,9 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.client.ClientDetails
 import com.artbird.onsite.ui.client.ClientViewModel
 import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.project.RecordViewModel
+import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.utils.getAddressString
 
 
@@ -19,19 +20,19 @@ import com.artbird.onsite.ui.utils.getAddressString
 fun ClientDetailsScreen(
     navController: NavController,
     clientViewModel: ClientViewModel,
-    recordViewModel: RecordViewModel,
+    projectViewModel: ProjectViewModel,
     clientId: String,
 ) {
     val clientDetails by clientViewModel.clientDetails.observeAsState()
-    val records by recordViewModel.records.observeAsState()
+//    val projects by projectViewModel.projects.observeAsState()
 
     var selectedIndex by remember { mutableStateOf(0) }
-    var client by remember { mutableStateOf(ClientDetails()) }
+    var client by remember { mutableStateOf(Client2()) }
 
     LaunchedEffect(key1 = clientId) {
         if (clientId != null && clientId != "new") {
             clientViewModel.getClientDetails(clientId)
-            recordViewModel.getRecordsByClientId(clientId)
+//            projectViewModel.getRecordsByClientId(clientId)
         }
     }
 
@@ -46,9 +47,9 @@ fun ClientDetailsScreen(
     }
 
     fun handleSelectRecord(index: Int) {
-        selectedIndex = index
-        val record = records!![index]
-        navController.navigate("clients/${client.id}/records/${record._id}")
+//        selectedIndex = index
+//        val record = projects!![index]
+//        navController.navigate("clients/${client.id}/projects/${record._id}")
     }
 
     Column(
@@ -62,18 +63,11 @@ fun ClientDetailsScreen(
         )
 
         if(client!=null) {
-            Text(text = "${client!!.account.username}", modifier = Modifier.padding(8.dp))
+            ClientDetails(client = clientDetails!!)
 
-            Text(text = "${client!!.account.email}", modifier = Modifier.padding(8.dp))
-
-            Text(text = "${client!!.account.phone}", modifier = Modifier.padding(8.dp))
-
-            Text(text = getAddressString(client!!.address), modifier = Modifier.padding(8.dp))
-
-
-//            if (records != null && records?.isNotEmpty()!!) {
+//            if (projects != null && projects?.isNotEmpty()!!) {
 //                com.artbird.onsite.ui.components.List<Project>(
-//                    records!!,
+//                    projects!!,
 //                    selectedIndex,
 //                    fields = listOf("created"),
 //                    onGetLabel = ::getRecordLabel,

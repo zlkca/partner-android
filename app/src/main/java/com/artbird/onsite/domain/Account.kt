@@ -8,10 +8,10 @@ data class Account(
     var email: String = "",
     var phone: String = "",
     var status: String = "",
-    var roleId: String = "",
+    var role: Role = Role(),
 )
 
-data class AccountDetails(
+data class Account2(
     var id: String = "",
     var username: String = "",
     var email: String = "",

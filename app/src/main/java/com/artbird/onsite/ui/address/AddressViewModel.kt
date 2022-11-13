@@ -5,8 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artbird.onsite.domain.Address
+import com.artbird.onsite.domain.GeoPlace
+import com.artbird.onsite.domain.GooglePredictionsResponse
 import com.artbird.onsite.network.AddressApi
+import com.artbird.onsite.repository.AddressRepository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 enum class ApiStatus { LOADING, ERROR, DONE }
@@ -81,4 +88,67 @@ class AddressViewModel : ViewModel() {
             }
         }
     }
+
+    private val _placeRsp = MutableLiveData<List<GeoPlace>>()
+    val placeRsp: LiveData<List<GeoPlace>> = _placeRsp
+    private val repo = AddressRepository()
+    private val gson = Gson()
+
+    fun getAddressPredictions(input: String) {
+        viewModelScope.launch {
+            _status.value = ApiStatus.LOADING
+            try {
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.getAddressPredictions(input)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _placeRsp.value = rsp.body()!!
+
+                }else {
+                    val type = object : TypeToken<List<GeoPlace>>() {}.type
+                    val it: List<GeoPlace> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _placeRsp.value = it!!
+                }
+                _status.value = ApiStatus.DONE
+            } catch (e: Exception) {
+                _placeRsp.value = null
+                _status.value = ApiStatus.ERROR
+                throw e
+            }
+        }
+    }
+
+    // for google
+//    private val _placeRsp = MutableLiveData<GooglePredictionsResponse>()
+//    val placeRsp: LiveData<GooglePredictionsResponse> = _placeRsp
+//    private val repo = AddressRepository()
+//    private val gson = Gson()
+//
+//    fun getAddressPredictions(input: String) {
+//        viewModelScope.launch {
+//            _status.value = ApiStatus.LOADING
+//            try {
+//                val rsp = withContext(Dispatchers.IO) {
+//                    repo.getAddressPredictions(input)
+//                }
+//                val code = rsp.code()
+//
+//                if(code == 200) {
+//                    _placeRsp.value = rsp.body()!!
+//
+//                }else {
+//                    val type = object : TypeToken<GooglePredictionsResponse>() {}.type
+//                    val it: GooglePredictionsResponse = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+//                    _placeRsp.value = it!!
+//                }
+//                _status.value = ApiStatus.DONE
+//            } catch (e: Exception) {
+//                _placeRsp.value = null
+//                _status.value = ApiStatus.ERROR
+//                throw e
+//            }
+//        }
+//    }
 }

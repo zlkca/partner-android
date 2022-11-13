@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artbird.onsite.domain.Client
 import com.artbird.onsite.domain.BaseAccount
-import com.artbird.onsite.domain.ClientDetails
+import com.artbird.onsite.domain.Client2
 import com.artbird.onsite.network.ClientApi
 import kotlinx.coroutines.launch
 
@@ -22,8 +22,8 @@ class ClientViewModel : ViewModel() {
     private val _clients = MutableLiveData<List<Client>>(arrayListOf())
     val clients: LiveData<List<Client>> = _clients
 
-    private val _clientDetails = MutableLiveData<ClientDetails>()
-    val clientDetails: LiveData<ClientDetails> = _clientDetails
+    private val _clientDetails = MutableLiveData<Client2>()
+    val clientDetails: LiveData<Client2> = _clientDetails
 
 //    init {
 //        getClients()
@@ -85,7 +85,7 @@ class ClientViewModel : ViewModel() {
             }
         }
     }
-    fun createClient(body: ClientDetails) {
+    fun createClient(body: Client2) {
         viewModelScope.launch {
             _status.value = com.artbird.onsite.ui.client.ApiStatus.LOADING
             try {
@@ -99,7 +99,7 @@ class ClientViewModel : ViewModel() {
         }
     }
 
-    fun updateClient(id: String, body: ClientDetails) {
+    fun updateClient(id: String, body: Client2) {
         viewModelScope.launch {
             _status.value = com.artbird.onsite.ui.client.ApiStatus.LOADING
             try {

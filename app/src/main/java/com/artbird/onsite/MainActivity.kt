@@ -11,7 +11,7 @@ import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.building.BuildingViewModel
 import com.artbird.onsite.ui.client.ClientViewModel
 import com.artbird.onsite.ui.quote.QuoteViewModel
-import com.artbird.onsite.ui.project.RecordViewModel
+import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.window.WindowViewModel
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val windowViewModel: WindowViewModel by viewModels()
     private val layoutViewModel: BuildingViewModel by viewModels()
     private val quoteViewModel: QuoteViewModel by viewModels()
-    private val recordViewModel: RecordViewModel by viewModels()
+    private val recordViewModel: ProjectViewModel by viewModels()
 
     fun getExternalDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {

@@ -30,8 +30,9 @@ fun LoginScreen(
     onPageChange: (page: String) -> Unit = {}
 ){
     val auth: Auth by viewModel.auth.observeAsState(
-        Auth("","", "", role= Role("", ""))
+        Auth("","", "", account = Account())
     )
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val error by remember { mutableStateOf(mapOf<String, String>())}

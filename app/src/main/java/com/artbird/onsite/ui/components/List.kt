@@ -21,7 +21,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 //import androidx.compose.foundation.lazy.LazyColumn
 //import androidx.compose.foundation.lazy.items
 //import androidx.compose.material3.Button
-//import androidx.compose.material3.Divider
+import androidx.compose.material3.Divider
 //
 import androidx.compose.material3.Text
 //import androidx.compose.material.icons.Icons
@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 //import androidx.compose.material3.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 //import androidx.compose.ui.graphics.Color
 //import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,47 +52,37 @@ fun <T> List(
     val colorScheme = MaterialTheme.colorScheme
     Column(
         modifier = Modifier
-            .padding(8.dp)
             .fillMaxHeight()
             .verticalScroll(rememberScrollState())
     ) {
+        Divider(color = Color.Gray, thickness = 1.dp)
         items.forEachIndexed{ index, it ->
-//                    ListItem<T>(
-//                        it,
-//                        index,
-//                        selectedIndex,
-//                        fields,
-//                        onGetLabel,
-//                        onSelect,
-//                        onSelectMenu,
-//                        menus,
-//                    )
 
-
-
-
-            Row(
-                modifier = Modifier
-                    .background(
-                        color = if (selectedIndex == index) colorScheme.primary else colorScheme.background
-                    )
-                    .clickable { onSelect(index) }
-            ) {
-                Box(modifier = Modifier
-                        .padding(8.dp)
+            Column() {
+                Row(
+                    modifier = Modifier
+                        .background(
+                            color = if (selectedIndex == index) colorScheme.primary else colorScheme.surface
+                        )
+                        .clickable { onSelect(index) }
+                ) {
+                    Box(modifier = Modifier
+                        .padding(start= 16.dp, end=10.dp, top = 8.dp, bottom = 8.dp)
                         .weight(1f)) {
 
                         itemContent(it, selectedIndex == index, index)
                     }
 
-//                DropdownMenuList(
-//                    selectedIndex,
-//                    onClick = { onSelectMenu(index) },
-//                    menus,
-//                )
-            }
+        //                DropdownMenuList(
+        //                    selectedIndex,
+        //                    onClick = { onSelectMenu(index) },
+        //                    menus,
+        //                )
 
+                }
+                Divider(color = Color.Gray, thickness = 1.dp)
             }
+        }
     }
 }
 
@@ -176,14 +167,6 @@ fun PreviewList(){
 
     SLTheme {
         Column() {
-            Column() {
-                Text("Alfred Sisley")
-                Text("3 minutes ago")
-                Text("Alfred Sisley")
-                Text("3 minutes ago")
-                Text("Alfred Sisley")
-                Text("3 minutes ago")
-            }
             List<TestListItem>(
                 items,
                 selectedIndex = selectedIndex,

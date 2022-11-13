@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import com.artbird.onsite.domain.Appointment
 import com.artbird.onsite.domain.BaseAccount
 import com.artbird.onsite.domain.BaseClient
-import com.artbird.onsite.domain.ClientDetails
+import com.artbird.onsite.domain.Client2
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.utils.getDate
 import com.artbird.onsite.ui.utils.getTime
@@ -31,7 +31,7 @@ fun AppointmentFormScreen(
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
     user: BaseAccount, // logged in user
-    client: ClientDetails,
+    client: Client2,
 ){
     val appointment by appointmentViewModel.appointment.observeAsState()
 //    var client by remember { mutableStateOf(

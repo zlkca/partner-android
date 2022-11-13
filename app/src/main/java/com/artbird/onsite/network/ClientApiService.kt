@@ -27,13 +27,13 @@ interface ClientApiService {
     suspend fun getClientsByRecommenderId(@Query("recommenderId") recommenderId : String): List<Client>
 
     @GET("clients/{id}")
-    suspend fun getClientDetails(@Path("id") id: String): ClientDetails
+    suspend fun getClientDetails(@Path("id") id: String): Client2
 
     @POST("clients")
-    suspend fun createClient(@Body client: ClientDetails): PostResponse
+    suspend fun createClient(@Body client: Client2): PostResponse
 
     @PUT("clients/{id}")
-    suspend fun updateClient(@Path("id") id: String, @Body updates: ClientDetails): PutResponse
+    suspend fun updateClient(@Path("id") id: String, @Body updates: Client2): PutResponse
 
 }
 

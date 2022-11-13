@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.artbird.onsite.domain.*
@@ -27,7 +26,7 @@ fun AppointmentDetailsScreen(
     appointmentViewModel: AppointmentViewModel,
     clientViewModel: ClientViewModel,
     user: BaseAccount, // logged in user
-    onSelectClient: (c: ClientDetails) -> Unit = {},
+    onSelectClient: (c: Client2) -> Unit = {},
     onSelectAppointment: (a: Appointment) -> Unit = {},
 ) {
     val appointment by appointmentViewModel.appointment.observeAsState()
@@ -35,10 +34,10 @@ fun AppointmentDetailsScreen(
     val clientDetails by clientViewModel.clientDetails.observeAsState()
 
     var client by remember { mutableStateOf(
-        ClientDetails(
-            account = AccountDetails(),
-            address = Address(),
-            recommender = BaseAccount(),
+        Client2(
+            account = Account(),
+//            address = Address(),
+            recommender = Account(),
         )
 
     ) }

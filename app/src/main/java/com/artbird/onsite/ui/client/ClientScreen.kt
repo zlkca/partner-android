@@ -2,9 +2,8 @@ package com.artbird.onsite.ui.client
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import com.artbir.ClientDetailsView
+//import com.artbird
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.address.AddressViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
 
 @Composable
@@ -23,7 +22,7 @@ fun ClientScreen(
         }
     }
 
-    var clientDetails by remember { mutableStateOf(ClientDetails()) }
+    var clientDetails by remember { mutableStateOf(Client2()) }
     var page by remember { mutableStateOf("client-list") } // list -> details
     var clientIndex by remember { mutableStateOf(0) }
 
@@ -81,47 +80,47 @@ fun ClientScreen(
 
     when (page) {
         "client-list" -> {
-            ClientListView(
-                clients,
-                clientIndex,
-                onSelect = { index ->
-                    clientIndex = index
-                    clientId = clients!![clientIndex].id
-                    toNextView()
-                },
-                onDelete = ::deleteClient,
-                onAdd={
-//                    client = ClientDetails(
-//                        id= "",
-//                        username = "",
-//                        email="",
-//                        phone="",
-//                        recommenderId= recommenderId!!,
-//                    )
-                    clientDetails = ClientDetails()
-                    page = "new-client"
-                }
-            )
+//            ClientListView(
+//                clients,
+//                clientIndex,
+//                onSelect = { index ->
+//                    clientIndex = index
+//                    clientId = clients!![clientIndex].id
+//                    toNextView()
+//                },
+//                onDelete = ::deleteClient,
+//                onAdd={
+////                    client = ClientDetails(
+////                        id= "",
+////                        username = "",
+////                        email="",
+////                        phone="",
+////                        recommenderId= recommenderId!!,
+////                    )
+//                    clientDetails = ClientDetails()
+//                    page = "new-client"
+//                }
+//            )
         }
-        "new-client" -> {
-            val role = roles.firstOrNull { it.name == "client" }
-            ClientForm("new", clientDetails, role, recommender, clientViewModel) { page = "client-list" }
-        }
-        "edit-client" -> {
-            ClientForm(clientId, clientDetails, role =null, recommender, clientViewModel) {
-                page = "client-list"
-            }
-        }
+//        "new-client" -> {
+//            val role = roles.firstOrNull { it.name == "client" }
+//            ClientForm("new", clientDetails, role, recommender, clientViewModel) { page = "client-list" }
+//        }
+//        "edit-client" -> {
+//            ClientForm(clientId, clientDetails, role =null, recommender, clientViewModel) {
+//                page = "client-list"
+//            }
+//        }
         else -> { // client-details
-            ClientDetailsView(
-                clientId,
-                clientViewModel,
-                onEdit = { c ->
-                    clientDetails = c
-                    page = "edit-client"
-                },
-                onBack = { page = "client-list"},
-            )
+//            ClientDetailsView(
+//                clientId,
+//                clientViewModel,
+//                onEdit = { c ->
+//                    clientDetails = c
+//                    page = "edit-client"
+//                },
+//                onBack = { page = "client-list"},
+//            )
         }
     }
 

@@ -28,7 +28,7 @@ fun BuildingListScreen(
     navController: NavController,
     buildingViewModel: BuildingViewModel,
     appointment: Appointment,
-    client: ClientDetails,
+    client: Client2,
 ) {
     val buildings by buildingViewModel.buildings.observeAsState()
 //    val status by buildingViewModel.buildingStatus.observeAsState()
@@ -150,7 +150,7 @@ fun BuildingListScreen(
                 .padding(8.dp)
         ) {
 
-            Text(text = getAddressString(client.address), modifier = Modifier.padding(8.dp))
+//            Text(text = getAddressString(client.address), modifier = Modifier.padding(8.dp))
 
             ListActionBar(items = listOf(
                 ActionChip("Building", onClick = { navController.navigate("buildings/new/form") }),

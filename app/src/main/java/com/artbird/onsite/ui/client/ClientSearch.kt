@@ -13,114 +13,29 @@ import android.content.res.Configuration
 
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.components.Input
-import com.artbird.onsite.ui.components.SearchActionBar
+import com.artbird.onsite.ui.components.*
+
 @Composable
-fun SearchClient(
-    clients: List<Client>,
-    onSelect: (d: ClientDetails) -> Unit = {},
+fun ClientSearch(
+    keyword: String,
+    clients: List<Client> = listOf(),
+    onSearch: (keyword: String) -> Unit = {},
+    onSelect: (index: Int) -> Unit = {},
+    onBack:() -> Unit = {},
+    onClear:() -> Unit = {},
 ){
-    var client by remember { mutableStateOf(
-        Client(
-            id= "",
-            username = "",
-            email = "",
-            phone = "",
-            status = "",
-            firstName = "",
-            middleName = "",
-            lastName = "",
-            accountId = "",
-            addressId = "",
-            recommenderId = "",
-            created = "",
-            updated = ""
+    Column() {
+        SearchList<Client>(
+            keyword,
+            "Find Client",
+            clients,
+//        selectedIndex = selectedIndex,
+            onSelect = onSelect,
+            onSearch = onSearch,
+            onBack = onBack,
+            onClear = onClear,
+            itemContent = { it, selected, index -> ClientListItem(it, selected, index) },
         )
-    ) }
-
-//    val clients: List<Client> by clientViewModel.clients.observeAsState(arrayListOf())
-//    val clientDetails by clientViewModel.clientDetails.observeAsState()
-
-    var needRedirect by remember { mutableStateOf(false) }
-    var keyword by remember { mutableStateOf("") }
-    var selectedIndex by remember { mutableStateOf(0) }
-
-//    LaunchedEffect(key1 = keyword) {
-//        if (keyword != null && keyword.isNotEmpty()) {
-//            clientViewModel.searchByRecommender(user.id, keyword)
-//        }
-//    }
-//
-//    LaunchedEffect(key1 = client) {
-//        if (client != null && client.id != "") {
-//            clientViewModel.getClientDetails(client.id)
-//        }
-//    }
-//
-//    LaunchedEffect(key1 = clientDetails) {
-//        if (clientDetails != null && clientDetails!!.id != "") {
-//            onSelect(clientDetails!!)
-//            if(needRedirect){
-//                navController.navigate("appointments/$appointmentId/form")
-//            }
-//        }
-//    }
-
-    fun getClientLabel(c:Client, name: String): String {
-        return when (name) {
-            "username" -> {
-                c.username
-            }
-            "phone" -> {
-                c.phone
-            }
-            else -> {
-                "Unknown Field"
-            }
-        }
-    }
-
-    Column(modifier = Modifier.padding(8.dp)) {
-
-        SearchActionBar(
-            onCancel = {
-//                if(appointmentId == "new"){
-//                    onSelect(
-//                        ClientDetails(
-//                            account = AccountDetails(),
-//                            address = Address(),
-//                            recommender = BaseAccount(),
-//                        )
-//                    )
-//                }
-//                navController.navigate("appointments/$appointmentId/form")
-            }
-        )
-
-        Input(
-            value = keyword,
-            onValueChange = {
-                keyword = it
-            },
-            label = "Client",
-        )
-
-        if (clients.isNotEmpty()) {
-
-        Column(modifier = Modifier.padding(8.dp)) {
-            com.artbird.onsite.ui.components.List<Client>(
-                clients,
-                selectedIndex,
-                fields = listOf("username", "phone"),
-                onGetLabel = ::getClientLabel,
-                onSelect = { index ->
-                    client = clients[index] // update client by useEffect
-                    needRedirect = true
-                },
-            )
-        }
-    }
-
     }
 }
 
@@ -133,12 +48,13 @@ fun SearchClient(
 @Composable
 fun PreviewClientSearch(){
     val clients = listOf<Client>(
-        Client(id="1", username = "Jacky", email="jacky@gmail.com"),
-        Client(id="2", username = "Sydney", email="sydney@gmail.com")
+        Client(id="1", username = "Jacky", email="jacky@gmail.com", phone="416-123-4567"),
+        Client(id="2", username = "Sydney", email="sydney@gmail.com", phone="416-123-4567")
     )
     SLTheme {
-        SearchClient(
-            clients
+        ClientSearch(
+            "",
+            clients,
         )
     }
 }

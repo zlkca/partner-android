@@ -16,7 +16,7 @@ fun SignupScreen(
     )
 {
     val roles by roleViewModel.roles.observeAsState()
-    val auth: Auth by authViewModel.auth.observeAsState(Auth("","", "", role= Role("", "")))
+    val auth: Auth by authViewModel.auth.observeAsState(Auth("","", "", account = Account()))
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -40,16 +40,16 @@ fun SignupScreen(
 
     fun handleSubmit(username: String, password: String, email:String, phone: String){
             val role = roles!!.find { it.name == "partner"}
-            val data = Account(
-                id="",
-                username = username,
-                password = password,
-                email = email,
-                phone = phone,
-                status = "P", // pending
-                roleId = role!!.id
-            )
-            authViewModel.signup(data)
+//            val data = Account(
+//                id="",
+//                username = username,
+//                password = password,
+//                email = email,
+//                phone = phone,
+//                status = "P", // pending
+//                roleId = role!!.id
+//            )
+//            authViewModel.signup(data)
     }
 
     SignupForm(

@@ -1,32 +1,33 @@
 package com.artbird.onsite.ui.project
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-//import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.components.Body1
+import com.artbird.onsite.ui.components.Label3
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.utils.getAddressString
-import com.artbird.onsite.ui.project.StageList
+
 
 @Composable
 fun ProjectDetails(project: Project){
     val client = project.client;
+    Column(
+        modifier = Modifier.background(color=MaterialTheme.colorScheme.background)
+    ){
+        Label3("CLIENT USERNAME")
+        Body1("${client.account.username}")
 
-    Column(){
-        Text("CLIENT INFO")
-        Text("USERNAME")
-        Text(text = "${client.account.username}", modifier = Modifier.padding(8.dp))
+        Label3("ADDRESS")
+        Body1(getAddressString(project.address))
 
-        Text("ADDRESS")
-        Text(text = getAddressString(project.address), modifier = Modifier.padding(8.dp))
-
-        StageList(stages = project.stages, selectedIndex = 0)
+        Label3("PROGRESS")
+        StageList(stages = project.stages, selectedIndex = -1) // do not select any row
     }
 }
 
@@ -38,7 +39,7 @@ fun ProjectDetails(project: Project){
 @Composable
 fun PreviewProjectDetails(){
     val project = Project("1",
-        client = BaseClient("1", BaseAccount("1", "Jacky")),
+        client = Client2("1", account = Account("1", "Jacky")),
         address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         created = "2022-11-08",
         stages = listOf<Stage>(

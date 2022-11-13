@@ -40,7 +40,7 @@ fun convertToDecimalStr(it: Float): String {
     return df.format(it)
 }
 
-fun convertToDateTimeStr(s: String): String {
+fun getDateTimeString(s: String): String {
     val list = s.split(".")
     return if(list.isNotEmpty()){
         list[0]
@@ -83,5 +83,5 @@ fun intToString(it: Int): String {
 }
 
 fun getAddressString(address: Address): String {
-    return "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province} ${address.postcode}"
+    return "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province} ${address.postcode}".trim()
 }

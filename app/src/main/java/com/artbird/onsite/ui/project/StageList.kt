@@ -3,34 +3,41 @@ package com.artbird.onsite.ui.project
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.Stage
+import com.artbird.onsite.ui.components.Body1
+import com.artbird.onsite.ui.components.Body3
+import com.artbird.onsite.ui.components.Title2
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
 fun StageListItem(item: Stage, selected: Boolean, index:Int){
     val colorScheme = MaterialTheme.colorScheme
     Column(){
-        Text(
+
+        Title2(
             text = item.name,
             color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
         )
-        Text(
-            text = item.status,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
-        )
-        Text(
-            text = item.start,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
-        )
-        Text(
-            text = item.end,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
-        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Body3(
+                text = "${item.status}",
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
+            )
+
+            Body3(
+                text = getStageTimeString(item),
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
+            )
+        }
     }
 }
 
@@ -41,8 +48,7 @@ fun StageList(
     onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
+//        modifier = Modifier.padding(8.dp)
     ) {
 
         if (stages != null && stages.isNotEmpty()!!) {
@@ -51,7 +57,7 @@ fun StageList(
                 selectedIndex,
                 onSelect = onSelect,
                 itemContent = { it, selected, index ->
-                    StageListItem(item=it, selected =selected, index =index)
+                    StageListItem(item=it, selected=selected, index =index)
                 }
             )
         }

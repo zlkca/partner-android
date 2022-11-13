@@ -3,8 +3,6 @@ package com.artbird.onsite
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -13,7 +11,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.artbird.onsite.ui.appointment.AppointmentDetailsScreen
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
@@ -22,17 +19,14 @@ import androidx.navigation.navArgument
 import com.artbir.ClientDetailsScreen
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.address.AddressViewModel
-import com.artbird.onsite.ui.appointment.AppointmentFormScreen
-import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.auth.LoginScreen
 import com.artbird.onsite.ui.building.*
-import com.artbird.onsite.ui.client.ClientFormScreen
 import com.artbird.onsite.ui.quote.QuoteDetailsScreen
 import com.artbird.onsite.ui.client.ClientViewModel
 import com.artbird.onsite.ui.client.ClientListScreen
-import com.artbird.onsite.ui.client.SearchClientScreen
+import com.artbird.onsite.ui.client.ClientSearchScreen
 import com.artbird.onsite.ui.measure.MeasureScreen
 import com.artbird.onsite.ui.quote.QuoteListScreen
 import com.artbird.onsite.ui.quote.QuoteViewModel
@@ -44,18 +38,21 @@ import java.io.File
 
 import androidx.compose.runtime.remember
 import com.artbird.onsite.ui.auth.SignupScreen
-import com.artbird.onsite.ui.project.RecordDetailsScreen
-import com.artbird.onsite.ui.project.RecordViewModel
-import com.artbird.onsite.ui.settings.ChangePasswordScreen
+import com.artbird.onsite.ui.project.ProjectDetailsScreen
+import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.settings.SettingsScreen
 import com.artbird.onsite.domain.BaseAccount
+import com.artbird.onsite.ui.address.AddressAutocompleteScreen
+import com.artbird.onsite.ui.client.ClientFormScreen
+import com.artbird.onsite.ui.project.ProjectFormScreen
+import com.artbird.onsite.ui.project.ProjectListScreen
 
 data class MenuItem(val label: String, val path : String, val icon: ImageVector)
 
 @Composable
 fun NaviRoute(
-    user: BaseAccount,
-    role: Role,
+    user: Account,
+    address: String,
     navController: NavController,
     authViewModel: AuthViewModel,
     appointmentViewModel: AppointmentViewModel,
@@ -63,16 +60,17 @@ fun NaviRoute(
     buildingViewModel: BuildingViewModel,
     quoteViewModel: QuoteViewModel,
     addressViewModel: AddressViewModel,
-    recordViewModel: RecordViewModel,
+    projectViewModel: ProjectViewModel,
     clientViewModel: ClientViewModel,
     appointmentId: String,
     appointment: Appointment,
     onMeasure: (appointmentId: String) -> Unit,
-    onChangeClient: (client: ClientDetails) -> Unit,
+    onChangeClient: (client: Client2) -> Unit,
     onChangeAppointment:(appointment: Appointment) -> Unit,
+    onChangeAddress: (address: String) -> Unit,
     dir: File?,
     startDestination: String,
-    client: ClientDetails,
+    client: Client2,
 ){
     NavHost(
         navController = navController as NavHostController,
@@ -99,7 +97,7 @@ fun NaviRoute(
                 ClientDetailsScreen(
                     navController,
                     clientViewModel,
-                    recordViewModel,
+                    projectViewModel,
                     clientId = it.arguments?.getString("id")!!,
                 )
             }
@@ -115,13 +113,13 @@ fun NaviRoute(
                 }
             ))
         {
-            RecordDetailsScreen(
-                navController,
-                clientViewModel,
-                recordViewModel,
-                clientId = it.arguments?.getString("clientId")!!,
-                recordId = it.arguments?.getString("id")!!,
-            )
+//            ProjectDetailsScreen(
+//                navController,
+//                clientViewModel,
+//                projectViewModel,
+//                clientId = it.arguments?.getString("clientId")!!,
+//                recordId = it.arguments?.getString("id")!!,
+//            )
         }
 
         composable(route = "clients/{id}/form",
@@ -136,7 +134,6 @@ fun NaviRoute(
                     navController,
                     clientViewModel,
                     clientId = it.arguments?.getString("id")!!,
-                    role = role,
                     recommender = user
                 )
             }
@@ -149,45 +146,53 @@ fun NaviRoute(
                 }
             )
         ){
-            SearchClientScreen(
-                navController = navController,
-                clientViewModel = clientViewModel,
-                appointmentId = it.arguments?.getString("id")!!,
-                user=user,
-                onSelect = onChangeClient
+//            SearchClientScreen(
+//                navController = navController,
+//                clientViewModel = clientViewModel,
+//                appointmentId = it.arguments?.getString("id")!!,
+//                user=user,
+//                onSelect = onChangeClient
+//            )
+        }
+
+        composable(route = "clients/search") {
+            ClientSearchScreen(
+                navController,
+                clientViewModel,
+                user,
             )
         }
 
         composable(route = "appointments") {
             if (user != null) {
-                AppointmentListScreen(
-                    user,
-                    navController,
-                    appointmentViewModel,
-                    onMeasure,
-                    onAdd={
-                        onChangeClient(
-                            ClientDetails(
-                                account = AccountDetails(),
-                                address = Address(),
-                                recommender = BaseAccount(),
-                            )
-                        )
-                        onChangeAppointment(
-                            Appointment(
-                                _id = "",
-                                title="",
-                                notes="",
-                                start = "",
-                                end = "",
-                                type = "",
-                                client = BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
-                                employee = BaseAccount(user.id, user.username),
-                                createBy = BaseAccount(user.id, user.username),
-                            )
-                        )
-                    }
-                )
+//                AppointmentListScreen(
+//                    user,
+//                    navController,
+//                    appointmentViewModel,
+//                    onMeasure,
+//                    onAdd={
+//                        onChangeClient(
+//                            Client2(
+//                                account = Account2(),
+//                                address = Address(),
+//                                recommender = BaseAccount(),
+//                            )
+//                        )
+//                        onChangeAppointment(
+//                            Appointment(
+//                                _id = "",
+//                                title="",
+//                                notes="",
+//                                start = "",
+//                                end = "",
+//                                type = "",
+//                                client = BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+//                                employee = BaseAccount(user.id, user.username),
+//                                createBy = BaseAccount(user.id, user.username),
+//                            )
+//                        )
+//                    }
+//                )
             }
         }
 
@@ -200,15 +205,15 @@ fun NaviRoute(
         )
         {
             if (user != null) {
-                AppointmentDetailsScreen(
-                    navController = navController,
-                    appointmentId = it.arguments?.getString("id"),
-                    appointmentViewModel = appointmentViewModel,
-                    clientViewModel = clientViewModel,
-                    onSelectClient = onChangeClient,
-                    onSelectAppointment = onChangeAppointment,
-                    user = user,
-                )
+//                AppointmentDetailsScreen(
+//                    navController = navController,
+//                    appointmentId = it.arguments?.getString("id"),
+//                    appointmentViewModel = appointmentViewModel,
+//                    clientViewModel = clientViewModel,
+//                    onSelectClient = onChangeClient,
+//                    onSelectAppointment = onChangeAppointment,
+//                    user = user,
+//                )
             }
         }
 
@@ -221,13 +226,13 @@ fun NaviRoute(
         )
         {
             if (user != null) {
-                AppointmentFormScreen(
-                    navController = navController,
-                    appointmentId = it.arguments?.getString("id"),
-                    appointmentViewModel = appointmentViewModel,
-                    user,
-                    client
-                )
+//                AppointmentFormScreen(
+//                    navController = navController,
+//                    appointmentId = it.arguments?.getString("id"),
+//                    appointmentViewModel = appointmentViewModel,
+//                    user,
+//                    client
+//                )
             }
         }
 
@@ -482,11 +487,52 @@ fun NaviRoute(
         }
 
         composable(route = "change-password") {
-            ChangePasswordScreen(navController, authViewModel, user)
+//            ChangePasswordScreen(navController, authViewModel, user)
+        }
+
+        composable(route = "projects") {
+            ProjectListScreen(navController, projectViewModel, user.id)
         }
 
 
 
+        composable(route = "projects/{id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.StringType
+                }
+            )
+        ){
+            ProjectDetailsScreen(
+                navController,
+                projectViewModel,
+                it.arguments?.getString("id")!!,
+            )
+        }
+
+        composable(route = "projects/{id}/form",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.StringType
+                }
+            )
+        )
+        {
+            ProjectFormScreen(
+                navController = navController,
+                clientViewModel = clientViewModel,
+                it.arguments?.getString("id")!!,
+                address,
+            )
+        }
+
+        composable(route = "address/autocomplete") {
+            AddressAutocompleteScreen(
+                navController,
+                addressViewModel,
+                onSelect = onChangeAddress
+            )
+        }
 //        composable(
 //            route = "windows/{id}",
 //            arguments = listOf(
@@ -512,45 +558,7 @@ fun NaviRoute(
     }
 }
 
-@Composable
-fun BottomAppBar(navController: NavController, roleName: String){
 
-    val menuItems = when (roleName) {
-        "sales" -> listOf(
-            MenuItem("Client", "clients", Icons.Filled.Group),
-            MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
-            MenuItem("Settings", "settings", Icons.Filled.Settings),
-        )
-        "technician" -> listOf(
-            MenuItem("Client", "clients", Icons.Filled.Group),
-            MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
-            MenuItem("Settings", "settings", Icons.Filled.Settings),
-        )
-        "partner" -> listOf(
-            MenuItem("Client", "clients", Icons.Filled.Group),
-            MenuItem("Settings", "settings", Icons.Filled.Settings),
-        )
-        else -> listOf()
-    }
-
-    var selectedItem by remember { mutableStateOf(0) }
-
-    NavigationBar {
-        menuItems.forEachIndexed { index, item ->
-            NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = null) },
-                label = { Text(item.label) },
-                selected = selectedItem == index,
-                onClick = {
-                    selectedItem = index
-                    navController.navigate(item.path)
-                }
-            )
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -563,21 +571,21 @@ fun MyApp(
     windowViewModel: WindowViewModel,
     buildingViewModel: BuildingViewModel,
     quoteViewModel: QuoteViewModel,
-    recordViewModel: RecordViewModel,
+    projectViewModel: ProjectViewModel,
     dir: File,
 ){
     val navController = rememberNavController()
     var isLoggedIn by remember { mutableStateOf(false) }
     var page by remember { mutableStateOf("login")}
     var appointmentId by remember { mutableStateOf("") }
-    var user: BaseAccount? by remember { mutableStateOf(null) } // logged in user
-    var role: Role by remember { mutableStateOf(Role("","")) } // For sales, technician or partner mode
+    var user: Account? by remember { mutableStateOf(null) } // logged in user
+    var address by remember { mutableStateOf("") }
 
     var client by remember { mutableStateOf(
-        ClientDetails(
-            account = AccountDetails(),
-            address = Address(),
-            recommender = BaseAccount(),
+        Client2(
+            account = Account(),
+//            address = Address(),
+            recommender = Account(),
         )
     )}
 
@@ -602,7 +610,11 @@ fun MyApp(
 
     if(isLoggedIn) {
             Scaffold(
-                bottomBar = { BottomAppBar(navController = navController, roleName = role.name) },
+                bottomBar = {
+                    BottomAppBar(
+                        roleName = user!!.role.name,
+                        onClick = {it -> navController.navigate(it.path)}
+                    ) },
                 content = {
                     Box(
                         modifier = Modifier
@@ -613,7 +625,7 @@ fun MyApp(
                     ) {
                         NaviRoute(
                             user = user!!,
-                            role = role!!,
+                            address,
                             navController = navController,
                             authViewModel = authViewModel,
                             appointmentViewModel,
@@ -621,7 +633,7 @@ fun MyApp(
                             buildingViewModel,
                             quoteViewModel,
                             addressViewModel = addressViewModel,
-                            recordViewModel = recordViewModel,
+                            projectViewModel = projectViewModel,
                             clientViewModel = clientViewModel,
                             appointmentId,
                             appointment,
@@ -632,8 +644,11 @@ fun MyApp(
                             onChangeAppointment = { it ->
                                 appointment = it
                             },
+                            onChangeAddress = {
+                              address = it
+                            },
                             dir = dir, // LocalContext.current.filesDir,
-                            startDestination = "clients",
+                            startDestination = "projects",
                             client = client,
                         )
 
@@ -657,7 +672,6 @@ fun MyApp(
         fun handleLogin(auth: Auth){
             isLoggedIn = auth.jwt.isNotEmpty()
             user = auth.account;
-            role = auth.role;
         }
         if(page == "login"){
             LoginScreen(
@@ -671,7 +685,6 @@ fun MyApp(
                 onSubmit = {
                     isLoggedIn = it.jwt.isNotEmpty()
                     user = it.account;
-                    role = it.role;
                 },
                 onPageChange = {page = it}
             )

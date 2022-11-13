@@ -1,5 +1,6 @@
 package com.artbird.onsite.ui.client
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,8 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.*
@@ -16,17 +18,18 @@ import com.artbird.onsite.ui.components.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ClientForm(
+fun ClientFormOld(
     clientId: String,
-    clientDetails: ClientDetails,
-    role: Role?,
-    recommender: BaseAccount,
-    clientViewModel: ClientViewModel,
+    clientDetails: Client2,
+//    role: Role?,
+//    recommender: BaseAccount,
+//    clientViewModel: ClientViewModel,
     onCancel: () -> Unit = {},
+    onSubmit: () -> Unit = {},
 ){
 //    val clientDetails by clientViewModel.clientDetails.observeAsState()
 
-    var accountDetails by remember { mutableStateOf(AccountDetails()) }
+    var accountDetails by remember { mutableStateOf(Account2()) }
     var addressDetails by remember { mutableStateOf(Address()) }
 
 //    LaunchedEffect(key1 = clientId) {
@@ -56,12 +59,12 @@ fun ClientForm(
             email = clientDetails!!.account.email
             phone = clientDetails!!.account.phone
 
-            unitNumber = clientDetails!!.address.unitNumber
-            streetNumber = clientDetails!!.address.streetNumber
-            streetName = clientDetails!!.address.streetName
-            city = clientDetails!!.address.city
-            province = clientDetails!!.address.province
-            postcode = clientDetails!!.address.postcode
+//            unitNumber = clientDetails!!.address.unitNumber
+//            streetNumber = clientDetails!!.address.streetNumber
+//            streetName = clientDetails!!.address.streetName
+//            city = clientDetails!!.address.city
+//            province = clientDetails!!.address.province
+//            postcode = clientDetails!!.address.postcode
 
         }
     }
@@ -76,51 +79,51 @@ fun ClientForm(
     )
 
     fun handleSubmit(){
-        if(clientId == "new"){
-            val account = AccountDetails(
-                "" ,
-                username = username,
-                email = email,
-                phone = phone,
-                role = role!!,
-            )
-            val address = Address(
-                "",
-                unitNumber = unitNumber,
-                streetNumber = streetNumber,
-                streetName = streetName,
-                city = city,
-                province = province,
-                postcode = postcode,
-            )
-            val data = ClientDetails(
-                firstName = firstName,
-//                    username = username,
-//                    email = email,
-//                    phone = phone,
-//                    status = "I",
-                    account = account,
-                    address = address,
-                    recommender = recommender,
-            )
-            clientViewModel.createClient(data)
-        }else {
-            val data = ClientDetails(
-                firstName = firstName,
-//                    username = username,
-//                    email = email,
-//                    phone = phone,
-//                    status = clientDetails!!.status,
-//                    role = clientDetails!!.role,
-                    account = accountDetails,
-                    address = addressDetails,
-                    recommender = recommender,
-            )
-            clientViewModel.updateClient(
-                clientId,
-                data
-            )
-        }
+//        if(clientId == "new"){
+//            val account = Account2(
+//                "" ,
+//                username = username,
+//                email = email,
+//                phone = phone,
+//                role = role!!,
+//            )
+//            val address = Address(
+//                "",
+//                unitNumber = unitNumber,
+//                streetNumber = streetNumber,
+//                streetName = streetName,
+//                city = city,
+//                province = province,
+//                postcode = postcode,
+//            )
+//            val data = Client2(
+//                firstName = firstName,
+////                    username = username,
+////                    email = email,
+////                    phone = phone,
+////                    status = "I",
+//                    account = account,
+//                    address = address,
+//                    recommender = recommender,
+//            )
+//            clientViewModel.createClient(data)
+//        }else {
+//            val data = Client2(
+//                firstName = firstName,
+////                    username = username,
+////                    email = email,
+////                    phone = phone,
+////                    status = clientDetails!!.status,
+////                    role = clientDetails!!.role,
+//                    account = accountDetails,
+//                    address = addressDetails,
+//                    recommender = recommender,
+//            )
+//            clientViewModel.updateClient(
+//                clientId,
+//                data
+//            )
+//        }
     }
 
     Column(modifier = Modifier
@@ -157,6 +160,20 @@ fun ClientForm(
                 label = "Phone",
             )
 
+
+        OutlinedTextField(
+            label = { Text("Address") },
+            value = "", // address,
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top=20.dp)
+                .clickable {
+                    // onClickAddress()
+                },
+            placeholder = { Text(text = "Click to type an address") },
+            enabled = false
+        )
             Row(
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
             ) {

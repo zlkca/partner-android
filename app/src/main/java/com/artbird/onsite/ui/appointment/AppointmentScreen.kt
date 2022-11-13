@@ -15,7 +15,6 @@ import com.artbird.onsite.domain.Appointment
 import com.artbird.onsite.domain.BaseAccount
 import com.artbird.onsite.domain.BaseClient
 import com.artbird.onsite.domain.Client
-import com.artbird.onsite.ui.client.SearchClientScreen
 import com.artbird.onsite.ui.client.ClientViewModel
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.window.WindowViewModel

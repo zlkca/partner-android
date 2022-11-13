@@ -11,8 +11,7 @@ data class Auth(
     val status:String,
     val jwt:String,
     val error: String,
-    val account: BaseAccount?=null,
-    val role: Role,
+    val account: Account,
 )
 
 
