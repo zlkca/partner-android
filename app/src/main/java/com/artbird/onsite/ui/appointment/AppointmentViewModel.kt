@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artbird.onsite.domain.Appointment
+import com.artbird.onsite.domain.Appointment2
 import com.artbird.onsite.network.AppointmentApi
 import com.artbird.onsite.repository.AppointmentRepository
 import kotlinx.coroutines.launch
@@ -17,8 +18,8 @@ class AppointmentViewModel : ViewModel() {
     private val _status = MutableLiveData<ApiStatus>()
     val status: LiveData<ApiStatus> = _status
     
-    private val _appointments = MutableLiveData<List<Appointment>>(arrayListOf())
-    val appointments: LiveData<List<Appointment>> = _appointments
+    private val _appointments = MutableLiveData<List<Appointment2>>(arrayListOf())
+    val appointments: LiveData<List<Appointment2>> = _appointments
 
     private val _appointment = MutableLiveData<Appointment>()
     val appointment: LiveData<Appointment> = _appointment

@@ -211,7 +211,7 @@ data class ActionChip(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListActionBar(
-    items: List<ActionChip>,
+    items: List<ActionChip> = listOf(),
     onBack: () -> Unit = {},
 ){
     Column() {

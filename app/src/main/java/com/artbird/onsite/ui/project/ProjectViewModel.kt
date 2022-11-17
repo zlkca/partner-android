@@ -80,12 +80,12 @@ class ProjectViewModel : ViewModel() {
         }
     }
 
-    fun getRecordsByClientId(clientId: String) {
+    fun getProjectsByClientId(clientId: String) {
         viewModelScope.launch {
             _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
-                    repo.getRecordsByClientId(clientId)
+                    repo.getProjectsByClientId(clientId)
                 }
                 val code = rsp.code()
 

@@ -7,14 +7,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.*
+import com.artbird.onsite.ui.project.ProjectListItem
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.utils.getAddressString
 
 @Composable
-fun ClientDetails(client: Client2){
+fun ClientDetails(
+    navController: NavController,
+    client: Client2,
+    projects: List<Project> = listOf()
+){
     val account = client.account
+    var selectedIndex by remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier.background(color= MaterialTheme.colorScheme.background)
@@ -42,9 +50,25 @@ fun ClientDetails(client: Client2){
         Label3("LASTNAME")
         Body1(client.lastName)
 
-        Label3("ADDRESS")
+//        Label3("ADDRESS")
 //        Body1(getAddressString(client.address))
-//        Label3("PROGRESS")
+
+        Label3("PROJECTS")
+        if(projects.isEmpty()){
+            Body1("No address set for the Project yet, please create an appointment")
+        }else{
+                com.artbird.onsite.ui.components.List<Project>(
+                    projects,
+                    selectedIndex,
+                    onSelect = { index ->
+                        val project = projects[index]
+                        navController.navigate("clients/${client.id}/projects/${project._id}")
+                    },
+                    itemContent = { it, selected, index ->
+                        ProjectListItem(item=it, selected=selected)
+                    }
+                )
+        }
 //        StageList(stages = client.stages, selectedIndex = -1) // do not select any row
     }
 }
@@ -60,15 +84,26 @@ fun PreviewClientDetails(){
         id = "1",
         firstName = "Sydney",
         lastName = "Winston",
-        account = Account("1", username="sydney", email="sydney@shutterlux.ca", phone="123-456-7890", status="active"),
+        account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active"),
 //        address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         recommender = Account("2", "partner1"),
         created = "2022-11-08",
     )
-
+    val projects = listOf<Project>(Project("1",
+        client = Client2("1", account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active")),
+//        address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
+        created = "2022-11-08",
+        stages = listOf<Stage>(
+            Stage("make sales appointment", status="done", start = "2022-11-07", end = "2022-11-08"),
+            Stage("send quote", status="done", start = "2022-11-08", end = "2022-11-10"),
+            Stage("sign contract", status="in progress", start = "2022-11-12", end = "2022-11-12"),
+        )
+    ))
     SLTheme {
         ClientDetails(
-            client
+            rememberNavController(),
+            client,
+            projects
         )
     }
 }

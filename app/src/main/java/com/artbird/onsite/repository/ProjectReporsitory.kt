@@ -5,8 +5,8 @@ import com.artbird.onsite.network.RecordApi
 import retrofit2.Response
 
 class ProjectRepository(){
-    suspend fun getRecordsByClientId(clientId:String): Response<List<Project>> {
-        return RecordApi.retrofitService.getRecordsByClientId(clientId)
+    suspend fun getProjectsByClientId(clientId:String): Response<List<Project>> {
+        return RecordApi.retrofitService.getProjectsByClientId(clientId)
     }
 
     suspend fun getProjectsByRecommenderId(clientId:String): Response<List<Project>> {

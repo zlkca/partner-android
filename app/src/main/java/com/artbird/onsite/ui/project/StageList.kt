@@ -14,7 +14,10 @@ import com.artbird.onsite.ui.components.Title2
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
-fun StageListItem(item: Stage, selected: Boolean, index:Int){
+fun StageListItem(
+    item: Stage,
+    selected: Boolean,
+    index:Int){
     val colorScheme = MaterialTheme.colorScheme
     Column(){
 
@@ -44,9 +47,11 @@ fun StageListItem(item: Stage, selected: Boolean, index:Int){
 @Composable
 fun StageList(
     stages: List<Stage>,
-    selectedIndex: Int,
-    onSelect: (index: Int) -> Unit = { i: Int -> },
+//    selectedIndex: Int,
+//    onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
+    var selectedIndex by remember { mutableStateOf(-1) }
+
     Column(
 //        modifier = Modifier.padding(8.dp)
     ) {
@@ -55,7 +60,7 @@ fun StageList(
             com.artbird.onsite.ui.components.List<Stage>(
                 stages,
                 selectedIndex,
-                onSelect = onSelect,
+                onSelect = {}, // {index -> selectedIndex = index},
                 itemContent = { it, selected, index ->
                     StageListItem(item=it, selected=selected, index =index)
                 }
@@ -80,7 +85,6 @@ fun PreviewStageList(){
     SLTheme {
         StageList(
             stages,
-            0
         )
     }
 }

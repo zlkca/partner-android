@@ -44,10 +44,22 @@ fun ProjectListItem(
     val lastStage = getLastStage(item.stages);
 
     Column(){
-        Title2(
-            text = getAddressString(item.address),
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Title2(
+                text = if(item.address.streetName.isNotEmpty()) "Use Address" else item.created, // getAddressString(item.address),
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
+            )
+            Body1(
+                text = "View Details >>",
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
+            )
+        }
+
 
         Row(
             modifier = Modifier
@@ -67,6 +79,8 @@ fun ProjectListItem(
                 )
             }
         }
+
+
     }
 }
 

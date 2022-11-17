@@ -67,10 +67,11 @@ fun ClientListScreen(
         }
     }
 
+}
 
 
 
-    fun handleAdd() {
+//    fun handleAdd() {
 //        if(recommenderId!=null) {
 //
 //            if(type == "sample") {
@@ -104,7 +105,7 @@ fun ClientListScreen(
 //            clientViewModel.getClientsByRecommanderId(recommenderId)
 //        }
 
-    }
+//    }
 
 //    when (page) {
 //        "client-list" -> {
@@ -155,5 +156,3 @@ fun ClientListScreen(
 //            )
 //        }
 //    }
-
-}

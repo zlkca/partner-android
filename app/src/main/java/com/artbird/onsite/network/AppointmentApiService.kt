@@ -8,8 +8,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 object APIConstant {
-    const val NONSQL_API_URL = "http://192.168.0.13:5001/"
-    const val RDB_API_URL = "http://192.168.0.13:5000/"
+    const val NONSQL_API_URL = "http://192.168.0.16:5001/"
+    const val RDB_API_URL = "http://192.168.0.16:5000/"
 //    const val GOOGLE_MAP_API_URL = "https://maps.googleapis.com/"
     const val LOCATIONIQ_API_URL = "https://api.locationiq.com/v1/"
 // "https://g5kncyxqmb.execute-api.us-east-1.amazonaws.com/dev/"
@@ -29,7 +29,7 @@ private val retrofit = Retrofit.Builder()
 
 interface AppointmentApiService {
     @GET("appointments")
-    suspend fun getAppointmentsByEmployeeId(@Query("employee.id") employeeId : String): List<Appointment>
+    suspend fun getAppointmentsByEmployeeId(@Query("employee.id") employeeId : String): List<Appointment2>
 
     @GET("appointments/{id}")
     suspend fun getAppointment(

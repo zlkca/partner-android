@@ -14,7 +14,7 @@ data class Client (
     val middleName: String = "",
     val lastName: String = "",
     val accountId: String = "",
-    val addressId: String = "",
+//    val addressId: String = "",
     var recommenderId: String = "",
     val created: String = "",
     val updated: String = "",

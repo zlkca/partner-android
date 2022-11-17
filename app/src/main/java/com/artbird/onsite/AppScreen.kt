@@ -24,9 +24,6 @@ import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.auth.LoginScreen
 import com.artbird.onsite.ui.building.*
 import com.artbird.onsite.ui.quote.QuoteDetailsScreen
-import com.artbird.onsite.ui.client.ClientViewModel
-import com.artbird.onsite.ui.client.ClientListScreen
-import com.artbird.onsite.ui.client.ClientSearchScreen
 import com.artbird.onsite.ui.measure.MeasureScreen
 import com.artbird.onsite.ui.quote.QuoteListScreen
 import com.artbird.onsite.ui.quote.QuoteViewModel
@@ -43,7 +40,8 @@ import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.settings.SettingsScreen
 import com.artbird.onsite.domain.BaseAccount
 import com.artbird.onsite.ui.address.AddressAutocompleteScreen
-import com.artbird.onsite.ui.client.ClientFormScreen
+import com.artbird.onsite.ui.appointment.AppointmentListScreen
+import com.artbird.onsite.ui.client.*
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
 
@@ -103,23 +101,23 @@ fun NaviRoute(
             }
         }
 
-        composable(route = "clients/{clientId}/records/{id}",
+        composable(route = "clients/{clientId}/projects/{projectId}",
             arguments = listOf(
                 navArgument("clientId") {
                     type = NavType.StringType
                 },
-                navArgument("id") {
+                navArgument("projectId") {
                     type = NavType.StringType
-                }
-            ))
+                },
+            ),
+            )
         {
-//            ProjectDetailsScreen(
-//                navController,
-//                clientViewModel,
-//                projectViewModel,
-//                clientId = it.arguments?.getString("clientId")!!,
-//                recordId = it.arguments?.getString("id")!!,
-//            )
+            ClientProjectDetailsScreen(
+                navController = navController,
+                projectViewModel = projectViewModel,
+                clientId = it.arguments?.getString("clientId")!!,
+                projectId = it.arguments?.getString("projectId")!!,
+            )
         }
 
         composable(route = "clients/{id}/form",
@@ -165,6 +163,11 @@ fun NaviRoute(
 
         composable(route = "appointments") {
             if (user != null) {
+                AppointmentListScreen(
+                    navController = navController,
+                    appointmentViewModel = appointmentViewModel,
+                    employee = user,
+                )
 //                AppointmentListScreen(
 //                    user,
 //                    navController,

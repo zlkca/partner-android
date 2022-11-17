@@ -94,10 +94,18 @@ fun ClientFormScreen(
 
     fun handleChange(fieldName: String, value: String){
         when(fieldName){
-            "email" -> client.account = Account(email = value, phone=client.account.phone)
-            "phone" -> client.account = Account(email = client.account.email, phone=value)
-            "firstName" -> client.firstName = value
-            "lastName" -> client.lastName = value
+            "email" -> {
+                client = client.copy(account = Account(email = value, phone=client.account.phone))
+            }
+            "phone" -> {
+                client = client.copy( account = Account(email = client.account.email, phone=value))
+            }
+            "firstName" -> {
+                client = client.copy(firstName = value)
+            }
+            "lastName" -> {
+                client = client.copy(lastName = value);
+            }
         }
     }
 

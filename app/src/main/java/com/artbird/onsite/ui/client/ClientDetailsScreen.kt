@@ -24,7 +24,7 @@ fun ClientDetailsScreen(
     clientId: String,
 ) {
     val clientDetails by clientViewModel.clientDetails.observeAsState()
-//    val projects by projectViewModel.projects.observeAsState()
+    val projects by projectViewModel.projects.observeAsState()
 
     var selectedIndex by remember { mutableStateOf(0) }
     var client by remember { mutableStateOf(Client2()) }
@@ -32,7 +32,7 @@ fun ClientDetailsScreen(
     LaunchedEffect(key1 = clientId) {
         if (clientId != null && clientId != "new") {
             clientViewModel.getClientDetails(clientId)
-//            projectViewModel.getRecordsByClientId(clientId)
+            projectViewModel.getProjectsByClientId(clientId)
         }
     }
 
@@ -59,11 +59,15 @@ fun ClientDetailsScreen(
 
         DetailsViewActionBar(
             onBack = {navController.navigate("clients")},
-            onEdit = { navController.navigate("clients/${client.id}/form") }
+            onEdit = { navController.navigate("clients/${clientDetails!!.id}/form") }
         )
 
-        if(client!=null) {
-            ClientDetails(client = clientDetails!!)
+        if(clientDetails!=null) {
+            ClientDetails(
+                navController,
+                client = clientDetails!!,
+                projects = projects!!
+            )
 
 //            if (projects != null && projects?.isNotEmpty()!!) {
 //                com.artbird.onsite.ui.components.List<Project>(

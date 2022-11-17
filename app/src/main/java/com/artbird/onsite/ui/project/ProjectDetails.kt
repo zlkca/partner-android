@@ -24,10 +24,14 @@ fun ProjectDetails(project: Project){
         Body1("${client.account.username}")
 
         Label3("ADDRESS")
-        Body1(getAddressString(project.address))
+        if(project.address.streetName.isNotEmpty()){
+            Body1(getAddressString(project.address))
+        }else{
+            Body1("No Address Yet")
+        }
 
         Label3("PROGRESS")
-        StageList(stages = project.stages, selectedIndex = -1) // do not select any row
+        StageList(stages = project.stages) // do not select any row
     }
 }
 

@@ -1,86 +1,65 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.artbird.onsite.ui.appointment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.artbird.onsite.domain.Appointment
-import com.artbird.onsite.domain.BaseAccount
-import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.utils.toLocalDateTime
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.artbird.onsite.domain.Account
+//import com.artbird.onsite.ui.appointments.AppointmentList
+//import com.artbird.onsite.ui.appointments.AppointmentViewModel
+import com.artbird.onsite.ui.components.DropdownMenuItem
 
 
 @Composable
 fun AppointmentListScreen(
-    user: BaseAccount,
     navController: NavController,
-    viewModel: AppointmentViewModel,
-    onMeasure: (appointmentId: String) -> Unit,
-    onAdd: () -> Unit,
-){
+    appointmentViewModel: AppointmentViewModel,
+    employee: Account,
+) {
+    val appointments by appointmentViewModel.appointments.observeAsState()
+//    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
 
-    val appointments: List<Appointment> by viewModel.appointments.observeAsState(arrayListOf())
-    var events: List<Event> by remember { mutableStateOf(arrayListOf()) }
-    var selectedDate by remember {
-        mutableStateOf(LocalDate.now())
-    }
+    var selectedIndex by remember { mutableStateOf(0) }
 
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    LaunchedEffect(key1 = appointments){
-        if(appointments != null) {
-            events = appointments.map { Event(
-                id=it._id,
-                name=it.title,
-                color=Color(0xFFAFBBF2),
-                start= toLocalDateTime(it.start), // LocalDateTime Object
-                end=toLocalDateTime(it.end),
-                description = it.client.account.username
-            ) }
+    LaunchedEffect(key1 = employee) {
+        if (employee.id.isNotEmpty()) {
+            appointmentViewModel.getAppointmentsByEmployeeId(employee.id)
         }
     }
 
-    LaunchedEffect(key1 = user.id){
-        if(user.id!!.isNotEmpty()) {
-            viewModel.getAppointmentsByEmployeeId(user.id)
-        }
+    fun handleSelectAppointment(index: Int) {
+        selectedIndex = index
+        val appointment = appointments!![index]
+        navController.navigate("appointments/${appointment._id}")
     }
 
-    fun handleViewEvent(e: Event){
-        onMeasure(e?.id!!)
-        navController.navigate("appointments/${e.id}")
+    fun handleEdit(index: Int){
+        selectedIndex = index
+//        val appointments = appointmentss!![index]
+//        navController.navigate("appointmentss/${appointments.id}/form")
     }
 
-    fun handleMeasure(e: Event){
-        onMeasure(e?.id!!)
-        navController.navigate("buildings/${e.id}")
+    val menus: List<DropdownMenuItem> = listOf(
+        DropdownMenuItem("edit", "Edit", Icons.Outlined.Edit, "Edit", ::handleEdit),
+    )
+
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+    ) {
+
+            AppointmentList(
+                navController,
+                appointments = appointments!!,
+                selectedIndex,
+                onSelect = ::handleSelectAppointment,
+//                onSelectMenu = { index -> selectedIndex = index },
+//                menus = menus
+            )
     }
-
-
-  Column(modifier = Modifier.padding(16.dp)) {
-      ListActionBar(items = listOf(
-          ActionChip("Appointment", onClick = {
-              onAdd()
-              navController.navigate("appointments/new/form")
-          }),
-      ))
-
-      Scheduler(
-          events=events,
-          minDate= selectedDate,
-          onClickEvent = ::handleViewEvent,
-          onSelect = ::handleMeasure,
-          onNextDay = {selectedDate = selectedDate.plusDays(1)},
-          onPrevDay = {selectedDate = selectedDate.plusDays(-1)}
-      )
-  }
 }
