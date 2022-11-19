@@ -13,6 +13,7 @@ import com.artbird.onsite.ui.components.Body3
 import com.artbird.onsite.ui.components.ListActionBar
 import com.artbird.onsite.ui.components.Title2
 import com.artbird.onsite.ui.theme.SLTheme
+import com.artbird.onsite.ui.utils.getAddressString
 
 
 @Composable
@@ -21,10 +22,21 @@ fun AppointmentListItem(item: Appointment2, selected: Boolean, index:Int){
     val client = item.client
 
     Column(){
-        Title2(
-            text = if(client.firstName.isNotEmpty()) "${client.firstName} ${client.lastName}" else client.account.username,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
-        )
+        if(item.address.streetName.isNotEmpty()){
+            Title2(
+                text = getAddressString(item.address),
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
+            )
+            Body3(
+                text = if (client.firstName.isNotEmpty()) "${client.firstName} ${client.lastName}" else client.account.username,
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
+            )
+        }else {
+            Title2(
+                text = if (client.firstName.isNotEmpty()) "${client.firstName} ${client.lastName}" else client.account.username,
+                color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
+            )
+        }
 
         Body3(
             text = "From ${item.start} to ${item.end}",

@@ -14,10 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.artbird.onsite.domain.Appointment
-import com.artbird.onsite.domain.BaseAccount
-import com.artbird.onsite.domain.BaseClient
-import com.artbird.onsite.domain.Client2
+import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.utils.getDate
 import com.artbird.onsite.ui.utils.getTime
@@ -30,13 +27,15 @@ fun AppointmentFormScreen(
     navController: NavController,
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
-    user: BaseAccount, // logged in user
+    user: Account, // logged in user
     client: Client2,
 ){
     val appointment by appointmentViewModel.appointment.observeAsState()
 //    var client by remember { mutableStateOf(
 //        BaseClient(id= "", account=BaseAccount(id="", username=""))
 //    ) }
+
+    var address by remember { mutableStateOf(Address()) }
 
     var title by remember { mutableStateOf("") }
     var notes by remember { mutableStateOf("") }
@@ -48,35 +47,22 @@ fun AppointmentFormScreen(
 
     val verticalScrollState = rememberScrollState()
 
-    LaunchedEffect(key1 = appointmentId) {
-        if (appointmentId != null && appointmentId != "new") {
-            appointmentViewModel.getAppointment(appointmentId)
-        }
-    }
-
-    LaunchedEffect(key1 = appointment){
-        if(appointment != null && appointmentId != "new") {
-//            client = appointment?.client!!
-            title = appointment?.title!!
-            notes = appointment?.notes!!
-            date = getDate(appointment?.start!!)
-            start = getTime(appointment?.start!!)
-            end = getTime(appointment?.end!!)
-        }
-    }
-
-    fun handleChangeDate(y: Int, m: Int, d: Int) {
-        val dateTime =
-            LocalDateTime.now().withYear(y).withMonth(m).withDayOfMonth(d)
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        date = dateTime.format(formatter)
-    }
-
-    fun getTime(h: Int, m: Int): String {
-        val dateTime = LocalDateTime.now().withHour(h).withMinute(m)
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-        return dateTime.format(formatter)
-    }
+//    LaunchedEffect(key1 = appointmentId) {
+//        if (appointmentId != null && appointmentId != "new") {
+//            appointmentViewModel.getAppointment(appointmentId)
+//        }
+//    }
+//
+//    LaunchedEffect(key1 = appointment){
+//        if(appointment != null && appointmentId != "new") {
+////            client = appointment?.client!!
+//            title = appointment?.title!!
+//            notes = appointment?.notes!!
+//            date = getDate(appointment?.start!!)
+//            start = getTime(appointment?.start!!)
+//            end = getTime(appointment?.end!!)
+//        }
+//    }
 
     fun validate(): Boolean {
         var e = mutableMapOf<String, String>()
@@ -175,125 +161,116 @@ fun AppointmentFormScreen(
             ::handleSubmit
         )
 
-//        if(appointmentId == "new"){
-//            Input(
-//                readOnly = true,
-//                value = if(client.id.isNotEmpty()) client.account.username else "Select Client",
-//                onValueChange = {
-//                                navController.navigate("search/client")
-//                                },
-//
-//                label = "Client",
-//            )
-//        }else{
-
-//        }
-
-//            if(client.id!!.isNotEmpty()) {
-                Text(
-                    text = if(client.id!!.isNotEmpty()) client.account.username else "Select Client",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable {
-                            navController.navigate("search/client/$appointmentId")
-                        }
-                )
-//            }else{
-//                Row(
-//                    modifier = Modifier.fillMaxWidth()
-//                ) {
-//                    ActionChip("Select Client", onClick = {
-//                        navController.navigate("search/client/$appointmentId")
-//                    })
-//                }
-//            }
-
-            when {
-                error.isNotEmpty() && error.containsKey("client") -> {
-                        Text(
-                            text = error["client"]!!,
-                            color = Color.Red,
-                            modifier = Modifier
-                                .padding(8.dp)
-                        )
+        AppointmentForm(
+            client,
+            address,
+            title,
+            notes,
+            date,
+            start,
+            end,
+            onValChange = { name, value ->
+                when(name){
+                    "title" -> title = value
+                    "notes" -> notes = value
+                    "date" -> date = value
+                    "startTime" -> start = value
+                    "endTime" -> end = value
                 }
+            },
+            onClickClient = {
+                navController.navigate("search/client/$appointmentId")
             }
-
-            Input(
-                value = title,
-                onValueChange = { title = it },
-                label = "Title",
-            )
-
-            Input(
-                value = notes,
-                onValueChange = { notes = it },
-                label = "Notes",
-            )
-
-            DatePicker(LocalContext.current, "Date", date, ::handleChangeDate)
-            when {
-                error.isNotEmpty() && error.containsKey("date") -> {
-                    Text(
-                        text = error["date"]!!,
-                        color = Color.Red,
-                        modifier = Modifier
-                            .padding(8.dp)
-                    )
-                }
-            }
-
-
-            Row(
-                modifier = Modifier.padding(bottom = 8.dp, top = 8.dp)
-            ) {
-                Column(modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
-                ) {
-                    TimePicker(
-                        LocalContext.current,
-                        "Start Time",
-                        time = start,
-                        onValueChange = { h, m -> start = getTime(h, m) },
-
-                    )
-                    when {
-                        error.isNotEmpty() && error.containsKey("start") -> {
-                            Text(
-                                text = error["start"]!!,
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                            )
-                        }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                ) {
-                    TimePicker(
-                        LocalContext.current,
-                        "End Time",
-                        time = end,
-                        onValueChange = { h, m -> end = getTime(h, m) },
-                    )
-
-                    when {
-                        error.isNotEmpty() && error.containsKey("end") -> {
-                            Text(
-                                text = error["end"]!!,
-                                color = Color.Red,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                            )
-                        }
-                    }
-                }
-            }
+        )
 
     }
 }
+
+
+//            when {
+//                error.isNotEmpty() && error.containsKey("client") -> {
+//                        Text(
+//                            text = error["client"]!!,
+//                            color = Color.Red,
+//                            modifier = Modifier
+//                                .padding(8.dp)
+//                        )
+//                }
+//            }
+//
+//            Input(
+//                value = title,
+//                onValueChange = { title = it },
+//                label = "Title",
+//            )
+//
+//            Input(
+//                value = notes,
+//                onValueChange = { notes = it },
+//                label = "Notes",
+//            )
+//
+//            DatePicker(LocalContext.current, "Date", date, ::handleChangeDate)
+//            when {
+//                error.isNotEmpty() && error.containsKey("date") -> {
+//                    Text(
+//                        text = error["date"]!!,
+//                        color = Color.Red,
+//                        modifier = Modifier
+//                            .padding(8.dp)
+//                    )
+//                }
+//            }
+
+
+//            Row(
+//                modifier = Modifier.padding(bottom = 8.dp, top = 8.dp)
+//            ) {
+//                Column(modifier = Modifier
+//                    .weight(1f)
+//                    .padding(end = 8.dp)
+//                ) {
+//                    TimePicker(
+//                        LocalContext.current,
+//                        "Start Time",
+//                        time = start,
+//                        onValueChange = { h, m -> start = getTime(h, m) },
+//
+//                    )
+//                    when {
+//                        error.isNotEmpty() && error.containsKey("start") -> {
+//                            Text(
+//                                text = error["start"]!!,
+//                                color = Color.Red,
+//                                modifier = Modifier
+//                                    .padding(8.dp)
+//                            )
+//                        }
+//                    }
+//                }
+//
+//                Column(
+//                    modifier = Modifier
+//                        .weight(1f)
+//                        .padding(start = 8.dp)
+//                ) {
+//                    TimePicker(
+//                        LocalContext.current,
+//                        "End Time",
+//                        time = end,
+//                        onValueChange = { h, m -> end = getTime(h, m) },
+//                    )
+//
+//                    when {
+//                        error.isNotEmpty() && error.containsKey("end") -> {
+//                            Text(
+//                                text = error["end"]!!,
+//                                color = Color.Red,
+//                                modifier = Modifier
+//                                    .padding(8.dp)
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+

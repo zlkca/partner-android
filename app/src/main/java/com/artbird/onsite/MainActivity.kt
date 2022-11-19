@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-// R.layout.activity_main
 import com.artbird.onsite.ui.address.AddressViewModel
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.auth.AuthViewModel
@@ -69,6 +68,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         setContent {
             SLTheme() {
