@@ -12,17 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
-import com.artbird.onsite.ui.components.ListActionBar
-import com.artbird.onsite.ui.utils.getAddressString
 
 @Composable
 fun QuoteListScreen(
     navController: NavController,
     quoteViewModel: QuoteViewModel,
     appointment: Appointment,
-    client: Client2
+    client: Profile
 ) {
     val quotes: List<Quote> by quoteViewModel.quotes.observeAsState(listOf())
 

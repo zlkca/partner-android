@@ -9,7 +9,7 @@ import com.artbird.onsite.ui.role.RoleViewModel
 @Composable
 fun ClientScreen(
     recommender: BaseAccount,
-    clientViewModel: ClientViewModel,
+    clientViewModel: ProfileViewModel,
     roleViewModel: RoleViewModel,
 ) {
     val clients by clientViewModel.clients.observeAsState()
@@ -22,7 +22,7 @@ fun ClientScreen(
         }
     }
 
-    var clientDetails by remember { mutableStateOf(Client2()) }
+    var clientDetails by remember { mutableStateOf(Profile()) }
     var page by remember { mutableStateOf("client-list") } // list -> details
     var clientIndex by remember { mutableStateOf(0) }
 

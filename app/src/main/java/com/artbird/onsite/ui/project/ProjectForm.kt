@@ -6,21 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.components.Body1
 import com.artbird.onsite.ui.components.FormActionBar
-import com.artbird.onsite.ui.components.Label3
 import com.artbird.onsite.ui.theme.SLTheme
-import com.artbird.onsite.ui.utils.getAddressString
 
 @Composable
 fun ProjectForm(
@@ -84,7 +77,7 @@ fun ProjectForm(
 @Composable
 fun PreviewProjectForm(){
     val project = Project("1",
-        client = Client2("1", account = Account("1", "Jacky")),
+        client = Profile("1", account = Account("1", "Jacky")),
         address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         created = "2022-11-08",
         stages = listOf<Stage>(

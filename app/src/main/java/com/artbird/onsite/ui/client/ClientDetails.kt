@@ -13,12 +13,11 @@ import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.project.ProjectListItem
 import com.artbird.onsite.ui.theme.SLTheme
-import com.artbird.onsite.ui.utils.getAddressString
 
 @Composable
 fun ClientDetails(
     navController: NavController,
-    client: Client2,
+    client: Profile,
     projects: List<Project> = listOf()
 ){
     val account = client.account
@@ -80,17 +79,17 @@ fun ClientDetails(
 @Preview(showBackground = true)
 @Composable
 fun PreviewClientDetails(){
-    val client = Client2(
+    val client = Profile(
         id = "1",
         firstName = "Sydney",
         lastName = "Winston",
         account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active"),
 //        address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
-        recommender = Account("2", "partner1"),
+        creator = Account("2", "partner1"),
         created = "2022-11-08",
     )
     val projects = listOf<Project>(Project("1",
-        client = Client2("1", account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active")),
+        client = Profile("1", account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active")),
 //        address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         created = "2022-11-08",
         stages = listOf<Stage>(

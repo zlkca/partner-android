@@ -19,7 +19,6 @@ import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
 import com.artbird.onsite.ui.components.ListActionBar
-import com.artbird.onsite.ui.utils.getAddressString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -28,7 +27,7 @@ fun BuildingListScreen(
     navController: NavController,
     buildingViewModel: BuildingViewModel,
     appointment: Appointment,
-    client: Client2,
+    client: Profile,
 ) {
     val buildings by buildingViewModel.buildings.observeAsState()
 //    val status by buildingViewModel.buildingStatus.observeAsState()

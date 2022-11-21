@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
 import com.artbird.onsite.ui.components.ListActionBar
@@ -17,30 +18,30 @@ import com.artbird.onsite.ui.components.ListActionBar
 @Composable
 fun ClientListScreen(
     navController: NavController,
-    clientViewModel: ClientViewModel,
-    recommender: Account,
+    accountViewModel: AccountViewModel,
+    user: Account,
 ) {
-    val clients by clientViewModel.clients.observeAsState()
+    val accounts by accountViewModel.accounts.observeAsState()
 //    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
 
     var selectedIndex by remember { mutableStateOf(0) }
 
-    LaunchedEffect(key1 = recommender) {
-        if (recommender.id.isNotEmpty()) {
-            clientViewModel.getClientsByRecommenderId(recommender.id)
+    LaunchedEffect(key1 = user) {
+        if (user.role.name == "partner") {
+            accountViewModel.getAccountsByRecommenderId(user.id)
+        }else if(user.role.name == "sales" || user.role.name == "technician"){
+            accountViewModel.getAccountsByEmployeeId(user.id)
         }
     }
 
     fun handleSelectClient(index: Int) {
-        selectedIndex = index
-        val client = clients!![index]
-        navController.navigate("clients/${client.id}")
+
     }
 
     fun handleEdit(index: Int){
         selectedIndex = index
-        val client = clients!![index]
-        navController.navigate("clients/${client.id}/form")
+        val client = accounts!![index]
+        navController.navigate("accounts/${client.id}/form")
     }
 
     val menus: List<DropdownMenuItem> = listOf(
@@ -53,16 +54,28 @@ fun ClientListScreen(
     ) {
 
         ListActionBar(items = listOf(
-            ActionChip("Client", onClick = {navController.navigate("clients/new/form")}),
+            ActionChip("Client", onClick = {navController.navigate("profiles/new/form")}),
         ))
 
-        if (clients != null && clients?.isNotEmpty()!!) {
-            ClientList(
-                clients!!,
+        if (accounts != null && accounts?.isNotEmpty()!!) {
+//            ClientList(
+//                accounts!!,
+//                selectedIndex,
+//                onSelect = ::handleSelectClient,
+////                onSelectMenu = { index -> selectedIndex = index },
+////                menus = menus
+//            )
+            com.artbird.onsite.ui.components.List<Account>(
+                accounts!!,
                 selectedIndex,
-                onSelect = ::handleSelectClient,
-//                onSelectMenu = { index -> selectedIndex = index },
-//                menus = menus
+                onSelect =  { index ->
+                    selectedIndex = index
+                    val account = accounts!![index]
+                    navController.navigate("accounts/${account.id}")
+                },
+                itemContent = { it, selected, index ->
+                    AccountListItem(item=it, selected=selected, index =index)
+                }
             )
         }
     }
@@ -72,15 +85,15 @@ fun ClientListScreen(
 
 
 //    fun handleAdd() {
-//        if(recommenderId!=null) {
+//        if(userId!=null) {
 //
 //            if(type == "sample") {
 //                // create default client
-//                clientViewModel.createClientSample(
+//                accountViewModel.createClientSample(
 //                    Client("",
 //                        "New Address",
 //                        "New client",
-//                        appointment = BaseAppointment(recommenderId, appointment?.title!!),
+//                        appointment = BaseAppointment(userId, appointment?.title!!),
 //                        floors = listOf(
 //                            Floor("", "First Floor", "", rooms = listOf(
 //                                Room("", "Living Room", ""),
@@ -102,7 +115,7 @@ fun ClientListScreen(
 //            }else{
 //
 //            }
-//            clientViewModel.getClientsByRecommanderId(recommenderId)
+//            accountViewModel.getClientsByRecommanderId(userId)
 //        }
 
 //    }
@@ -110,11 +123,11 @@ fun ClientListScreen(
 //    when (page) {
 //        "client-list" -> {
 //            ClientListView(
-//                clients,
+//                accounts,
 //                clientIndex,
 //                onSelect = { index ->
 //                    clientIndex = index
-//                    clientId = clients!![clientIndex].id
+//                    clientId = accounts!![clientIndex].id
 //                    toNextView()
 //                },
 //                onDelete = ::deleteClient,
@@ -124,7 +137,7 @@ fun ClientListScreen(
 ////                        username = "",
 ////                        email="",
 ////                        phone="",
-////                        recommenderId= recommenderId!!,
+////                        userId= userId!!,
 ////                    )
 //                    clientDetails = ClientDetails()
 //                    page = "new-client"
@@ -133,13 +146,13 @@ fun ClientListScreen(
 //        }
 //        "new-client" -> {
 //            val role = roles.firstOrNull { it.name == "client" }
-//            ClientForm("new", clientDetails, role, recommender, clientViewModel,
+//            ClientForm("new", clientDetails, role, user, accountViewModel,
 //                onCancel = { page = "client-list" },
 //                onSubmitSuccess = { page = "client-list" },
 //            )
 //        }
 //        "edit-client" -> {
-//            ClientForm(clientId, clientDetails, role =null, recommender, clientViewModel,
+//            ClientForm(clientId, clientDetails, role =null, user, accountViewModel,
 //                onCancel = { page = "client-list" },
 //                onSubmitSuccess = { page = "client-list" },
 //            )
@@ -147,7 +160,7 @@ fun ClientListScreen(
 //        else -> { // client-details
 //            ClientDetailsView(
 //                clientId,
-//                clientViewModel,
+//                accountViewModel,
 //                onEdit = { c ->
 //                    clientDetails = c
 //                    page = "edit-client"

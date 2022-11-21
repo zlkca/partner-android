@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 
 import androidx.navigation.NavType
@@ -25,10 +26,8 @@ import com.artbird.onsite.ui.auth.LoginScreen
 import com.artbird.onsite.ui.building.*
 import com.artbird.onsite.ui.quote.QuoteDetailsScreen
 import com.artbird.onsite.ui.measure.MeasureScreen
-import com.artbird.onsite.ui.quote.QuoteListScreen
 import com.artbird.onsite.ui.quote.QuoteViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
-import com.artbird.onsite.ui.window.WindowFormScreen
 import com.artbird.onsite.ui.window.WindowListScreen
 import com.artbird.onsite.ui.window.WindowViewModel
 import java.io.File
@@ -38,7 +37,7 @@ import com.artbird.onsite.ui.auth.SignupScreen
 import com.artbird.onsite.ui.project.ProjectDetailsScreen
 import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.settings.SettingsScreen
-import com.artbird.onsite.domain.BaseAccount
+import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressAutocompleteScreen
 import com.artbird.onsite.ui.appointment.AppointmentFormScreen
 import com.artbird.onsite.ui.appointment.AppointmentListScreen
@@ -52,25 +51,28 @@ data class MenuItem(val label: String, val path : String, val icon: ImageVector)
 fun NaviRoute(
     user: Account,
     address: String,
+    accountViewModel: AccountViewModel,
     navController: NavController,
-    authViewModel: AuthViewModel,
+    roleViewModel: RoleViewModel,
     appointmentViewModel: AppointmentViewModel,
     windowViewModel: WindowViewModel,
     buildingViewModel: BuildingViewModel,
     quoteViewModel: QuoteViewModel,
     addressViewModel: AddressViewModel,
     projectViewModel: ProjectViewModel,
-    clientViewModel: ClientViewModel,
+    profileViewModel: ProfileViewModel,
     appointmentId: String,
     appointment: Appointment2,
     onMeasure: (appointmentId: String) -> Unit,
-    onChangeClient: (client: Client2) -> Unit,
+//    onChangeClient: (client: Profile) -> Unit,
     onChangeAppointment:(appointment: Appointment) -> Unit,
     onChangeAddress: (address: String) -> Unit,
     dir: File?,
     startDestination: String,
-    client: Client2,
+//    clientProfile: Profile,
 ){
+    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
+
     NavHost(
         navController = navController as NavHostController,
         startDestination = startDestination,
@@ -79,7 +81,7 @@ fun NaviRoute(
             if (user != null) {
                 ClientListScreen(
                     navController,
-                    clientViewModel,
+                    accountViewModel,
                     user,
                 )
             }
@@ -95,7 +97,7 @@ fun NaviRoute(
             if (user != null) {
                 ClientDetailsScreen(
                     navController,
-                    clientViewModel,
+                    profileViewModel,
                     projectViewModel,
                     clientId = it.arguments?.getString("id")!!,
                 )
@@ -121,7 +123,7 @@ fun NaviRoute(
             )
         }
 
-        composable(route = "clients/{id}/form",
+        composable(route = "profiles/{id}/form",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.StringType
@@ -131,26 +133,20 @@ fun NaviRoute(
             if (user != null) {
                 ClientFormScreen(
                     navController,
-                    clientViewModel,
+                    profileViewModel,
                     clientId = it.arguments?.getString("id")!!,
                     recommender = user
                 )
             }
         }
 
-        composable(route = "search/client/{id}"){
+        composable(route = "search/client"){
             ClientSearchScreen(
                 navController = navController,
-                clientViewModel = clientViewModel,
+                accountViewModel = accountViewModel,
+                profileViewModel = profileViewModel,
+                roles=roles,
                 user=user,
-            )
-        }
-
-        composable(route = "clients/search") {
-            ClientSearchScreen(
-                navController,
-                clientViewModel,
-                user,
             )
         }
 
@@ -226,8 +222,8 @@ fun NaviRoute(
                     navController = navController,
                     appointmentId = it.arguments?.getString("id"),
                     appointmentViewModel = appointmentViewModel,
+                    profileViewModel=profileViewModel,
                     user,
-                    client
                 )
             }
         }
@@ -516,7 +512,7 @@ fun NaviRoute(
         {
             ProjectFormScreen(
                 navController = navController,
-                clientViewModel = clientViewModel,
+                profileViewModel = profileViewModel,
                 it.arguments?.getString("id")!!,
                 address,
             )
@@ -559,10 +555,11 @@ fun NaviRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyApp(
+    accountViewModel: AccountViewModel,
     authViewModel: AuthViewModel,
     addressViewModel: AddressViewModel,
     roleViewModel: RoleViewModel,
-    clientViewModel: ClientViewModel,
+    clientViewModel: ProfileViewModel,
     appointmentViewModel: AppointmentViewModel,
     windowViewModel: WindowViewModel,
     buildingViewModel: BuildingViewModel,
@@ -577,12 +574,7 @@ fun MyApp(
     var user: Account? by remember { mutableStateOf(null) } // logged in user
     var address by remember { mutableStateOf("") }
 
-    var client by remember { mutableStateOf(
-        Client2(
-            account = Account(),
-            recommender = Account(),
-        )
-    )}
+//    var clientProfile by remember { mutableStateOf(Profile())}
 
     var appointment by remember { mutableStateOf(
         Appointment2(
@@ -594,7 +586,7 @@ fun MyApp(
             type = "",
             projectId = "",
             address = Address(),
-            client = Client2("", Account()),
+            client = Profile("", Account()),
             employee = Account(),
             createBy = Account(),
         )
@@ -624,20 +616,21 @@ fun MyApp(
                             user = user!!,
                             address,
                             navController = navController,
-                            authViewModel = authViewModel,
-                            appointmentViewModel,
-                            windowViewModel,
-                            buildingViewModel,
-                            quoteViewModel,
+                            accountViewModel = accountViewModel,
+                            roleViewModel = roleViewModel,
+                            appointmentViewModel = appointmentViewModel,
+                            windowViewModel = windowViewModel,
+                            buildingViewModel = buildingViewModel,
+                            quoteViewModel = quoteViewModel,
                             addressViewModel = addressViewModel,
                             projectViewModel = projectViewModel,
-                            clientViewModel = clientViewModel,
-                            appointmentId,
-                            appointment,
-                            ::handleSelectAppointment,
-                            onChangeClient = { it ->
-                                client = it
-                            },
+                            profileViewModel = clientViewModel,
+                            appointmentId = appointmentId,
+                            appointment = appointment,
+                            onMeasure = ::handleSelectAppointment, //fix me
+//                            onChangeClient = { it ->
+//                                clientProfile = it
+//                            },
                             onChangeAppointment = { it ->
 //                                appointment = it
                             },
@@ -646,7 +639,6 @@ fun MyApp(
                             },
                             dir = dir, // LocalContext.current.filesDir,
                             startDestination = "projects",
-                            client = client,
                         )
 
                     }
@@ -666,15 +658,16 @@ fun MyApp(
 
             )
     }else{
-        fun handleLogin(auth: Auth){
-            isLoggedIn = auth.jwt.isNotEmpty()
-            user = auth.account;
-        }
         if(page == "login"){
             LoginScreen(
                 viewModel = authViewModel,
-                ::handleLogin,
-                onPageChange = { page = it })
+                onSubmit = {
+                    isLoggedIn = it.jwt.isNotEmpty()
+                    user = it.account
+                    roleViewModel.getRoles()
+                },
+                onPageChange = { page = it }
+            )
         }else{
             SignupScreen(
                 authViewModel,
@@ -682,6 +675,7 @@ fun MyApp(
                 onSubmit = {
                     isLoggedIn = it.jwt.isNotEmpty()
                     user = it.account;
+                    roleViewModel.getRoles()
                 },
                 onPageChange = {page = it}
             )

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.FormActionBar
 import com.artbird.onsite.ui.components.Input
-import com.artbird.onsite.ui.project.ProjectForm
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
@@ -89,7 +87,7 @@ fun ClientForm(
 @Preview(showBackground = true)
 @Composable
 fun PreviewClientForm(){
-    val client = Client2("1", firstName = "Jet", lastName = "Lee", account = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567"))
+    val client = Profile("1", firstName = "Jet", lastName = "Lee", account = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567"))
     val address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7")
 
     SLTheme {

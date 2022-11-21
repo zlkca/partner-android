@@ -23,6 +23,21 @@ interface AccountApiService {
         @Body query: Map<String, String> = mapOf<String, String>()
     ): Response<List<Account>>
 
+    @GET("accounts")
+    suspend fun getAccountsByRecommenderId(@Query("recommenderId") recommenderId : String): Response<List<Account>>
+
+    @GET("accounts")
+    suspend fun getAccountsByEmployeeId(@Query("employeeId") employeeId : String): Response<List<Account>>
+
+    @POST("login")
+    suspend fun login(@Body credential: Credential): Response<Auth>
+
+    @POST("signup")
+    suspend fun signup(@Body account: Account): Response<Auth>
+
+    @PUT("password")
+    suspend fun changePassword(@Body credential: Credential): PutResponse
+
 //    @GET("clients/assignment")
 //    suspend fun searchByAssignedEmployee(
 //        @Query("recommenderId") employeeId: String,

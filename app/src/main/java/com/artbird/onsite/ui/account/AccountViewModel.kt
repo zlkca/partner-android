@@ -18,7 +18,7 @@ class AccountViewModel : ViewModel() {
     private val _status = MutableLiveData<ApiStatus>()
     val status: LiveData<ApiStatus> = _status
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<List<Account>>(listOf())
     val accounts: LiveData<List<Account>> = _accounts
 
     private val repo = AccountRepository()
@@ -35,10 +35,59 @@ class AccountViewModel : ViewModel() {
 
                 if(code == 200) {
                     _accounts.value = rsp.body()!!
-
                 }else {
-                    val type = object : TypeToken<Account>() {}.type
-                    val it: Account = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    val type = object : TypeToken<List<Account>>() {}.type
+                    val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _accounts.value = it!!
+                }
+                _status.value = ApiStatus.DONE
+            } catch (e: Exception) {
+                _accounts.value = null
+                _status.value = ApiStatus.ERROR
+                throw e
+            }
+        }
+    }
+
+    fun getAccountsByRecommenderId(recommenderId: String) {
+        viewModelScope.launch {
+            _status.value = ApiStatus.LOADING
+            try {
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.getAccountsByRecommenderId(recommenderId)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _accounts.value = rsp.body()!!
+                }else {
+                    val type = object : TypeToken<List<Account>>() {}.type
+                    val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _accounts.value = it!!
+                }
+                _status.value = ApiStatus.DONE
+            } catch (e: Exception) {
+                _accounts.value = null
+                _status.value = ApiStatus.ERROR
+                throw e
+            }
+        }
+    }
+
+    fun getAccountsByEmployeeId(employeeId: String) {
+        viewModelScope.launch {
+            _status.value = ApiStatus.LOADING
+            try {
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.getAccountsByEmployeeId(employeeId)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _accounts.value = rsp.body()!!
+                }else {
+                    val type = object : TypeToken<List<Account>>() {}.type
+                    val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _accounts.value = it!!
                 }
                 _status.value = ApiStatus.DONE

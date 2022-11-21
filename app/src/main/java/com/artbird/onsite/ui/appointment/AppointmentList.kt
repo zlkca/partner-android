@@ -79,7 +79,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "1",
             title="My first appointment",
-            client = Client2(
+            client = Profile(
                 firstName = "Rick",
                 lastName="Grimes",
                 account = Account(username="rick", email="rick@shutter.ca", phone="123-456-7890"),
@@ -95,7 +95,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "2",
             title="My second appointment",
-            client = Client2(
+            client = Profile(
                 firstName = "Lori",
                 lastName="Grims",
                 account = Account(username="lori", email="lori@shutter.ca", phone="123-456-7890"),
@@ -111,7 +111,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "3",
             title="My 3rd appointment",
-            client = Client2(
+            client = Profile(
                 firstName = "Dale",
                 lastName="Horvath",
                 account = Account(username="dale", email="dale@shutter.ca", phone="123-456-7890"),

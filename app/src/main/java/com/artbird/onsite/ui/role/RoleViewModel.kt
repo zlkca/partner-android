@@ -21,11 +21,11 @@ class RoleViewModel : ViewModel() {
     private val _role = MutableLiveData<Role>()
     val role: LiveData<Role> = _role
 
-    init {
-        getRoles()
-    }
+//    init {
+//        getRoles()
+//    }
 
-    private fun getRoles() {
+    fun getRoles() {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {

@@ -4,11 +4,12 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressViewModel
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.building.BuildingViewModel
-import com.artbird.onsite.ui.client.ClientViewModel
+import com.artbird.onsite.ui.client.ProfileViewModel
 import com.artbird.onsite.ui.quote.QuoteViewModel
 import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
@@ -49,10 +50,11 @@ import java.io.File
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    private val accountViewModel: AccountViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
     private val addressViewModel: AddressViewModel by viewModels()
     private val roleViewModel: RoleViewModel by viewModels()
-    private val clientViewModel: ClientViewModel by viewModels()
+    private val clientViewModel: ProfileViewModel by viewModels()
     private val appointmentViewModel: AppointmentViewModel by viewModels()
     private val windowViewModel: WindowViewModel by viewModels()
     private val layoutViewModel: BuildingViewModel by viewModels()
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setContent {
             SLTheme() {
                 MyApp(
+                    accountViewModel,
                     authViewModel,
                     addressViewModel,
                     roleViewModel,

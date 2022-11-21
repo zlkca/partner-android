@@ -21,7 +21,7 @@ data class Appointment2 (
     val start: String = "",
     val end: String = "",
     val projectId: String = "",
-    val client: Client2 = Client2(),
+    val client: Profile = Profile(),
     val address: Address = Address(),
     val employee: Account = Account(), // without role
     val createBy: Account = Account(),

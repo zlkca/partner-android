@@ -20,7 +20,7 @@ import com.artbird.onsite.ui.components.*
 @Composable
 fun ClientFormOld(
     clientId: String,
-    clientDetails: Client2,
+    clientDetails: Profile,
 //    role: Role?,
 //    recommender: BaseAccount,
 //    clientViewModel: ClientViewModel,

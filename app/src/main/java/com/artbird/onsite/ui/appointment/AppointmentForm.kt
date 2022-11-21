@@ -21,18 +21,17 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Address
-import com.artbird.onsite.domain.Client2
+import com.artbird.onsite.domain.Profile
 import com.artbird.onsite.ui.address.AddressForm
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme
-import com.artbird.onsite.ui.utils.getCurrentDateString
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentForm(
     navController: NavController,
-    client: Client2,
+    clientProfile: Profile,
 //    addressMode: String="new",
     address: Address=Address(),
     title: String,
@@ -66,12 +65,12 @@ fun AppointmentForm(
 
 //            Input(
 //                readOnly = true,
-//                value = if(client.id.isNotEmpty()) client.username else "Select Client",
+//                value = if(clientProfile.id.isNotEmpty()) clientProfile.username else "Select Client",
 ////                onValueChange = { onUserChange("client", it.username) },
 //                label = "Client",
 //            )
 //            Text(
-//                text = if(client.id!!.isNotEmpty()) client.account.username else "Select Client",
+//                text = if(clientProfile.id!!.isNotEmpty()) clientProfile.account.username else "Select Client",
 //                modifier=Modifier.clickable {
 //                    onUserChange("client")
 //                }
@@ -93,12 +92,12 @@ fun AppointmentForm(
         {
             OutlinedTextField(
                 label = { Text("Client", color = MaterialTheme.colorScheme.onBackground) },
-                value = client.account.username,
+                value = clientProfile.account.username,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate("search/client/new") // $appointmentId
+                        navController.navigate("search/client") // $appointmentId
                     },
                 placeholder = {
                     Text(text = "Click to Select a Client",
@@ -169,7 +168,7 @@ fun AppointmentForm(
 @Preview(showBackground = true)
 @Composable
 fun PreviewAppointmentForm(){
-    val client = Client2("1", firstName = "Jet", lastName = "Lee", account = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567"))
+    val client = Profile("1", firstName = "Jet", lastName = "Lee", account = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567"))
     val address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7")
 
     SLTheme {

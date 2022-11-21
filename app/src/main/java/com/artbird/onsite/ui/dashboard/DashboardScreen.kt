@@ -2,7 +2,7 @@ package com.artbird.onsite.ui.dashboard
 
 
 import androidx.navigation.NavController
-import com.artbird.onsite.ui.client.ClientViewModel
+import com.artbird.onsite.ui.client.ProfileViewModel
 
 
 import androidx.compose.material3.*
@@ -11,7 +11,7 @@ import androidx.compose.runtime.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController, viewModel: ClientViewModel) {
+fun DashboardScreen(navController: NavController, viewModel: ProfileViewModel) {
 //    Button(onClick = { navController.navigate("home") }) {
 //        Text(text = "From Dashboard")
 //    }

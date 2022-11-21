@@ -9,6 +9,8 @@ data class Account(
     var phone: String = "",
     var status: String = "",
     var role: Role = Role(),
+    var created: String = "",
+    var updated: String = ""
 )
 
 data class Account2(

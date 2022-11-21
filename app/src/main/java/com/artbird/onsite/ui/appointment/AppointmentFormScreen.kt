@@ -1,38 +1,24 @@
 package com.artbird.onsite.ui.appointment
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.utils.getCurrentDateString
-import com.artbird.onsite.ui.utils.getDate
-import com.artbird.onsite.ui.utils.getTime
+import com.artbird.onsite.ui.client.ProfileViewModel
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentFormScreen(
     navController: NavController,
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
+    profileViewModel: ProfileViewModel,
     user: Account, // logged in user
-    client: Client2,
 ){
+    val clientProfile by profileViewModel.profile.observeAsState(Profile())
 //    val appointment by appointmentViewModel.appointment.observeAsState()
-//    var client by remember { mutableStateOf(
+//    var clientProfile by remember { mutableStateOf(
 //        BaseClient(id= "", account=BaseAccount(id="", username=""))
 //    ) }
 
@@ -56,7 +42,7 @@ fun AppointmentFormScreen(
 //
 //    LaunchedEffect(key1 = appointment){
 //        if(appointment != null && appointmentId != "new") {
-////            client = appointment?.client!!
+////            clientProfile = appointment?.clientProfile!!
 //            title = appointment?.title!!
 //            notes = appointment?.notes!!
 //            date = getDate(appointment?.start!!)
@@ -67,7 +53,7 @@ fun AppointmentFormScreen(
 
     fun validate(): Boolean {
         var e = mutableMapOf<String, String>()
-        if(client.id == "") {
+        if(clientProfile!!.id == "") {
             e["client"] = "Please select a client"
         }
 
@@ -118,7 +104,7 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address,
-                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    client = clientProfile!!, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // Account(appointment?.employee!!.id, appointment?.employee!!.username),
                     createBy = user, // Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
                 )
@@ -132,7 +118,7 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address,
-                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    client = clientProfile!!, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // BaseAccount(user.id, user.username),
                     createBy = user, // BaseAccount(user.id, user.username),
                 )
@@ -146,11 +132,9 @@ fun AppointmentFormScreen(
     }
 
 
-
-
     AppointmentForm(
         navController,
-        client,
+        clientProfile!!,
         address,
         title,
         notes,

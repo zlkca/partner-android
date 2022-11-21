@@ -7,15 +7,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.artbird.onsite.domain.Client2
-import com.artbird.onsite.ui.address.AddressViewModel
-import com.artbird.onsite.ui.client.ClientViewModel
-import com.artbird.onsite.ui.components.DetailsViewActionBar
+import com.artbird.onsite.domain.Profile
+import com.artbird.onsite.ui.client.ProfileViewModel
 
 @Composable
 fun ProjectFormScreen(
     navController: NavController,
-    clientViewModel: ClientViewModel,
+    profileViewModel: ProfileViewModel,
 //    addressViewModel: AddressViewModel,
     projectId: String,
     address: String,
@@ -28,7 +26,7 @@ fun ProjectFormScreen(
 //        }
 //    }
 //    var keyword by remember { mutableStateOf("") }
-    val clientDetails: Client2 by clientViewModel.clientDetails.observeAsState(Client2())
+    val clientDetails: Profile by profileViewModel.profile.observeAsState(Profile())
 //    val placeRsp by addressViewModel.placeRsp.observeAsState()
     Column(
         modifier = Modifier.padding(10.dp)

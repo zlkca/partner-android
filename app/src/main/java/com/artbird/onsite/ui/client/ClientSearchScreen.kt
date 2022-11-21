@@ -14,37 +14,20 @@ import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.components.*
+import com.google.gson.Gson
+
 
 @Composable
-fun AccountListItem(item: Account, selected: Boolean, index:Int){
-    val colorScheme = MaterialTheme.colorScheme
-    Column(){
-        Title2(
-            text = item.username,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
-        )
-
-        Body3(
-            text = item.email,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
-        )
-
-        Body3(
-            text = item.phone,
-            color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
-        )
-    }
-}
-
-@Composable
-fun AccountSearchScreen(
+fun ClientSearchScreen(
     navController: NavController,
     accountViewModel: AccountViewModel,
-//    appointmentId: String,
+    profileViewModel: ProfileViewModel,
+    roles: List<Role>,
     user: Account,
 //    onSelect: (d: Account2) -> Unit = {},
 ){
     val accounts: List<Account> by accountViewModel.accounts.observeAsState(arrayListOf())
+
 //    val clientDetails: Account2 by accountViewModel.clientDetails.observeAsState(Account2())
     var keyword by remember { mutableStateOf("") }
 //    var needRedirect by remember { mutableStateOf(false) }
@@ -81,16 +64,24 @@ fun AccountSearchScreen(
             onSearch = { it ->
                 keyword = it
                 if(keyword.length >= 3) {
-                    if(user.role.name === "partner"){
+                    if(user.role.name == "partner"){
 //                        accountViewModel.search(user.id, keyword)
-                    }else if(user.role.name === "sales"){
-
+                    }else if(user.role.name == "sales"){
+                        val gson = Gson()
+                        val role = roles!!.find { it.name == "client"}
+                        val roleId = role!!.id
+                        val query: Map<String, String> = mapOf(
+                            "roleId" to roleId,
+                            "keyword" to keyword,
+                            "sales" to gson.toJson(user),
+                        )
+                        accountViewModel.search(query)
                     }
                 }
             },
             onSelect = { index ->
-                val client = accounts[index] // update client by useEffect
-//              accountViewModel.getAccountDetails(client.id)
+                val account = accounts[index] // update client by useEffect
+                profileViewModel.getProfileByAccountId(account.id)
                 navController.popBackStack() // .navigate("projects/new/form")
             },
             onBack = {

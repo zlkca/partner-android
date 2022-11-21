@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.client.ClientViewModel
+import com.artbird.onsite.ui.client.ProfileViewModel
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.utils.getDate
 import com.artbird.onsite.ui.utils.getTime
@@ -24,20 +24,20 @@ fun AppointmentDetailsScreen(
     navController: NavController,
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
-    clientViewModel: ClientViewModel,
+    clientViewModel: ProfileViewModel,
     user: BaseAccount, // logged in user
-    onSelectClient: (c: Client2) -> Unit = {},
+    onSelectClient: (c: Profile) -> Unit = {},
     onSelectAppointment: (a: Appointment) -> Unit = {},
 ) {
     val appointment by appointmentViewModel.appointment.observeAsState()
 
-    val clientDetails by clientViewModel.clientDetails.observeAsState()
+//    val clientDetails by clientViewModel.clientDetails.observeAsState()
 
     var client by remember { mutableStateOf(
-        Client2(
+        Profile(
             account = Account(),
 //            address = Address(),
-            recommender = Account(),
+            creator = Account(),
         )
 
     ) }
@@ -56,7 +56,7 @@ fun AppointmentDetailsScreen(
         if(appointment != null) {
 //            client = appointment?.client!!
 //            onSelect(client)
-            clientViewModel.getClientDetails(appointment!!.client.id)
+            clientViewModel.getProfileByAccountId(appointment!!.client.id)
 //            title = appointment?.title!!
 //            notes = appointment?.notes!!
             date = getDate(appointment?.start!!)
@@ -67,12 +67,12 @@ fun AppointmentDetailsScreen(
         }
     }
 
-    LaunchedEffect(key1 = clientDetails){
-        if(clientDetails != null) {
-            client = clientDetails!!
-            onSelectClient(clientDetails!!)
-        }
-    }
+//    LaunchedEffect(key1 = clientDetails){
+//        if(clientDetails != null) {
+//            client = clientDetails!!
+//            onSelectClient(clientDetails!!)
+//        }
+//    }
 
 
     Column(

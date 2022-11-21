@@ -1,31 +1,21 @@
 package com.artbird.onsite.ui.client
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.core.content.contentValuesOf
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.components.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientFormScreen(
     navController: NavController,
-    clientViewModel: ClientViewModel,
+    profileViewModel: ProfileViewModel,
     clientId: String,
     recommender: Account,
 ){
-    val clientDetails by clientViewModel.clientDetails.observeAsState()
-    var client by remember { mutableStateOf(Client2()) }
+    val clientProfile by profileViewModel.profile.observeAsState(Profile())
+    var client by remember { mutableStateOf(Profile()) }
 
 
 //    var accountId by remember { mutableStateOf("") }
@@ -44,51 +34,51 @@ fun ClientFormScreen(
 //
 //    var firstName by remember { mutableStateOf("") }
 
-    LaunchedEffect(key1 = clientId) {
-        if (clientId != null && clientId != "new") {
-            clientViewModel.getClientDetails(clientId)
-        }
-    }
+//    LaunchedEffect(key1 = clientId) {
+//        if (clientId != null && clientId != "new") {
+//            profileViewModel.getProfileByAccountId(clientId)
+//        }
+//    }
 
-    LaunchedEffect(key1 = clientDetails){
-        if(clientDetails != null && clientId != "new") {
-            client = clientDetails!!
-//            firstName = clientDetails!!.firstName
-//            accountId = clientDetails!!.account.id
-//            username = clientDetails!!.account.username
-//            email = clientDetails!!.account.email
-//            phone = clientDetails!!.account.phone
+    LaunchedEffect(key1 = clientProfile){
+        if(clientProfile != null && clientId != "new") {
+            client = clientProfile!!
+//            firstName = clientProfile!!.firstName
+//            accountId = clientProfile!!.account.id
+//            username = clientProfile!!.account.username
+//            email = clientProfile!!.account.email
+//            phone = clientProfile!!.account.phone
 
-//            addressId = clientDetails!!.address.id
-//            unitNumber = clientDetails!!.address.unitNumber
-//            streetNumber = clientDetails!!.address.streetNumber
-//            streetName = clientDetails!!.address.streetName
-//            city = clientDetails!!.address.city
-//            province = clientDetails!!.address.province
-//            postcode = clientDetails!!.address.postcode
+//            addressId = clientProfile!!.address.id
+//            unitNumber = clientProfile!!.address.unitNumber
+//            streetNumber = clientProfile!!.address.streetNumber
+//            streetName = clientProfile!!.address.streetName
+//            city = clientProfile!!.address.city
+//            province = clientProfile!!.address.province
+//            postcode = clientProfile!!.address.postcode
         }
     }
 
 
 
     fun handleSubmit(){
-        val data = Client2(
+        val data = Profile(
             firstName = client.firstName,
             lastName = client.lastName,
             account = Account(
                 email = client.account.email,
                 phone = client.account.phone,
             ),
-            recommender = recommender,
+            creator = recommender,
         )
         if(clientId == "new"){
-            clientViewModel.createClient(data)
-            clientViewModel.getClientsByRecommenderId(recommender.id)
+            profileViewModel.createClient(data)
+//            profileViewModel.getClientsByRecommenderId(recommender.id)
             navController.navigate("clients")
         }else {
-            clientViewModel.updateClient(clientId, data)
-            clientViewModel.getClientsByRecommenderId(recommender.id)
-            navController.navigate("clients/${clientDetails!!.id}")
+            profileViewModel.updateClient(clientId, data)
+//            profileViewModel.getClientsByRecommenderId(recommender.id)
+            navController.navigate("clients/${clientProfile!!.id}")
         }
     }
 

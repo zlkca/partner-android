@@ -32,11 +32,12 @@ data class Client (
 //    var updated: String = "",
 //)
 
-data class Client2 (
+// client profile
+data class Profile (
     val id: String = "",
     var account: Account = Account(),
-//    val address: Address = Address(),
-    var recommender: Account = Account(),
+//    val address: Address = Address(),   // not necessary
+    var creator: Account = Account(), // retrieve from project table
     // @Json(name="imageurl") val imageUrl: String,
     // client related
     var firstName: String = "",
@@ -45,6 +46,20 @@ data class Client2 (
     val created: String = "",
     val updated: String = "",
 )
+
+//data class Client2 (
+//    val id: String = "",
+//    var account: Account = Account(),
+////    val address: Address = Address(),
+//    var recommender: Account = Account(),
+//    // @Json(name="imageurl") val imageUrl: String,
+//    // client related
+//    var firstName: String = "",
+//    var middleName: String = "",
+//    var lastName: String = "",
+//    val created: String = "",
+//    val updated: String = "",
+//)
 
 data class BaseClient (
     var id: String = "",

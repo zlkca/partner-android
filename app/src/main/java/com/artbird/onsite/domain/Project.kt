@@ -9,7 +9,7 @@ data class Stage(
 
 data class Project(
     var _id: String = "",
-    var client: Client2 = Client2(),
+    var client: Profile = Profile(),
     var address: Address = Address(),
     var recommender: Account = Account(),
     var sales: Account = Account(),

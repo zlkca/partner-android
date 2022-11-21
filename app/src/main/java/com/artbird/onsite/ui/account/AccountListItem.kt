@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
-import com.artbird.onsite.domain.Client
+import com.artbird.onsite.domain.Account
 import com.artbird.onsite.ui.components.Body3
 import com.artbird.onsite.ui.components.Title2
 import com.artbird.onsite.ui.theme.SLTheme
 
 
 @Composable
-fun ClientListItem(item: Client, selected: Boolean, index:Int){
+fun AccountListItem(item: Account, selected: Boolean, index:Int){
     val colorScheme = MaterialTheme.colorScheme
     Column(){
         Title2(
@@ -33,18 +33,18 @@ fun ClientListItem(item: Client, selected: Boolean, index:Int){
 }
 
 @Composable
-fun ClientList(
-    clients: List<Client>,
+fun AccountList(
+    accounts: List<Account>,
     selectedIndex: Int,
     onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
     Column() {
-        com.artbird.onsite.ui.components.List<Client>(
-            clients,
+        com.artbird.onsite.ui.components.List<Account>(
+            accounts,
             selectedIndex,
             onSelect = onSelect,
             itemContent = { it, selected, index ->
-                ClientListItem(item=it, selected=selected, index =index)
+                AccountListItem(item=it, selected=selected, index =index)
             }
         )
     }
@@ -57,15 +57,15 @@ fun ClientList(
 )
 @Preview(showBackground = true)
 @Composable
-fun PreviewClientList(){
-    val clients = listOf<Client>(
-        Client(username="Jet Li", email="jet@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
-        Client(username="Nelson", email="nelson@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
-        Client(username="claudia", email="claudia@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
+fun PreviewAccountList(){
+    val accounts = listOf<Account>(
+        Account(username="Jet Li", email="jet@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
+        Account(username="Nelson", email="nelson@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
+        Account(username="claudia", email="claudia@shutterlux.ca", phone="123-456-7890", created="2022-11-07"),
     )
     SLTheme {
-        ClientList(
-            clients,
+        AccountList(
+            accounts,
             0
         )
     }
