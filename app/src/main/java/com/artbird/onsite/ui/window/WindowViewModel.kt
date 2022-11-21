@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artbird.onsite.domain.Window
-//import com.shutterlux.onsite.network.LayoutApi
 import com.artbird.onsite.network.WindowApi
 import kotlinx.coroutines.launch
 

@@ -8,9 +8,9 @@ data class Appointment (
     val type: String,
     val start: String,
     val end: String,
-    val client: BaseClient,
-    val employee: BaseAccount, // without role
-    val createBy: BaseAccount,
+    val client: Client,
+    val employee: Account, // without role
+    val createBy: Account,
 )
 
 data class Appointment2 (

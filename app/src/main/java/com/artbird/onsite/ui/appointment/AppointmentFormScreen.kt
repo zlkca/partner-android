@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.*
+import com.artbird.onsite.ui.utils.getCurrentDateString
 import com.artbird.onsite.ui.utils.getDate
 import com.artbird.onsite.ui.utils.getTime
 import java.text.SimpleDateFormat
@@ -30,7 +31,7 @@ fun AppointmentFormScreen(
     user: Account, // logged in user
     client: Client2,
 ){
-    val appointment by appointmentViewModel.appointment.observeAsState()
+//    val appointment by appointmentViewModel.appointment.observeAsState()
 //    var client by remember { mutableStateOf(
 //        BaseClient(id= "", account=BaseAccount(id="", username=""))
 //    ) }
@@ -109,31 +110,31 @@ fun AppointmentFormScreen(
     fun handleSubmit(){
         if(validate()) {
             if (appointmentId != null && appointmentId != "new") {
-                val data = Appointment(
+                val data = Appointment2(
                     _id = "",
                     title,
                     notes,
                     start = "$date $start",
                     end = "$date $end",
                     type = "sales",
-                    client = BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
-                    employee = BaseAccount(appointment?.employee!!.id,
-                        appointment?.employee!!.username),
-                    createBy = BaseAccount(appointment?.createBy!!.id,
-                        appointment?.createBy!!.username),
+                    address = address,
+                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    employee = user, // Account(appointment?.employee!!.id, appointment?.employee!!.username),
+                    createBy = user, // Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
                 )
-                appointmentViewModel.updateAppointment(appointment?._id!!, data)
+//                appointmentViewModel.updateAppointment(appointment?._id!!, data)
             } else {
-                val data = Appointment(
+                val data = Appointment2(
                     _id = "",
                     title,
                     notes,
                     start = "$date $start",
                     end = "$date $end",
                     type = "sales",
-                    client = BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
-                    employee = BaseAccount(user.id, user.username),
-                    createBy = BaseAccount(user.id, user.username),
+                    address = address,
+                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    employee = user, // BaseAccount(user.id, user.username),
+                    createBy = user, // BaseAccount(user.id, user.username),
                 )
                 appointmentViewModel.createAppointment(data);
             }
@@ -146,44 +147,34 @@ fun AppointmentFormScreen(
 
 
 
-    Column(modifier = Modifier
-        .padding(12.dp)
-        .verticalScroll(verticalScrollState)) {
 
-        FormActionBar(
-            onCancel = {
-                if(appointmentId!= "new"){
-                    navController.navigate("appointments/$appointmentId")
-                }else{
-                    navController.navigate("appointments")
-                }
-            },
-            ::handleSubmit
-        )
-
-        AppointmentForm(
-            client,
-            address,
-            title,
-            notes,
-            date,
-            start,
-            end,
-            onValChange = { name, value ->
-                when(name){
-                    "title" -> title = value
-                    "notes" -> notes = value
-                    "date" -> date = value
-                    "startTime" -> start = value
-                    "endTime" -> end = value
-                }
-            },
-            onClickClient = {
-                navController.navigate("search/client/$appointmentId")
+    AppointmentForm(
+        navController,
+        client,
+        address,
+        title,
+        notes,
+        date!!,
+        start,
+        end,
+        onValChange = { name, value ->
+            when(name){
+                "title" -> title = value
+                "notes" -> notes = value
+                "date" -> date = value
+                "startTime" -> start = value
+                "endTime" -> end = value
+                "unitNumber" -> address = address.copy(unitNumber = value)
+                "streetNumber" -> address = address.copy(streetNumber = value)
+                "streetName" -> address = address.copy(streetName = value)
+                "city" -> address = address.copy(city = value)
+                "province" -> address = address.copy(province = value)
+                "country" -> address = address.copy(country = value)
+                "postcode" -> address = address.copy(postcode = value)
             }
-        )
-
-    }
+        },
+        onSubmit = ::handleSubmit
+    )
 }
 
 

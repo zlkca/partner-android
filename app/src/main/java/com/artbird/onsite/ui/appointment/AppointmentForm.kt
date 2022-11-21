@@ -17,17 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Address
 import com.artbird.onsite.domain.Client2
 import com.artbird.onsite.ui.address.AddressForm
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme
+import com.artbird.onsite.ui.utils.getCurrentDateString
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentForm(
+    navController: NavController,
     client: Client2,
 //    addressMode: String="new",
     address: Address=Address(),
@@ -38,18 +42,17 @@ fun AppointmentForm(
     endTime: String,
     error: Map<String, String> = mapOf<String, String>(),
     onValChange: (name: String, value: String) -> Unit,
-    onClickClient: () -> Unit = {},
+    onSubmit: () -> Unit = {},
 //    onUserChange:(name: String) -> Unit = {},
 ){
     val verticalScrollState = rememberScrollState()
-
-    val addressOptions = listOf<RadioOption>(
-        RadioOption("r1", "new", "Use a new Address"),
-        RadioOption("r2", "existing", "Use an existing Address")
-    )
-    var addressMode by remember {
-        mutableStateOf("new")
-    }
+//    val addressOptions = listOf<RadioOption>(
+//        RadioOption("r1", "new", "Use a new Address"),
+//        RadioOption("r2", "existing", "Use an existing Address")
+//    )
+//    var addressMode by remember {
+//        mutableStateOf("new")
+//    }
 
     fun getTime(h: Int, m: Int): String {
         val dateTime = LocalDateTime.now().withHour(h).withMinute(m)
@@ -59,7 +62,7 @@ fun AppointmentForm(
 
     Column(modifier = Modifier
         .padding(12.dp)
-        .verticalScroll(verticalScrollState)) {
+    ) {
 
 //            Input(
 //                readOnly = true,
@@ -73,7 +76,21 @@ fun AppointmentForm(
 //                    onUserChange("client")
 //                }
 //            )
+        FormActionBar(
+            onCancel = {
+//                if(appointmentId!= "new"){
+//                    navController.navigate("appointments/$appointmentId")
+//                }else{
+//                    navController.navigate("appointments")
+//                }
+            },
+            onSave = onSubmit
+        )
 
+        Column(modifier = Modifier
+//            .padding(12.dp)
+            .verticalScroll(verticalScrollState))
+        {
             OutlinedTextField(
                 label = { Text("Client", color = MaterialTheme.colorScheme.onBackground) },
                 value = client.account.username,
@@ -81,9 +98,12 @@ fun AppointmentForm(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        onClickClient()
+                        navController.navigate("search/client/new") // $appointmentId
                     },
-                placeholder = { Text(text = "Click to Select a Client", color = MaterialTheme.colorScheme.onBackground) },
+                placeholder = {
+                    Text(text = "Click to Select a Client",
+                        color = MaterialTheme.colorScheme.onBackground)
+                },
                 enabled = false,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = MaterialTheme.colorScheme.onBackground,
@@ -114,7 +134,6 @@ fun AppointmentForm(
                 label = "Notes",
             )
 
-
             DatePicker(LocalContext.current, "Date", date, { y,m,d ->
                 val dateTime =
                     LocalDateTime.now().withYear(y).withMonth(m).withDayOfMonth(d)
@@ -139,7 +158,7 @@ fun AppointmentForm(
                         .padding(start = 8.dp)
                 )
             }
-
+        }
     }
 }
 
@@ -155,6 +174,7 @@ fun PreviewAppointmentForm(){
 
     SLTheme {
         AppointmentForm(
+            rememberNavController(),
             client,
             address,
             "",

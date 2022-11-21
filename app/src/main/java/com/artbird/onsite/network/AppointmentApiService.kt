@@ -37,10 +37,10 @@ interface AppointmentApiService {
     ): Appointment
 
     @POST("appointments")
-    suspend fun createAppointment(@Body user: Appointment): PostResponse
+    suspend fun createAppointment(@Body user: Appointment2): PostResponse
 
     @PUT("appointments/{id}")
-    suspend fun updateAppointment(@Path("id") id: String, @Body updates: Appointment): PutResponse
+    suspend fun updateAppointment(@Path("id") id: String, @Body updates: Appointment2): PutResponse
 }
 
 object AppointmentApi {

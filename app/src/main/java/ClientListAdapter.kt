@@ -1,4 +1,4 @@
-//package com.shutterlux.onsite.ui.client
+
 //
 //
 //import android.view.LayoutInflater

@@ -26,9 +26,7 @@ import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 
 //import androidx.navigation.compose.rememberNavController
-//import com.shutterlux.onsite.domain.RoomListItem
 import com.artbird.onsite.ui.components.*
-//import com.shutterlux.onsite.ui.components.List
 import com.artbird.onsite.ui.building.RoomList
 
 @Composable

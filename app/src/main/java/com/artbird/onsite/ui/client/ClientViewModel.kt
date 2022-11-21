@@ -72,6 +72,20 @@ class ClientViewModel : ViewModel() {
         }
     }
 
+    fun searchByAssignedEmployee(employeeId: String, keyword: String) {
+        viewModelScope.launch {
+            _status.value = ApiStatus.LOADING
+            try {
+                _clients.value = ClientApi.retrofitService.searchByAssignedEmployee(employeeId, keyword)
+                _status.value = ApiStatus.DONE
+            } catch (e: Exception) {
+                _clients.value = listOf()
+                _status.value = ApiStatus.ERROR
+                throw e
+            }
+        }
+    }
+
     fun getClientDetails(id: String) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING

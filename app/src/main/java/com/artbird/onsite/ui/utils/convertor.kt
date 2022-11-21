@@ -85,3 +85,10 @@ fun intToString(it: Int): String {
 fun getAddressString(address: Address): String {
     return "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province} ${address.postcode}".trim()
 }
+
+fun getCurrentDateString(): String? {
+    val dateTime =
+        LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return dateTime.format(formatter)
+}

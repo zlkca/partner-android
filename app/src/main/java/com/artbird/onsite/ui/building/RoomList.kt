@@ -10,7 +10,6 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.artbird.onsite.domain.Room
-//import com.shutterlux.onsite.domain.RoomListItem
 import com.artbird.onsite.ui.components.ActionButton
 
 @Composable

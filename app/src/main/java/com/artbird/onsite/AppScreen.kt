@@ -62,7 +62,7 @@ fun NaviRoute(
     projectViewModel: ProjectViewModel,
     clientViewModel: ClientViewModel,
     appointmentId: String,
-    appointment: Appointment,
+    appointment: Appointment2,
     onMeasure: (appointmentId: String) -> Unit,
     onChangeClient: (client: Client2) -> Unit,
     onChangeAppointment:(appointment: Appointment) -> Unit,
@@ -138,20 +138,12 @@ fun NaviRoute(
             }
         }
 
-        composable(route = "search/client/{id}",
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                }
+        composable(route = "search/client/{id}"){
+            ClientSearchScreen(
+                navController = navController,
+                clientViewModel = clientViewModel,
+                user=user,
             )
-        ){
-//            SearchClientScreen(
-//                navController = navController,
-//                clientViewModel = clientViewModel,
-//                appointmentId = it.arguments?.getString("id")!!,
-//                user=user,
-//                onSelect = onChangeClient
-//            )
         }
 
         composable(route = "clients/search") {
@@ -241,12 +233,12 @@ fun NaviRoute(
         }
 
         composable(route = "buildings"){
-            BuildingListScreen(
-                navController,
-                buildingViewModel,
-                appointment,
-                client,
-            )
+//            BuildingListScreen(
+//                navController,
+//                buildingViewModel,
+//                appointment,
+//                client,
+//            )
         }
 
         composable(route = "buildings/{id}",
@@ -378,16 +370,16 @@ fun NaviRoute(
                 },
             ))
         {
-            WindowFormScreen(
-                navController,
-                buildingViewModel,
-                windowViewModel,
-                appointment,
-                buildingId = it.arguments?.getString("buildingId")!!,
-                floorId = it.arguments?.getString("floorId")!!,
-                roomId = it.arguments?.getString("roomId")!!,
-                windowId = it.arguments?.getString("id")!!,
-            )
+//            WindowFormScreen(
+//                navController,
+//                buildingViewModel,
+//                windowViewModel,
+////                appointment,
+//                buildingId = it.arguments?.getString("buildingId")!!,
+//                floorId = it.arguments?.getString("floorId")!!,
+//                roomId = it.arguments?.getString("roomId")!!,
+//                windowId = it.arguments?.getString("id")!!,
+//            )
         }
 
 
@@ -429,12 +421,12 @@ fun NaviRoute(
         }
 
         composable(route = "quotes"){
-            QuoteListScreen(
-                navController,
-                quoteViewModel,
-                appointment,
-                client
-            )
+//            QuoteListScreen(
+//                navController,
+//                quoteViewModel,
+//                appointment,
+//                client
+//            )
         }
 
         composable(route = "quotes/{id}",
@@ -588,22 +580,23 @@ fun MyApp(
     var client by remember { mutableStateOf(
         Client2(
             account = Account(),
-//            address = Address(),
             recommender = Account(),
         )
     )}
 
     var appointment by remember { mutableStateOf(
-        Appointment(
+        Appointment2(
             _id = "",
             title="",
             notes="",
             start = "",
             end = "",
             type = "",
-            client = BaseClient("", BaseAccount()),
-            employee = BaseAccount(),
-            createBy = BaseAccount(),
+            projectId = "",
+            address = Address(),
+            client = Client2("", Account()),
+            employee = Account(),
+            createBy = Account(),
         )
     )}
 
@@ -646,7 +639,7 @@ fun MyApp(
                                 client = it
                             },
                             onChangeAppointment = { it ->
-                                appointment = it
+//                                appointment = it
                             },
                             onChangeAddress = {
                               address = it

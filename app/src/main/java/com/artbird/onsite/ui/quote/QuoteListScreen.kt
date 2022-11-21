@@ -79,21 +79,21 @@ fun QuoteListScreen(
         }
     }else {
         Column() {
-            ListActionBar(items = listOf(
-                ActionChip("Quote", onClick = {
-                    if (appointment != null) {
-                        val data = QuoteRequest(
-                            BaseAppointment(appointment!!._id, appointment?.title!!),
-                            "test address", // getAddressString(client.address),
-                            BaseAccount(appointment?.client!!.id,
-                                appointment?.client!!.account.username),
-                            BaseAccount(appointment?.employee!!.id,
-                                appointment?.employee!!.username),
-                        )
-                        quoteViewModel.createQuote(data);
-                    }
-                }),
-            ))
+//            ListActionBar(items = listOf(
+//                ActionChip("Quote", onClick = {
+//                    if (appointment != null) {
+//                        val data = QuoteRequest(
+//                            BaseAppointment(appointment!!._id, appointment?.title!!),
+//                            "test address", // getAddressString(client.address),
+//                            BaseAccount(appointment?.client!!.id,
+//                                appointment?.client!!.account.username),
+//                            BaseAccount(appointment?.employee!!.id,
+//                                appointment?.employee!!.username),
+//                        )
+//                        quoteViewModel.createQuote(data);
+//                    }
+//                }),
+//            ))
 
             if (quotes != null && quotes.isNotEmpty()) {
                 com.artbird.onsite.ui.components.List<Quote>(

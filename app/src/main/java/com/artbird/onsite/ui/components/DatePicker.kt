@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+// Date should not be empty and by default should be today
 @Composable
 fun DatePicker(
     context: Context,

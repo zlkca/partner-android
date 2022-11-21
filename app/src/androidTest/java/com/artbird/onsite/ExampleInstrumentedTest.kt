@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.shutterlux.onsite", appContext.packageName)
+        assertEquals("com.artbird.onsite", appContext.packageName)
     }
 }

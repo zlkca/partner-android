@@ -23,6 +23,12 @@ interface ClientApiService {
         @Query("keyword") Keyword : String
     ): List<Client>
 
+    @GET("clients/assignment")
+    suspend fun searchByAssignedEmployee(
+        @Query("recommenderId") employeeId: String,
+        @Query("keyword") Keyword : String
+    ): List<Client>
+
     @GET("clients")
     suspend fun getClientsByRecommenderId(@Query("recommenderId") recommenderId : String): List<Client>
 

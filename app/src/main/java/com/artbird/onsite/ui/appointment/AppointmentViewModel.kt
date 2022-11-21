@@ -57,7 +57,7 @@ class AppointmentViewModel : ViewModel() {
         }
     }
 
-    fun createAppointment(body: Appointment) {
+    fun createAppointment(body: Appointment2) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
@@ -71,7 +71,7 @@ class AppointmentViewModel : ViewModel() {
         }
     }
 
-    fun updateAppointment(id: String, body: Appointment) {
+    fun updateAppointment(id: String, body: Appointment2) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {

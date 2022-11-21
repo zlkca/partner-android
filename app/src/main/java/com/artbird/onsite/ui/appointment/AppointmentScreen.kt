@@ -125,54 +125,54 @@ fun AppointmentScreen(
 
     LaunchedEffect(key1 = appointment){
         if(appointment != null && appointmentId != "new") {
-            client = appointment?.client!!
-            title = appointment?.title!!
-            notes = appointment?.notes!!
-            val startList = appointment?.start?.split(".")
-            val start = startList?.get(0)?.split("T")
-            date = start?.get(0)!!
-            startTime = start?.get(1)!!
-
-            val endList = appointment?.end?.split(".")
-            val end = endList?.get(0)?.split("T")
-            endTime = end?.get(1)!!
+//            client = appointment?.client!!
+//            title = appointment?.title!!
+//            notes = appointment?.notes!!
+//            val startList = appointment?.start?.split(".")
+//            val start = startList?.get(0)?.split("T")
+//            date = start?.get(0)!!
+//            startTime = start?.get(1)!!
+//
+//            val endList = appointment?.end?.split(".")
+//            val end = endList?.get(0)?.split("T")
+//            endTime = end?.get(1)!!
         }
     }
 
     fun handleSubmit(){
         mode = "view"
 
-        if (appointmentId != null && appointmentId != "new") {
-            val data = Appointment(
-                _id = appointment?._id!!,
-                title,
-                notes,
-                start="${date}T${startTime}",
-                end="${date}T${endTime}",
-                type= "sales",
-                client = client,
-                employee = BaseAccount(appointment?.employee!!.id, appointment?.employee!!.username),
-                createBy = BaseAccount(appointment?.createBy!!.id, appointment?.createBy!!.username),
-            )
-            appointmentViewModel.updateAppointment(appointment?._id!!, data)
-        } else {
-            val data = Appointment(
-                _id = "",
-                title,
-                notes,
-                start="${date}T${startTime}",
-                end="${date}T${endTime}",
-                type= "sales",
-                client = client,
-                employee = BaseAccount(user.id, user.username),
-                createBy = BaseAccount(user.id, user.username),
-            )
-            appointmentViewModel.createAppointment(data);
-        }
-
-        // refresh list
-        appointmentViewModel.getAppointmentsByEmployeeId(user.id!!)
-        navController.navigate("appointments")
+//        if (appointmentId != null && appointmentId != "new") {
+//            val data = Appointment(
+//                _id = appointment?._id!!,
+//                title,
+//                notes,
+//                start="${date}T${startTime}",
+//                end="${date}T${endTime}",
+//                type= "sales",
+//                client = client,
+//                employee = BaseAccount(appointment?.employee!!.id, appointment?.employee!!.username),
+//                createBy = BaseAccount(appointment?.createBy!!.id, appointment?.createBy!!.username),
+//            )
+//            appointmentViewModel.updateAppointment(appointment?._id!!, data)
+//        } else {
+//            val data = Appointment(
+//                _id = "",
+//                title,
+//                notes,
+//                start="${date}T${startTime}",
+//                end="${date}T${endTime}",
+//                type= "sales",
+//                client = client,
+//                employee = BaseAccount(user.id, user.username),
+//                createBy = BaseAccount(user.id, user.username),
+//            )
+//            appointmentViewModel.createAppointment(data);
+//        }
+//
+//        // refresh list
+//        appointmentViewModel.getAppointmentsByEmployeeId(user.id!!)
+//        navController.navigate("appointments")
     }
 
     fun handleDelete(){
