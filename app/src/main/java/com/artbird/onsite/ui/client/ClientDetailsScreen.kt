@@ -56,8 +56,8 @@ fun ClientDetailsScreen(
             .padding(8.dp)
     ) {
         DetailsViewActionBar(
-            onBack = {navController.navigate("/clients")},
-            onEdit = {navController.navigate("/clients/${clientId}/form")}
+            onBack = {navController.navigate("clients")},
+            onEdit = {navController.navigate("clients/${clientId}/form")}
         )
         ClientDetails(
             navController,
