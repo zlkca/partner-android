@@ -17,10 +17,10 @@ import com.artbird.onsite.ui.theme.SLTheme
 @Composable
 fun ClientDetails(
     navController: NavController,
-    client: Profile,
+    profile: Profile,
     projects: List<Project> = listOf()
 ){
-    val account = client.account
+    val account = profile.account
     var selectedIndex by remember { mutableStateOf(0) }
 
     Column(
@@ -44,31 +44,31 @@ fun ClientDetails(
         Label3("INFO")
 
         Label3("FIRSTNAME")
-        Body1(client.firstName)
+        Body1(profile.firstName)
 
         Label3("LASTNAME")
-        Body1(client.lastName)
+        Body1(profile.lastName)
 
 //        Label3("ADDRESS")
-//        Body1(getAddressString(client.address))
+//        Body1(getAddressString(profile.address))
 
         Label3("PROJECTS")
         if(projects.isEmpty()){
-            Body1("No address set for the Project yet, please create an appointment")
+            Body1("No address found, please create an appointment")
         }else{
                 com.artbird.onsite.ui.components.List<Project>(
                     projects,
                     selectedIndex,
                     onSelect = { index ->
                         val project = projects[index]
-                        navController.navigate("clients/${client.id}/projects/${project._id}")
+                        navController.navigate("clients/${profile.id}/projects/${project._id}")
                     },
                     itemContent = { it, selected, index ->
                         ProjectListItem(item=it, selected=selected)
                     }
                 )
         }
-//        StageList(stages = client.stages, selectedIndex = -1) // do not select any row
+//        StageList(stages = profile.stages, selectedIndex = -1) // do not select any row
     }
 }
 
@@ -79,7 +79,7 @@ fun ClientDetails(
 @Preview(showBackground = true)
 @Composable
 fun PreviewClientDetails(){
-    val client = Profile(
+    val profile = Profile(
         id = "1",
         firstName = "Sydney",
         lastName = "Winston",
@@ -101,7 +101,7 @@ fun PreviewClientDetails(){
     SLTheme {
         ClientDetails(
             rememberNavController(),
-            client,
+            profile,
             projects
         )
     }

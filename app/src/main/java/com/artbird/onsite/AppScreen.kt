@@ -82,6 +82,7 @@ fun NaviRoute(
                 ClientListScreen(
                     navController,
                     accountViewModel,
+                    profileViewModel,
                     user,
                 )
             }

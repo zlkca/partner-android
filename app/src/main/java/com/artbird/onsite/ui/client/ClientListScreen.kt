@@ -19,6 +19,7 @@ import com.artbird.onsite.ui.components.ListActionBar
 fun ClientListScreen(
     navController: NavController,
     accountViewModel: AccountViewModel,
+    profileViewModel: ProfileViewModel,
     user: Account,
 ) {
     val accounts by accountViewModel.accounts.observeAsState()
@@ -58,20 +59,14 @@ fun ClientListScreen(
         ))
 
         if (accounts != null && accounts?.isNotEmpty()!!) {
-//            ClientList(
-//                accounts!!,
-//                selectedIndex,
-//                onSelect = ::handleSelectClient,
-////                onSelectMenu = { index -> selectedIndex = index },
-////                menus = menus
-//            )
             com.artbird.onsite.ui.components.List<Account>(
                 accounts!!,
                 selectedIndex,
                 onSelect =  { index ->
                     selectedIndex = index
                     val account = accounts!![index]
-                    navController.navigate("accounts/${account.id}")
+                    profileViewModel.getProfileByAccountId(account.id)
+                    navController.navigate("clients/${account.id}")
                 },
                 itemContent = { it, selected, index ->
                     AccountListItem(item=it, selected=selected, index =index)

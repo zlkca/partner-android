@@ -7,6 +7,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.client.ClientDetails
 import com.artbird.onsite.ui.client.ProfileViewModel
@@ -17,26 +18,26 @@ import com.artbird.onsite.ui.project.ProjectViewModel
 @Composable
 fun ClientDetailsScreen(
     navController: NavController,
-    clientViewModel: ProfileViewModel,
+    profileViewModel: ProfileViewModel,
     projectViewModel: ProjectViewModel,
     clientId: String,
 ) {
-//    val clientDetails by clientViewModel.clientDetails.observeAsState()
+    val clientProfile by profileViewModel.profile.observeAsState(Profile())
     val projects by projectViewModel.projects.observeAsState()
 
     var selectedIndex by remember { mutableStateOf(0) }
     var client by remember { mutableStateOf(Profile()) }
 
-    LaunchedEffect(key1 = clientId) {
-        if (clientId != null && clientId != "new") {
-            clientViewModel.getProfileByAccountId(clientId)
-            projectViewModel.getProjectsByClientId(clientId)
-        }
-    }
+//    LaunchedEffect(key1 = clientId) {
+//        if (clientId != null && clientId != "new") {
+//            profileViewModel.getProfileByAccountId(clientId)
+//            projectViewModel.getProjectsByClientId(clientId)
+//        }
+//    }
 
-//    LaunchedEffect(key1 = clientDetails){
-//        if(clientDetails != null) {
-//            client = clientDetails!!
+//    LaunchedEffect(key1 = clientProfile){
+//        if(clientProfile != null) {
+//            client = clientProfile!!
 //        }
 //    }
 
@@ -54,16 +55,24 @@ fun ClientDetailsScreen(
         modifier = Modifier
             .padding(8.dp)
     ) {
-
+        DetailsViewActionBar(
+            onBack = {navController.navigate("/clients")},
+            onEdit = {navController.navigate("/clients/${clientId}/form")}
+        )
+        ClientDetails(
+            navController,
+            clientProfile!!,
+            projects!!
+        )
 //        DetailsViewActionBar(
 //            onBack = {navController.navigate("clients")},
-//            onEdit = { navController.navigate("clients/${clientDetails!!.id}/form") }
+//            onEdit = { navController.navigate("clients/${clientProfile!!.id}/form") }
 //        )
 //
-//        if(clientDetails!=null) {
+//        if(clientProfile!=null) {
 //            ClientDetails(
 //                navController,
-//                client = clientDetails!!,
+//                client = clientProfile!!,
 //                projects = projects!!
 //            )
 //
