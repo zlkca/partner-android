@@ -25,26 +25,19 @@ fun AppointmentDetailsScreen(
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
     clientViewModel: ProfileViewModel,
-    user: BaseAccount, // logged in user
+    user: Account, // logged in user
     onSelectClient: (c: Profile) -> Unit = {},
     onSelectAppointment: (a: Appointment) -> Unit = {},
 ) {
     val appointment by appointmentViewModel.appointment.observeAsState()
 
-//    val clientDetails by clientViewModel.clientDetails.observeAsState()
-
-    var client by remember { mutableStateOf(
-        Profile(
-            account = Account(),
-//            address = Address(),
-            creator = Account(),
-        )
-
-    ) }
-
     var date by remember { mutableStateOf("") }
     var start by remember { mutableStateOf("") }
     var end by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") }
+    var notes by remember { mutableStateOf("") }
+    var client by remember { mutableStateOf(Account()) }
+    var address by remember { mutableStateOf(Address())}
 
     LaunchedEffect(key1 = appointmentId) {
         if (appointmentId != null && appointmentId != "new") {
@@ -62,17 +55,14 @@ fun AppointmentDetailsScreen(
             date = getDate(appointment?.start!!)
             start = getTime(appointment?.start!!)
             end = getTime(appointment?.end!!)
-
-            onSelectAppointment(appointment!!)
+            client = appointment?.client!!
+            address = appointment?.address!!
+            title = appointment?.title!!
+            notes = appointment?.notes!!
+            // onSelectAppointment(appointment!!)
         }
     }
 
-//    LaunchedEffect(key1 = clientDetails){
-//        if(clientDetails != null) {
-//            client = clientDetails!!
-//            onSelectClient(clientDetails!!)
-//        }
-//    }
 
 
     Column(
@@ -91,15 +81,16 @@ fun AppointmentDetailsScreen(
             ){
                 Text(text = appointment!!.title, fontSize = 20.sp)
                 Text(text = "$date  $start - $end")
+                Text(text = appointment!!.address.displayAddress)
                 Text(text = appointment!!.notes)
             }
 
             Column(
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = client.account.username, fontSize = 16.sp)
-                Text(text = client.account.email)
-                Text(text = client.account.phone)
+                Text(text = client.username, fontSize = 16.sp)
+                Text(text = client.email)
+                Text(text = client.phone)
             }
 
             ListActionBar(items = listOf(

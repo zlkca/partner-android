@@ -39,6 +39,7 @@ import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.settings.SettingsScreen
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressAutocompleteScreen
+import com.artbird.onsite.ui.appointment.AppointmentDetailsScreen
 import com.artbird.onsite.ui.appointment.AppointmentFormScreen
 import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.client.*
@@ -198,15 +199,15 @@ fun NaviRoute(
         )
         {
             if (user != null) {
-//                AppointmentDetailsScreen(
-//                    navController = navController,
-//                    appointmentId = it.arguments?.getString("id"),
-//                    appointmentViewModel = appointmentViewModel,
-//                    clientViewModel = clientViewModel,
+                AppointmentDetailsScreen(
+                    navController = navController,
+                    appointmentId = it.arguments?.getString("id"),
+                    appointmentViewModel = appointmentViewModel,
+                    clientViewModel = profileViewModel,
 //                    onSelectClient = onChangeClient,
 //                    onSelectAppointment = onChangeAppointment,
-//                    user = user,
-//                )
+                    user = user,
+                )
             }
         }
 

@@ -34,7 +34,7 @@ interface AppointmentApiService {
     @GET("appointments/{id}")
     suspend fun getAppointment(
         @Path("id") id: String
-    ): Appointment
+    ): Appointment2
 
     @POST("appointments")
     suspend fun createAppointment(@Body user: Appointment2): PostResponse

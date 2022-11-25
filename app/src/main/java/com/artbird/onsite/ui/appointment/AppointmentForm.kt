@@ -59,9 +59,7 @@ fun AppointmentForm(
         return dateTime.format(formatter)
     }
 
-    Column(modifier = Modifier
-        .padding(12.dp)
-    ) {
+
 
 //            Input(
 //                readOnly = true,
@@ -75,16 +73,7 @@ fun AppointmentForm(
 //                    onUserChange("client")
 //                }
 //            )
-        FormActionBar(
-            onCancel = {
-//                if(appointmentId!= "new"){
-//                    navController.navigate("appointments/$appointmentId")
-//                }else{
-//                    navController.navigate("appointments")
-//                }
-            },
-            onSave = onSubmit
-        )
+
 
         Column(modifier = Modifier
 //            .padding(12.dp)
@@ -158,7 +147,7 @@ fun AppointmentForm(
                 )
             }
         }
-    }
+
 }
 
 @Preview(

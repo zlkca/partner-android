@@ -10,7 +10,7 @@ class AppointmentRepository(){
         return AppointmentApi.retrofitService.getAppointmentsByEmployeeId(accountId)
     }
 
-    suspend fun getAppointment(appointmentId: String): Appointment{
+    suspend fun getAppointment(appointmentId: String): Appointment2{
 //        withContext(Dispatchers.IO){
             return AppointmentApi.retrofitService.getAppointment(appointmentId)
 //        }

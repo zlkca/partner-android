@@ -21,8 +21,8 @@ class AppointmentViewModel : ViewModel() {
     private val _appointments = MutableLiveData<List<Appointment2>>(arrayListOf())
     val appointments: LiveData<List<Appointment2>> = _appointments
 
-    private val _appointment = MutableLiveData<Appointment>()
-    val appointment: LiveData<Appointment> = _appointment
+    private val _appointment = MutableLiveData<Appointment2>()
+    val appointment: LiveData<Appointment2> = _appointment
 
 //    init {
 //        getAppointments()

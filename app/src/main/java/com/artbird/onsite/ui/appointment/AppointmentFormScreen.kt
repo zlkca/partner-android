@@ -1,11 +1,17 @@
 package com.artbird.onsite.ui.appointment
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.client.ProfileViewModel
+import com.artbird.onsite.ui.components.FormActionBar
+import com.artbird.onsite.ui.utils.getAddressString
 import java.text.SimpleDateFormat
 
 @Composable
@@ -105,7 +111,7 @@ fun AppointmentFormScreen(
                     start = "$date $start",
                     end = "$date $end",
                     type = "sales",
-                    address = address,
+                    address = address.copy(displayAddress = getAddressString(address)),
                     client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // Account(appointment?.employee!!.id, appointment?.employee!!.username),
                     createBy = user, // Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
@@ -119,7 +125,7 @@ fun AppointmentFormScreen(
                     start = "$date $start",
                     end = "$date $end",
                     type = "sales",
-                    address = address,
+                    address = address.copy(displayAddress = getAddressString(address)),
                     client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // BaseAccount(user.id, user.username),
                     createBy = user, // BaseAccount(user.id, user.username),
@@ -132,35 +138,47 @@ fun AppointmentFormScreen(
             navController.navigate("appointments")
         }
     }
-
-
-    AppointmentForm(
-        navController,
-        client,
-        address,
-        title,
-        notes,
-        date!!,
-        start,
-        end,
-        onValChange = { name, value ->
-            when(name){
-                "title" -> title = value
-                "notes" -> notes = value
-                "date" -> date = value
-                "startTime" -> start = value
-                "endTime" -> end = value
-                "unitNumber" -> address = address.copy(unitNumber = value)
-                "streetNumber" -> address = address.copy(streetNumber = value)
-                "streetName" -> address = address.copy(streetName = value)
-                "city" -> address = address.copy(city = value)
-                "province" -> address = address.copy(province = value)
-                "country" -> address = address.copy(country = value)
-                "postcode" -> address = address.copy(postcode = value)
-            }
-        },
-        onSubmit = ::handleSubmit
-    )
+    Column(modifier = Modifier
+        .padding(12.dp)
+    ) {
+        FormActionBar(
+            onCancel = {
+//                if(appointmentId!= "new"){
+//                    navController.navigate("appointments/$appointmentId")
+//                }else{
+//                    navController.navigate("appointments")
+//                }
+            },
+            onSave = ::handleSubmit
+        )
+        AppointmentForm(
+            navController,
+            client,
+            address,
+            title,
+            notes,
+            date!!,
+            start,
+            end,
+            onValChange = { name, value ->
+                when (name) {
+                    "title" -> title = value
+                    "notes" -> notes = value
+                    "date" -> date = value
+                    "startTime" -> start = value
+                    "endTime" -> end = value
+                    "unitNumber" -> address = address.copy(unitNumber = value)
+                    "streetNumber" -> address = address.copy(streetNumber = value)
+                    "streetName" -> address = address.copy(streetName = value)
+                    "city" -> address = address.copy(city = value)
+                    "province" -> address = address.copy(province = value)
+                    "country" -> address = address.copy(country = value)
+                    "postcode" -> address = address.copy(postcode = value)
+                }
+            },
+            onSubmit = ::handleSubmit
+        )
+    }
 }
 
 
