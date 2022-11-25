@@ -27,7 +27,10 @@ interface AccountApiService {
     suspend fun getAccountsByRecommenderId(@Query("recommenderId") recommenderId : String): Response<List<Account>>
 
     @GET("accounts")
-    suspend fun getAccountsByEmployeeId(@Query("employeeId") employeeId : String): Response<List<Account>>
+    suspend fun getAccountsByEmployeeId(
+        @Query("employeeId") employeeId : String,
+        @Query("roleName") roleName : String,
+    ): Response<List<Account>>
 
     @POST("login")
     suspend fun login(@Body credential: Credential): Response<Auth>

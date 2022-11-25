@@ -13,7 +13,7 @@ class AccountRepository(){
         return AccountApi.retrofitService.getAccountsByRecommenderId(recommenderId)
     }
 
-    suspend fun getAccountsByEmployeeId(employeeId: String): Response<List<Account>> {
-        return AccountApi.retrofitService.getAccountsByEmployeeId(employeeId)
+    suspend fun getAccountsByEmployeeId(employeeId: String, roleName: String): Response<List<Account>> {
+        return AccountApi.retrofitService.getAccountsByEmployeeId(employeeId, roleName)
     }
 }

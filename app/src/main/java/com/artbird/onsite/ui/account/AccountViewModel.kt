@@ -74,12 +74,12 @@ class AccountViewModel : ViewModel() {
         }
     }
 
-    fun getAccountsByEmployeeId(employeeId: String) {
+    fun getAccountsByEmployeeId(employeeId: String, roleName: String) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
-                    repo.getAccountsByEmployeeId(employeeId)
+                    repo.getAccountsByEmployeeId(employeeId, roleName)
                 }
                 val code = rsp.code()
 

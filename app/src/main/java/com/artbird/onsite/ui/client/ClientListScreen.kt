@@ -31,7 +31,7 @@ fun ClientListScreen(
         if (user.role.name == "partner") {
             accountViewModel.getAccountsByRecommenderId(user.id)
         }else if(user.role.name == "sales" || user.role.name == "technician"){
-            accountViewModel.getAccountsByEmployeeId(user.id)
+            accountViewModel.getAccountsByEmployeeId(user.id, user.role.name)
         }
     }
 
