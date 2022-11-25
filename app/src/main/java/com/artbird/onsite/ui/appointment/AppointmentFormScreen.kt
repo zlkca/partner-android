@@ -18,9 +18,7 @@ fun AppointmentFormScreen(
 ){
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
 //    val appointment by appointmentViewModel.appointment.observeAsState()
-//    var clientProfile by remember { mutableStateOf(
-//        BaseClient(id= "", account=BaseAccount(id="", username=""))
-//    ) }
+    var client by remember { mutableStateOf(Account()) }
 
     var address by remember { mutableStateOf(Address()) }
 
@@ -33,6 +31,10 @@ fun AppointmentFormScreen(
     var error by remember { mutableStateOf(mutableMapOf<String, String>())}
 
     val verticalScrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = clientProfile) {
+            client = clientProfile.account
+    }
 
 //    LaunchedEffect(key1 = appointmentId) {
 //        if (appointmentId != null && appointmentId != "new") {
@@ -53,7 +55,7 @@ fun AppointmentFormScreen(
 
     fun validate(): Boolean {
         var e = mutableMapOf<String, String>()
-        if(clientProfile!!.id == "") {
+        if(client!!.id == "") {
             e["client"] = "Please select a client"
         }
 
@@ -104,7 +106,7 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address,
-                    client = clientProfile!!, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // Account(appointment?.employee!!.id, appointment?.employee!!.username),
                     createBy = user, // Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
                 )
@@ -118,7 +120,7 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address,
-                    client = clientProfile!!, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
                     employee = user, // BaseAccount(user.id, user.username),
                     createBy = user, // BaseAccount(user.id, user.username),
                 )
@@ -134,7 +136,7 @@ fun AppointmentFormScreen(
 
     AppointmentForm(
         navController,
-        clientProfile!!,
+        client,
         address,
         title,
         notes,

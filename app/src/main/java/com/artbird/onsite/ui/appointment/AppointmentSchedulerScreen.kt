@@ -45,7 +45,7 @@ fun AppointmentSchedulerScreen(
                 color=Color(0xFFAFBBF2),
                 start= toLocalDateTime(it.start), // LocalDateTime Object
                 end=toLocalDateTime(it.end),
-                description = it.client.account.username
+                description = it.client.username
             ) }
         }
     }

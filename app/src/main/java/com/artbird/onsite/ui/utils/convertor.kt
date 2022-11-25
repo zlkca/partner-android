@@ -82,8 +82,9 @@ fun intToString(it: Int): String {
     }
 }
 
-fun getAddressString(address: Address): String {
-    return "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province} ${address.postcode}".trim()
+fun getAddressString(address: Address, withPostcode: Boolean = false): String {
+    return if(withPostcode) "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province} ${address.postcode}".trim()
+    else "${address.unitNumber} ${address.streetNumber} ${address.streetName}, ${address.city} ${address.province}".trim()
 }
 
 fun getCurrentDateString(): String? {

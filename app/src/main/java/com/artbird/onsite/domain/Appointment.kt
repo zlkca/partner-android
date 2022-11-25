@@ -20,8 +20,8 @@ data class Appointment2 (
     val type: String = "",
     val start: String = "",
     val end: String = "",
-    val projectId: String = "",
-    val client: Profile = Profile(),
+//    val projectId: String = "",
+    val client: Account = Account(),
     val address: Address = Address(),
     val employee: Account = Account(), // without role
     val createBy: Account = Account(),

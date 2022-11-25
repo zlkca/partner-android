@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun AppointmentForm(
     navController: NavController,
-    clientProfile: Profile,
+    client: Account,
 //    addressMode: String="new",
     address: Address=Address(),
     title: String,
@@ -65,12 +65,12 @@ fun AppointmentForm(
 
 //            Input(
 //                readOnly = true,
-//                value = if(clientProfile.id.isNotEmpty()) clientProfile.username else "Select Client",
+//                value = if(client.id.isNotEmpty()) client.username else "Select Client",
 ////                onValueChange = { onUserChange("client", it.username) },
 //                label = "Client",
 //            )
 //            Text(
-//                text = if(clientProfile.id!!.isNotEmpty()) clientProfile.account.username else "Select Client",
+//                text = if(client.id!!.isNotEmpty()) client.account.username else "Select Client",
 //                modifier=Modifier.clickable {
 //                    onUserChange("client")
 //                }
@@ -92,7 +92,7 @@ fun AppointmentForm(
         {
             OutlinedTextField(
                 label = { Text("Client", color = MaterialTheme.colorScheme.onBackground) },
-                value = clientProfile.account.username,
+                value = client.username,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
@@ -168,7 +168,7 @@ fun AppointmentForm(
 @Preview(showBackground = true)
 @Composable
 fun PreviewAppointmentForm(){
-    val client = Profile("1", firstName = "Jet", lastName = "Lee", account = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567"))
+    val client = Account("1", "Jet", email="jet@gmail.com", phone="416-123-4567")
     val address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7")
 
     SLTheme {

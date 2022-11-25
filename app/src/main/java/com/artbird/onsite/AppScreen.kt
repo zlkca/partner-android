@@ -578,19 +578,7 @@ fun MyApp(
 //    var clientProfile by remember { mutableStateOf(Profile())}
 
     var appointment by remember { mutableStateOf(
-        Appointment2(
-            _id = "",
-            title="",
-            notes="",
-            start = "",
-            end = "",
-            type = "",
-            projectId = "",
-            address = Address(),
-            client = Profile("", Account()),
-            employee = Account(),
-            createBy = Account(),
-        )
+        Appointment2()
     )}
 
 

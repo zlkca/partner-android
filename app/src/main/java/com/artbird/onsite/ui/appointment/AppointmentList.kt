@@ -28,12 +28,12 @@ fun AppointmentListItem(item: Appointment2, selected: Boolean, index:Int){
                 color = if (selected) colorScheme.onPrimary else colorScheme.onBackground,
             )
             Body3(
-                text = if (client.firstName.isNotEmpty()) "${client.firstName} ${client.lastName}" else client.account.username,
+                text = client.username,
                 color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
             )
         }else {
             Title2(
-                text = if (client.firstName.isNotEmpty()) "${client.firstName} ${client.lastName}" else client.account.username,
+                text = client.username,
                 color = if (selected) colorScheme.onPrimary else colorScheme.onBackground
             )
         }
@@ -79,12 +79,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "1",
             title="My first appointment",
-            client = Profile(
-                firstName = "Rick",
-                lastName="Grimes",
-                account = Account(username="rick", email="rick@shutter.ca", phone="123-456-7890"),
-                created="2022-11-07"
-            ),
+            client = Account(username="rick", email="rick@shutter.ca", phone="123-456-7890"),
             employee = Account(username="sales", email="sales@shutterlux.ca", phone="123-456-7890"),
             start = "2022-11-16 16:00:00",
             end = "2022-11-16 16:30:00",
@@ -95,12 +90,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "2",
             title="My second appointment",
-            client = Profile(
-                firstName = "Lori",
-                lastName="Grims",
-                account = Account(username="lori", email="lori@shutter.ca", phone="123-456-7890"),
-                created="2022-11-07"
-            ),
+            client = Account(username="lori", email="lori@shutter.ca", phone="123-456-7890"),
             employee = Account(username="sales", email="sales@shutterlux.ca", phone="123-456-7890"),
             start = "2022-11-16 16:00:00",
             end = "2022-11-16 16:30:00",
@@ -111,12 +101,7 @@ fun PreviewAppointmentList(){
         Appointment2(
             "3",
             title="My 3rd appointment",
-            client = Profile(
-                firstName = "Dale",
-                lastName="Horvath",
-                account = Account(username="dale", email="dale@shutter.ca", phone="123-456-7890"),
-                created="2022-11-07"
-            ),
+            client = Account(username="dale", email="dale@shutter.ca", phone="123-456-7890"),
             employee = Account(username="sales", email="sales@shutterlux.ca", phone="123-456-7890"),
             start = "2022-11-16 16:00:00",
             end = "2022-11-16 16:30:00",
