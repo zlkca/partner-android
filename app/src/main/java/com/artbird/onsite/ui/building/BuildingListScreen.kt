@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
@@ -26,8 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 fun BuildingListScreen(
     navController: NavController,
     buildingViewModel: BuildingViewModel,
-    appointment: Appointment,
-    client: Profile,
+    appointment: Appointment2,
 ) {
     val buildings by buildingViewModel.buildings.observeAsState()
 //    val status by buildingViewModel.buildingStatus.observeAsState()
@@ -44,9 +44,7 @@ fun BuildingListScreen(
     }
 
     fun handleSelectBuilding(index: Int) {
-        selectedBuildingIndex = index
-        val building = buildings!![index]
-        navController.navigate("buildings/${building._id}")
+
     }
 
     // dropdown menus
@@ -144,29 +142,39 @@ fun BuildingListScreen(
             Text(text = "Please select an appointment")
         }
     }else {
-        Column(
-            modifier = Modifier
-                .padding(8.dp)
-        ) {
-
-//            Text(text = getAddressString(client.address), modifier = Modifier.padding(8.dp))
-
-            ListActionBar(items = listOf(
-                ActionChip("Building", onClick = { navController.navigate("buildings/new/form") }),
-                ActionChip("Sample Building", onClick = ::handleAddSample)
-            ))
-
-            if (buildings != null && buildings?.isNotEmpty()!!) {
-                com.artbird.onsite.ui.components.List<Building>(
-                    buildings!!,
-                    selectedBuildingIndex,
-                    fields = listOf("name"),
-                    onGetLabel = ::getBuildingLabel,
-                    onSelect = ::handleSelectBuilding,
-                    onSelectMenu = { index -> selectedBuildingIndex = index },
-                    menus = menus,
-                )
+        BuildingList(
+            rememberNavController(),
+            buildings!!,
+            selectedIndex = selectedBuildingIndex,
+            onSelect = { index ->
+                selectedBuildingIndex = index
+                val building = buildings!![index]
+                navController.navigate("buildings/${building._id}")
             }
-        }
+        )
+//        Column(
+//            modifier = Modifier
+//                .padding(8.dp)
+//        ) {
+//
+////            Text(text = getAddressString(client.address), modifier = Modifier.padding(8.dp))
+//
+//            ListActionBar(items = listOf(
+//                ActionChip("Building", onClick = { navController.navigate("buildings/new/form") }),
+//                ActionChip("Sample Building", onClick = ::handleAddSample)
+//            ))
+//
+//            if (buildings != null && buildings?.isNotEmpty()!!) {
+//                com.artbird.onsite.ui.components.List<Building>(
+//                    buildings!!,
+//                    selectedBuildingIndex,
+//                    fields = listOf("name"),
+//                    onGetLabel = ::getBuildingLabel,
+//                    onSelect = ::handleSelectBuilding,
+//                    onSelectMenu = { index -> selectedBuildingIndex = index },
+//                    menus = menus,
+//                )
+//            }
+//        }
     }
 }

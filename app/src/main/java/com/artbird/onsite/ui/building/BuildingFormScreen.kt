@@ -59,7 +59,7 @@ fun BuildingFormScreen(
                     "",
                     name,
                     notes,
-                    appointment = BaseAppointment(appointmentId, appointment?.title!!),
+                    appointment = BaseAppointment(appointmentId!!, appointment?.title!!),
                     floors = listOf(),
                 )
             )
@@ -71,7 +71,7 @@ fun BuildingFormScreen(
                     "",
                     name,
                     notes,
-                    appointment = BaseAppointment(appointmentId, appointment?.title!!),
+                    appointment = BaseAppointment(appointmentId!!, appointment?.title!!),
                     floors = floors,
                 )
             )
@@ -79,28 +79,5 @@ fun BuildingFormScreen(
         }
     }
 
-    Column(modifier = Modifier
-        .padding(8.dp)
-        .verticalScroll(verticalScrollState)
-    ) {
 
-        FormActionBar(
-            onCancel = {
-                navController.navigate("buildings")
-            },
-            ::handleSubmit
-        )
-
-        Input(
-            value = name,
-            onValueChange = { name = it },
-            label = "Building Name",
-        )
-
-        Input(
-            value = notes,
-            onValueChange = { notes = it },
-            label = "Notes",
-        )
-    }
 }

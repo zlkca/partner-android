@@ -29,10 +29,10 @@ data class Floor(
 )
 
 data class Building(
-    var _id: String,
-    var name: String,
-    var notes: String,
-    var floors: List<Floor>,
+    var _id: String = "",
+    var name: String = "",
+    var notes: String = "",
+    var floors: List<Floor> = listOf(),
     var appointment: BaseAppointment
 )
 

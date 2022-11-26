@@ -22,22 +22,22 @@ import com.artbird.onsite.ui.utils.getTime
 @Composable
 fun AppointmentDetailsScreen(
     navController: NavController,
-    appointmentId: String?, // 'new' or appointmentId
+    appointmentId: String, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
     clientViewModel: ProfileViewModel,
     user: Account, // logged in user
     onSelectClient: (c: Profile) -> Unit = {},
-    onSelectAppointment: (a: Appointment) -> Unit = {},
+    onSelectAppointment: (a: Appointment2) -> Unit = {},
 ) {
-    val appointment by appointmentViewModel.appointment.observeAsState()
+    val appointment by appointmentViewModel.appointment.observeAsState(Appointment2())
 
-    var date by remember { mutableStateOf("") }
-    var start by remember { mutableStateOf("") }
-    var end by remember { mutableStateOf("") }
-    var title by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var client by remember { mutableStateOf(Account()) }
-    var address by remember { mutableStateOf(Address())}
+//    var date by remember { mutableStateOf("") }
+//    var start by remember { mutableStateOf("") }
+//    var end by remember { mutableStateOf("") }
+//    var title by remember { mutableStateOf("") }
+//    var notes by remember { mutableStateOf("") }
+//    var client by remember { mutableStateOf(Account()) }
+//    var address by remember { mutableStateOf(Address())}
 
     LaunchedEffect(key1 = appointmentId) {
         if (appointmentId != null && appointmentId != "new") {
@@ -47,70 +47,28 @@ fun AppointmentDetailsScreen(
 
     LaunchedEffect(key1 = appointment){
         if(appointment != null) {
+////            client = appointment?.client!!
+////            onSelect(client)
+//            clientViewModel.getProfileByAccountId(appointment!!.client.id)
+////            title = appointment?.title!!
+////            notes = appointment?.notes!!
+//            date = getDate(appointment?.start!!)
+//            start = getTime(appointment?.start!!)
+//            end = getTime(appointment?.end!!)
 //            client = appointment?.client!!
-//            onSelect(client)
-            clientViewModel.getProfileByAccountId(appointment!!.client.id)
+//            address = appointment?.address!!
 //            title = appointment?.title!!
 //            notes = appointment?.notes!!
-            date = getDate(appointment?.start!!)
-            start = getTime(appointment?.start!!)
-            end = getTime(appointment?.end!!)
-            client = appointment?.client!!
-            address = appointment?.address!!
-            title = appointment?.title!!
-            notes = appointment?.notes!!
-            // onSelectAppointment(appointment!!)
+             onSelectAppointment(appointment!!)
         }
     }
 
 
 
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-    ) {
-
-        if(appointment != null) {
-            DetailsViewActionBar(
-                onBack = { navController.navigate("appointments")},
-                onEdit = { navController.navigate("appointments/$appointmentId/form") }
-            )
-
-            Column(
-                modifier = Modifier.padding(8.dp)
-            ){
-                Text(text = appointment!!.title, fontSize = 20.sp)
-                Text(text = "$date  $start - $end")
-                Text(text = appointment!!.address.displayAddress)
-                Text(text = appointment!!.notes)
-            }
-
-            Column(
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = client.username, fontSize = 16.sp)
-                Text(text = client.email)
-                Text(text = client.phone)
-            }
-
-            ListActionBar(items = listOf(
-                ActionChip(
-                    "Measure",
-                    Icons.Filled.Straighten,
-                    onClick = {
-                        navController.navigate("buildings")
-                    }
-                ),
-                ActionChip(
-                    "View Quote",
-                    icon = Icons.Filled.ReceiptLong,
-                    onClick = {
-                        navController.navigate("quotes")
-                    }
-                ),
-            ))
-        }
-    }
+    AppointmentDetails(
+        navController,
+        appointment!!
+    )
 }
 
 //        if(mode=="edit"){

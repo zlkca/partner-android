@@ -56,7 +56,7 @@ fun getDate(s: String): String {
 }
 fun getTime(s: String): String {
     val a = s.split(" ")
-    return a.get(1);
+    return if (a.size > 1) a.get(1) else "";
 }
 
 fun toLocalDateTime(s: String): LocalDateTime {

@@ -66,7 +66,7 @@ fun NaviRoute(
     appointment: Appointment2,
     onMeasure: (appointmentId: String) -> Unit,
 //    onChangeClient: (client: Profile) -> Unit,
-    onChangeAppointment:(appointment: Appointment) -> Unit,
+    onChangeAppointment:(appointment: Appointment2) -> Unit,
     onChangeAddress: (address: String) -> Unit,
     dir: File?,
     startDestination: String,
@@ -201,11 +201,11 @@ fun NaviRoute(
             if (user != null) {
                 AppointmentDetailsScreen(
                     navController = navController,
-                    appointmentId = it.arguments?.getString("id"),
+                    appointmentId = it.arguments?.getString("id")!!,
                     appointmentViewModel = appointmentViewModel,
                     clientViewModel = profileViewModel,
 //                    onSelectClient = onChangeClient,
-//                    onSelectAppointment = onChangeAppointment,
+                    onSelectAppointment = onChangeAppointment,
                     user = user,
                 )
             }
@@ -231,12 +231,12 @@ fun NaviRoute(
         }
 
         composable(route = "buildings"){
-//            BuildingListScreen(
-//                navController,
-//                buildingViewModel,
-//                appointment,
-//                client,
-//            )
+            BuildingListScreen(
+                navController,
+                buildingViewModel,
+                appointment,
+//                clientProfile,
+            )
         }
 
         composable(route = "buildings/{id}",
@@ -622,7 +622,7 @@ fun MyApp(
 //                                clientProfile = it
 //                            },
                             onChangeAppointment = { it ->
-//                                appointment = it
+                                appointment = it
                             },
                             onChangeAddress = {
                               address = it

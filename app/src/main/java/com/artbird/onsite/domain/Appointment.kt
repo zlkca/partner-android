@@ -29,6 +29,6 @@ data class Appointment2 (
 )
 
 data class BaseAppointment(
-    val _id: String? = null,
-    val title: String, // has to be title due to Web Calendar UI component
+    val _id: String = "",
+    val title: String = "", // has to be title due to Web Calendar UI component
 )
