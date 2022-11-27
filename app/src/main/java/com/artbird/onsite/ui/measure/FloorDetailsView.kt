@@ -28,8 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 //import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.building.FloorForm
-import com.artbird.onsite.ui.building.RoomForm
+//import com.artbird.onsite.ui.building.FloorForm
+//import com.artbird.onsite.ui.building.RoomForm
 
 //import androidx.navigation.compose.rememberNavController
 //import com.shutterlux.onsite.domain.RoomListItem
@@ -125,7 +125,7 @@ fun FloorDetailsView(
                     onEdit = ::handleEdit)
 
                 if (mode == "edit") {
-                    FloorForm(floor, ::handleSubmit)
+//                    FloorForm(floor, ::handleSubmit)
                 } else {
                     Text(text = "${building.name}", modifier = Modifier.padding(8.dp))
                     Text(text = "${floor.name}", modifier = Modifier.padding(8.dp))
@@ -158,7 +158,7 @@ fun FloorDetailsView(
                     onCancel = {onPrevious("rooms", roomIndex)},
                     onSave = ::handleSubmit,
                     )
-                RoomForm(room)
+//                RoomForm(room)
             }
         }
     }

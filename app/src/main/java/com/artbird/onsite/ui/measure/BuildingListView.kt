@@ -89,7 +89,7 @@ fun BuildingListView(
             )
 
             if(formOpened) {
-                BuildingForm(buildings!![selectedIndex], ::handleSubmit)
+//                BuildingForm(buildings!![selectedIndex], ::handleSubmit)
             }
         }
 

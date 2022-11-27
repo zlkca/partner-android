@@ -11,7 +11,7 @@ import com.artbird.onsite.domain.Building
 import com.artbird.onsite.domain.Floor
 import com.artbird.onsite.domain.Room
 import com.artbird.onsite.domain.Window
-import com.artbird.onsite.ui.building.RoomForm
+//import com.artbird.onsite.ui.building.RoomForm
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.OldFormActionBar
 import com.artbird.onsite.ui.components.ListActionBar
@@ -75,7 +75,7 @@ fun RoomDetailsView(
         OldFormActionBar(mode, onCancel = ::handleCancel, onBack = ::handleBack, onSave = ::handleSubmit, onEdit = ::handleEdit)
 
         if(mode == "edit") {
-            RoomForm(room, ::handleSubmit)
+//            RoomForm(room, ::handleSubmit)
         }else {
             Text(text = "${building.name}", modifier = Modifier.padding(8.dp))
             Text(text = "${floor.name}", modifier = Modifier.padding(8.dp))

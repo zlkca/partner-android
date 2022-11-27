@@ -9,6 +9,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.components.*
@@ -79,5 +80,8 @@ fun BuildingFormScreen(
         }
     }
 
-
+    BuildingForm(
+        rememberNavController(),
+        building!!
+    )
 }

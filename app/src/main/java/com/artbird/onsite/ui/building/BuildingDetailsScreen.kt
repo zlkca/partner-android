@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.Floor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.artbird.onsite.ui.components.ActionChip
@@ -108,38 +109,9 @@ fun BuildingDetailsScreen(
             .show()
     }
 
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-    ) {
-        if(building!=null) {
-            DetailsViewActionBar(
-                onBack = { navController.navigate("buildings") },
-                onEdit = { navController.navigate("buildings/${buildingId}/form") },
-            )
-            Text(text = "${building!!.name}", fontSize=16.sp, modifier = Modifier.padding(8.dp))
-            Text(text = "${building!!.notes}", fontSize=12.sp, modifier = Modifier.padding(8.dp))
-        }
-
-        if(floors != null) {
-            ListActionBar(items = listOf(
-                ActionChip("Floor", onClick = { navController.navigate("buildings/${buildingId}/floors/new/form")}),
-//                ActionChip("Sample Floor", onClick = {})
-            ))
-
-            if (floors?.isNotEmpty()!!) {
-                com.artbird.onsite.ui.components.List<Floor>(
-                    floors!!,
-                    selectedFloorIndex,
-                    fields = listOf("name"),
-                    onGetLabel = ::getFloorLabel,
-                    onSelect = ::handleSelectFloor,
-                    onSelectMenu = { it -> selectedFloorIndex = it},
-                    menus = menus
-                )
-            }
-        }
-
-    }
+    BuildingDetails(
+        navController,
+        building!!
+    )
 
 }
