@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.artbird.onsite.domain.Building
 import com.artbird.onsite.domain.Floor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.artbird.onsite.ui.components.ActionChip
@@ -27,15 +28,16 @@ fun BuildingDetailsScreen(
     buildingViewModel: BuildingViewModel,
     buildingId: String?,
 ) {
-    val building by buildingViewModel.building.observeAsState()
-    val status by buildingViewModel.floorStatus.observeAsState()
+    val building by buildingViewModel.building.observeAsState(Building())
+    var floor by buildingViewModel.selectedFloor
+
     var floors: List<Floor> by remember { mutableStateOf(arrayListOf()) }
     var selectedFloorIndex by remember { mutableStateOf(0) }
     var dialogOpened by remember { mutableStateOf(false) }
 //    var status by remember { mutableStateOf(com.shutterlux.onsite.ui.building.ApiStatus.LOADING) }
 
     LaunchedEffect(key1 = buildingId) {
-        if (buildingId != null) {
+        if (buildingId != null && buildingId != "new") {
             buildingViewModel.getBuilding(buildingId)
         }
     }
@@ -45,8 +47,6 @@ fun BuildingDetailsScreen(
             floors = building!!.floors
         }
     }
-
-
 
     fun handleSelectFloor(index: Int){
         selectedFloorIndex = index
@@ -111,7 +111,13 @@ fun BuildingDetailsScreen(
 
     BuildingDetails(
         navController,
-        building!!
+        building!!,
+        onSelectFloor = {
+            floor = it
+            navController.navigate("buildings/${buildingId}/floors/${floor._id}")
+        },
+        onBack = { navController.navigate("buildings") },
+        onEdit = { navController.navigate("buildings/${buildingId}/form") }
     )
 
 }

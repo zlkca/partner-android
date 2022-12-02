@@ -262,10 +262,9 @@ fun NaviRoute(
         {
             BuildingFormScreen(
                 navController,
-                appointmentViewModel,
                 buildingViewModel,
-                appointmentId,
-                buildingId = it.arguments?.getString("id"),
+                appointment._id,
+                buildingId = it.arguments?.getString("id")!!,
             )
         }
 
@@ -299,7 +298,6 @@ fun NaviRoute(
         {
             FloorFormScreen(
                 navController,
-                appointmentViewModel,
                 buildingViewModel,
                 buildingId = it.arguments?.getString("buildingId"),
                 floorId = it.arguments?.getString("id")!!
@@ -345,7 +343,7 @@ fun NaviRoute(
             RoomFormScreen(
                 navController,
                 buildingViewModel,
-                buildingId = it.arguments?.getString("buildingId"),
+                buildingId = it.arguments?.getString("buildingId")!!,
                 floorId = it.arguments?.getString("floorId")!!,
                 roomId = it.arguments?.getString("id")!!,
             )

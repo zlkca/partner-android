@@ -27,9 +27,6 @@ fun RoomFormScreen(
 ){
     val building by buildingViewModel.building.observeAsState()
 
-    var name by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    val verticalScrollState = rememberScrollState()
     var floor by remember { mutableStateOf(Floor("","","", listOf())) }
     var room: Room by remember { mutableStateOf(Room("","","")) }
 
@@ -45,14 +42,11 @@ fun RoomFormScreen(
 
             if(floor != null && floor!!.rooms.isNotEmpty()) {
                 room = floor!!.rooms.find { it._id == roomId }!!
-                name = room!!.name
-                notes = room!!.notes
             }
         }
     }
 
     fun handleSubmit(){
-        // create new room
         val mFloors = ArrayList<Floor>();
         building!!.floors.forEach { it ->
             if(it._id == floorId){
@@ -62,12 +56,12 @@ fun RoomFormScreen(
                     it!!.rooms.forEach { r ->
                         mRooms.add(r);
                     }
-                    mRooms.add(Room("", name, notes))
+                    mRooms.add(room)
                     mFloors.add(Floor(it._id, it.name, it.notes, mRooms))
                 }else{
                     it!!.rooms.forEach { r ->
                         if(roomId == r._id){
-                            mRooms.add(Room(r._id, name, notes))
+                            mRooms.add(room.copy(_id = r._id))
                         }else{
                             mRooms.add(r);
                         }
@@ -86,47 +80,58 @@ fun RoomFormScreen(
                     _id = "",
                     name = building!!.name,
                     notes = building!!.notes,
-                    appointment = building!!.appointment,
+                    appointmentId = building!!.appointmentId,
                     floors = mFloors
                 )
             )
         }
 //        buildingViewModel.getBuildingsByAppointmentId(building!!.appointment._id!!)
-        navController.navigate("buildings/${buildingId}/floors/${floorId}")
+//        navController.navigate("buildings/${buildingId}/floors/${floorId}")
     }
 
 
-    fun getRoomLabel(item: Room, name: String): String {
-        return item.name
-    }
-
-//    fun handleDelete(){
+    RoomForm(
+        room = room,
+        onChange = {f, value ->
+            when(f){
+                "name" -> room = room.copy(name = value)
+                "notes" -> room = room.copy(notes = value)
+            }
+        },
+        onSave = ::handleSubmit,
+        onCancel = {
+            if(roomId != "new"){
+                navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${roomId}")
+            }else{
+                navController.navigate("buildings/${buildingId}/floors/${floorId}")
+            }
+        }
+    )
+//    Column(modifier = Modifier
+//        .padding(12.dp)
+//        .verticalScroll(verticalScrollState)) {
+//
+//        FormActionBar(
+//            onCancel = {
+//                if(roomId != "new"){
+//                    navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${roomId}")
+//                }else{
+//                    navController.navigate("buildings/${buildingId}/floors/${floorId}")
+//                }
+//            },
+//            ::handleSubmit
+//        )
+//
+//        Input(
+//            value = name,
+//            onValueChange = { name = it },
+//            label = "Room Name",
+//        )
+//
+//        Input(
+//            value = notes,
+//            onValueChange = { notes = it },
+//            label = "Notes",
+//        )
 //    }
-    Column(modifier = Modifier
-        .padding(12.dp)
-        .verticalScroll(verticalScrollState)) {
-
-        FormActionBar(
-            onCancel = {
-                if(roomId != "new"){
-                    navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${roomId}")
-                }else{
-                    navController.navigate("buildings/${buildingId}/floors/${floorId}")
-                }
-            },
-            ::handleSubmit
-        )
-
-        Input(
-            value = name,
-            onValueChange = { name = it },
-            label = "Room Name",
-        )
-
-        Input(
-            value = notes,
-            onValueChange = { notes = it },
-            label = "Notes",
-        )
-    }
 }

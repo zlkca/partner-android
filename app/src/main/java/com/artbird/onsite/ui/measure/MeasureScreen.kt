@@ -82,7 +82,7 @@ fun MeasureScreen(
                     Building("",
                         "New Address",
                         "New building",
-                        appointment = BaseAppointment(appointmentId, appointment?.title!!),
+                        appointmentId = appointmentId,
                         floors = listOf(
                             Floor("", "First Floor", "", rooms = listOf(
                                 Room("", "Living Room", ""),

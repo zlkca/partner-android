@@ -1,43 +1,31 @@
 package com.artbird.onsite.ui.building
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
-import com.artbird.onsite.ui.components.*
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BuildingFormScreen(
     navController: NavController,
-    appointmentViewModel: AppointmentViewModel,
+//    appointmentViewModel: AppointmentViewModel,
     buildingViewModel: BuildingViewModel,
-    appointmentId: String?,
-    buildingId: String?,
+    appointmentId: String,
+    buildingId: String,
 ) {
-    val appointment by appointmentViewModel.appointment.observeAsState()
-    val building by buildingViewModel.building.observeAsState()
+    val buildingData by buildingViewModel.building.observeAsState()
+    var building: Building by remember{ mutableStateOf(Building())}
 
-    var name by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var floors: List<Floor> by remember { mutableStateOf(arrayListOf()) }
-
-    val verticalScrollState = rememberScrollState()
-
-    LaunchedEffect(key1 = appointmentId) {
-        if (appointmentId != null && appointmentId != "new") {
-            appointmentViewModel.getAppointment(appointmentId)
-        }
-    }
+//    LaunchedEffect(key1 = appointmentId) {
+//        if (appointmentId != null && appointmentId != "new") {
+//            appointmentViewModel.getAppointment(appointmentId)
+//            building.copy(appointmentId = appointmentId)
+//        }
+//    }
 
     LaunchedEffect(key1 = buildingId) {
         if (buildingId != null && buildingId != "new") {
@@ -45,22 +33,16 @@ fun BuildingFormScreen(
         }
     }
 
-    LaunchedEffect(key1 = building) {
-        if (building != null && buildingId != "new") {
-            name = building!!.name
-            notes = building!!.notes
-            floors = building!!.floors
+    LaunchedEffect(key1 = buildingData) {
+        if (buildingData != null && buildingId != "new") {
+            building = buildingData!!
         }
     }
 
     fun handleSubmit() {
         if(buildingId == "new") {
             buildingViewModel.createBuilding(
-                Building(
-                    "",
-                    name,
-                    notes,
-                    appointment = BaseAppointment(appointmentId!!, appointment?.title!!),
+                building.copy(
                     floors = listOf(),
                 )
             )
@@ -68,12 +50,8 @@ fun BuildingFormScreen(
         }else{
             buildingViewModel.updateBuilding(
                 buildingId!!,
-                Building(
-                    "",
-                    name,
-                    notes,
-                    appointment = BaseAppointment(appointmentId!!, appointment?.title!!),
-                    floors = floors,
+                building.copy(
+                    floors = buildingData!!.floors,
                 )
             )
             navController.navigate("buildings/${buildingId}")
@@ -81,7 +59,14 @@ fun BuildingFormScreen(
     }
 
     BuildingForm(
-        rememberNavController(),
-        building!!
+        navController,
+        building!!,
+        onChange = {f, value ->
+            when(f){
+                "name" -> building = building.copy(name = value)
+                "notes" -> building = building.copy(notes = value)
+            }
+        },
+        onSave = ::handleSubmit
     )
 }

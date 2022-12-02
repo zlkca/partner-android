@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.navigation.NavController
+import com.artbird.onsite.domain.Building
 import com.artbird.onsite.domain.Floor
 import com.artbird.onsite.domain.Room
 import com.artbird.onsite.ui.components.*
@@ -27,8 +28,9 @@ fun FloorDetailsScreen(
     floorId: String,
 ) {
 
-    val building by buildingViewModel.building.observeAsState()
+    val building by buildingViewModel.building.observeAsState(Building())
 //    val status by buildingViewModel.status.observeAsState()
+
     var floor by remember { mutableStateOf(Floor("","","", listOf())) }
     var dialogOpened by remember { mutableStateOf(false) }
     var rooms: List<Room> by remember { mutableStateOf(listOf()) }
@@ -54,7 +56,7 @@ fun FloorDetailsScreen(
         selectedRoomIndex = index
         val room = floor!!.rooms[index];
         if (room._id != "" && room._id != "new") {
-            navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${room._id}")
+            navController.navigate("rooms/${room._id}")
         }
     }
 
@@ -62,7 +64,7 @@ fun FloorDetailsScreen(
     fun handleEditRoom(index: Int) {
         selectedRoomIndex = index
         val room = floor!!.rooms!![index]
-        navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${room._id}/form")
+        navController.navigate("rooms/${room._id}/form")
     }
 
     fun handleDeleteRoom(index: Int) {
@@ -104,7 +106,7 @@ fun FloorDetailsScreen(
             .setPositiveButton("Delete") {dialog, which ->
                 var roomId = floor.rooms[selectedRoomIndex]._id
                 if (roomId != null) {
-                    buildingViewModel.deleteRoom(roomId, buildingId, floorId)
+                    // buildingViewModel.deleteRoom(roomId, buildingId, floorId)
                     selectedRoomIndex = 0
                 }
                 dialogOpened = false
@@ -113,43 +115,48 @@ fun FloorDetailsScreen(
             .show()
     }
 
-    Column(
-        modifier = Modifier.padding(8.dp)
-    ) {
-
-        if(building!= null && floor!=null) {
-            DetailsViewActionBar(
-                onBack = { navController.navigate("buildings/${buildingId}") },
-                onEdit = { navController.navigate("buildings/${buildingId}/floors/${floorId}/form") },
-            )
-            Text(text = "${building!!.name}", modifier = Modifier.padding(8.dp))
-            Text(text = "${floor.name}", modifier = Modifier.padding(8.dp))
-            Text(text = "${floor.notes}", modifier = Modifier.padding(8.dp))
-        }
-
-        if (floor != null) {
-            ListActionBar(
-                items = listOf(
-                    ActionChip("Room",
-                        onClick = { navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/new/form") }),
-//                    ActionChip("Sample Room", onClick = {})
-                ),
-                onBack = { navController.navigate("buildings/${buildingId}") }
-            )
-
-            if (rooms != null && rooms?.isNotEmpty()!!) {
-                com.artbird.onsite.ui.components.List<Room>(
-                    rooms!!,
-                    selectedRoomIndex,
-                    fields = listOf("name"),
-                    onGetLabel = ::getRoomLabel,
-                    onSelect = ::handleSelectRoom,
-                    onSelectMenu = { it -> selectedRoomIndex = it},
-                    menus = menus
-                )
-            }
-        }
-    }
+    FloorDetails(
+        navController = navController,
+        building = building,
+        floor = floor
+    )
+//    Column(
+//        modifier = Modifier.padding(8.dp)
+//    ) {
+//
+//        if(building!= null && floor!=null) {
+//            DetailsViewActionBar(
+//                onBack = { navController.navigate("buildings/${buildingId}") },
+//                onEdit = { navController.navigate("buildings/${buildingId}/floors/${floorId}/form") },
+//            )
+//            Text(text = "${building!!.name}", modifier = Modifier.padding(8.dp))
+//            Text(text = "${floor.name}", modifier = Modifier.padding(8.dp))
+//            Text(text = "${floor.notes}", modifier = Modifier.padding(8.dp))
+//        }
+//
+//        if (floor != null) {
+//            ListActionBar(
+//                items = listOf(
+//                    ActionChip("Room",
+//                        onClick = { navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/new/form") }),
+////                    ActionChip("Sample Room", onClick = {})
+//                ),
+//                onBack = { navController.navigate("buildings/${buildingId}") }
+//            )
+//
+//            if (rooms != null && rooms?.isNotEmpty()!!) {
+//                com.artbird.onsite.ui.components.List<Room>(
+//                    rooms!!,
+//                    selectedRoomIndex,
+//                    fields = listOf("name"),
+//                    onGetLabel = ::getRoomLabel,
+//                    onSelect = ::handleSelectRoom,
+//                    onSelectMenu = { it -> selectedRoomIndex = it},
+//                    menus = menus
+//                )
+//            }
+//        }
+//    }
 
 }
 

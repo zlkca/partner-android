@@ -1,5 +1,6 @@
 package com.artbird.onsite.ui.building
 
+
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -24,32 +25,31 @@ import com.artbird.onsite.ui.floor.FloorListItem
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
-fun BuildingDetails(
+fun FloorDetails(
     navController: NavController,
     building: Building,
-    onSelectFloor: (floor: Floor) -> Unit = { floor: Floor -> },
-    onBack: () -> Unit = {},
-    onEdit: () -> Unit = {},
+    floor: Floor,
 ){
-    var floors = building.floors; // : List<Floor> by remember { mutableStateOf(arrayListOf()) }
+    var rooms = floor.rooms; // : List<Floor> by remember { mutableStateOf(arrayListOf()) }
     var selectedFloorIndex by remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier
             .padding(8.dp)
     ) {
-        if(building!=null) {
+        if(floor!=null) {
             DetailsViewActionBar(
-                onBack = onBack,
-                onEdit = onEdit,
+                onBack = { navController.navigate("floors") },
+                onEdit = { navController.navigate("floors/${floor._id}/form") },
             )
-            Body1(text = "${building!!.name}")
-            Body1(text = "${building!!.notes}")
+            Body1(text = building!!.name)
+            Body1(text = "${floor!!.name}")
+            Body1(text = "${floor!!.notes}")
         }
 
-        if(floors != null) {
+        if(rooms != null) {
 //            ListActionBar(items = listOf(
-//                ActionChip("Floor", onClick = { navController.navigate("buildings/${building._id}/floors/new/form")}),
+//                ActionChip("Floor", onClick = { navController.navigate("floors/${floor._id}/floors/new/form")}),
 ////                ActionChip("Sample Floor", onClick = {})
 //            ))
 //
@@ -65,20 +65,15 @@ fun BuildingDetails(
 ////                )
 
 
-            FloorList(
-                navController,
-                building._id,
-                floors!!,
+            RoomList(
+                rooms!!,
                 selectedIndex = selectedFloorIndex,
                 onAddSample = {},
-                onSelect = { index ->
-                    onSelectFloor(floors[index]);
+                onAddRoom = {
+                    navController.navigate("buildings/${building._id}/floors/${floor._id}/rooms/new/form")
                 }
             )
-
-
         }
-
     }
 }
 
@@ -88,7 +83,14 @@ fun BuildingDetails(
 )
 @Preview(showBackground = true)
 @Composable
-fun PreviewBuildingDetails(){
+fun PreviewFloorDetails(){
+    val floor = Floor("", "First Floor", "", rooms = listOf(
+                Room("", "Living Room", ""),
+                Room("", "Family Room", ""),
+                Room("", "Dinning Room", ""),
+                Room("", "Kitchen", ""),
+            ))
+
     val building = Building(_id="1", name="Main House", notes="Two stories with walkout basement", appointmentId = "",
         floors = listOf(
             Floor("", "First Floor", "", rooms = listOf(
@@ -107,13 +109,13 @@ fun PreviewBuildingDetails(){
             )),
         ),
     )
-
 //    var address = Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7")
 
     SLTheme {
-        BuildingDetails(
+        FloorDetails(
             rememberNavController(),
-            building
+            building,
+            floor
         )
     }
 }

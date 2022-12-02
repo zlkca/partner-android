@@ -2,6 +2,7 @@ package com.artbird.onsite.ui.building
 
 //import retrofit2.http.Body
 
+import androidx.compose.runtime.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,6 +44,11 @@ class BuildingViewModel : ViewModel() {
     private val _room = MutableLiveData<Room>()
     val room: LiveData<Room> = _room
 
+    var selectedBuilding = mutableStateOf(Building())
+    var selectedFloor = mutableStateOf(Floor())
+    var selectedRoom = mutableStateOf(Room())
+
+
     init {
 //        getBuildings()
     }
@@ -66,10 +72,10 @@ class BuildingViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
-                _buildings.value = BuildingApi.retrofitService.createBuilding(body)
+                _building.value = BuildingApi.retrofitService.createBuilding(body)
                 _status.value = ApiStatus.DONE
             } catch (e: Exception) {
-                _buildings.value = listOf()
+                _building.value = null
                 _status.value = ApiStatus.ERROR
                 throw e
             }

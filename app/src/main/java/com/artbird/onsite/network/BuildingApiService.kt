@@ -22,7 +22,7 @@ interface BuildingApiService {
     suspend fun getBuildings(): List<Building>
 
     @POST("buildings")
-    suspend fun createBuilding(@Body building: Building): List<Building>
+    suspend fun createBuilding(@Body building: Building): Building
 
     @POST("buildings/sample")
     suspend fun createBuildingSample(@Body building: Building): PostResponse

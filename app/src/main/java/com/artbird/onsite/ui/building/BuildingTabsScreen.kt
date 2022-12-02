@@ -65,32 +65,32 @@ fun Area1Page(navController: NavController, floors: List<Floor>) {
 //        }
 
 
-        Column() {
-            AccordionList<Floor>(
-                floors,
-                selectedIndex = selectedIndex,
-                expandedList = expandedList,
-                itemContent = { it, index, selectedIndex, expanded ->
-                    fun handleView(id: String){
-                        navController.navigate("rooms/${id}/windows")
-                    }
-
-                    fun handleAdd(id: String){
-                    }
-
-                    fun handleEdit(id: String){
-                    }
-
-                    fun handleDelete(id: String){
-                    }
-                     RoomList(it.rooms, ::handleAdd, ::handleEdit, ::handleDelete, ::handleView)
-
-                              },
-                onClick = ::handleSelect,
-                onGetTitle = ::getFloorLabel,
-            )
-
-        }
+//        Column() {
+//            AccordionList<Floor>(
+//                floors,
+//                selectedIndex = selectedIndex,
+//                expandedList = expandedList,
+//                itemContent = { it, index, selectedIndex, expanded ->
+//                    fun handleView(id: String){
+//                        navController.navigate("rooms/${id}/windows")
+//                    }
+//
+//                    fun handleAdd(id: String){
+//                    }
+//
+//                    fun handleEdit(id: String){
+//                    }
+//
+//                    fun handleDelete(id: String){
+//                    }
+//                     RoomList(it.rooms, ::handleAdd, ::handleEdit, ::handleDelete, ::handleView)
+//
+//                              },
+//                onClick = ::handleSelect,
+//                onGetTitle = ::getFloorLabel,
+//            )
+//
+//        }
 }
 
 

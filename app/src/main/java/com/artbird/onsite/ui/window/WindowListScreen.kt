@@ -27,26 +27,28 @@ fun WindowListScreen(navController: NavController,
         }
     }
 
+    fun handleView(id: String) {
+        navController.navigate("windows/${id}")
+    }
+
+    fun handleAdd(id: String) {
+        navController.navigate("windows/${id}")
+    }
+
+    fun handleEdit(id: String) {
+        navController.navigate("windows/${id}")
+    }
+
+    fun handleDelete(id: String) {
+        navController.navigate("windows/${id}")
+    }
+
     Column() {
-        fun handleView(id: String) {
-            navController.navigate("windows/${id}")
-        }
 
-        fun handleAdd(id: String) {
-            navController.navigate("windows/${id}")
-        }
 
-        fun handleEdit(id: String) {
-            navController.navigate("windows/${id}")
-        }
-
-        fun handleDelete(id: String) {
-            navController.navigate("windows/${id}")
-        }
-
-        if (windows.isNotEmpty()) {
-            WindowList(windows, ::handleAdd, ::handleEdit, ::handleDelete, ::handleView)
-        }
+//        if (windows.isNotEmpty()) {
+//            WindowList(windows, ::handleAdd, ::handleEdit, ::handleDelete, ::handleView)
+//        }
 
         Button(
             shape = MaterialTheme.shapes.medium,

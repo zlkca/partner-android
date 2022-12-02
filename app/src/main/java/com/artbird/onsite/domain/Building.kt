@@ -7,10 +7,9 @@ data class BaseEntity(
 )
 
 data class Room(
-    var _id: String,
-    var name: String,
-    var notes: String,
-//    var floor: BaseEntity,
+    var _id: String="",
+    var name: String="",
+    var notes: String="",
 )
 
 //data class RoomListItem(
@@ -21,11 +20,10 @@ data class Room(
 //)
 
 data class Floor(
-    var _id: String,
-    var name: String,
-    var notes: String,
-    var rooms: List<Room>,
-//    var building: BaseEntity,
+    var _id: String="",
+    var name: String="",
+    var notes: String="",
+    var rooms: List<Room> = listOf(),
 )
 
 data class Building(
@@ -33,7 +31,7 @@ data class Building(
     var name: String = "",
     var notes: String = "",
     var floors: List<Floor> = listOf(),
-    var appointment: BaseAppointment
+    var appointmentId: String = ""
 )
 
 // Api

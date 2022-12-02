@@ -29,8 +29,8 @@ fun BuildingListScreen(
     buildingViewModel: BuildingViewModel,
     appointment: Appointment2,
 ) {
-    val buildings by buildingViewModel.buildings.observeAsState()
-//    val status by buildingViewModel.buildingStatus.observeAsState()
+    val buildings by buildingViewModel.buildings.observeAsState(listOf())
+    var selectedBuilding by buildingViewModel.selectedBuilding
 
     var dialogOpened by remember { mutableStateOf(false) }
     var selectedBuildingIndex by remember { mutableStateOf(0) }
@@ -74,7 +74,7 @@ fun BuildingListScreen(
             Building("",
                 "New Address",
                 "New building",
-                appointment = BaseAppointment(appointment._id, appointment?.title!!),
+                appointmentId = appointment._id,
                 floors = listOf(
                     Floor("", "First Floor", "", rooms = listOf(
                         Room("", "Living Room", ""),
@@ -143,12 +143,13 @@ fun BuildingListScreen(
         }
     }else {
         BuildingList(
-            rememberNavController(),
+            navController,
             buildings!!,
             selectedIndex = selectedBuildingIndex,
             onSelect = { index ->
                 selectedBuildingIndex = index
                 val building = buildings!![index]
+                selectedBuilding = building
                 navController.navigate("buildings/${building._id}")
             }
         )

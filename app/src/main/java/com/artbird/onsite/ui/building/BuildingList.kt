@@ -72,8 +72,9 @@ fun BuildingList(
 @Preview(showBackground = true)
 @Composable
 fun PreviewBuildingList(){
+//    var buildings = listOf<Building>()
     val buildings = listOf<Building>(
-        Building(_id="1", name="Main House", notes="Two stories with walkout basement", appointment = BaseAppointment(),
+        Building(_id="1", name="Main House", notes="Two stories with walkout basement", appointmentId = "1",
             floors = listOf(
                         Floor("", "First Floor", "", rooms = listOf(
                             Room("", "Living Room", ""),
@@ -91,7 +92,7 @@ fun PreviewBuildingList(){
                         )),
             ),
         ),
-        Building(_id="1", name="Garage", notes="one story garage", appointment = BaseAppointment(),
+        Building(_id="1", name="Garage", notes="one story garage", appointmentId = "2",
             floors = listOf(
                 Floor("", "First Floor", "", rooms = listOf(
                     Room("", "Garage 1", ""),
