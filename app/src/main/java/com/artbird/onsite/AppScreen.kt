@@ -315,7 +315,8 @@ fun NaviRoute(
                 navArgument("roomId") {
                     type = NavType.StringType
                 },
-            ))
+            )
+        )
         {
             RoomDetailsScreen(
                 navController,
@@ -327,7 +328,7 @@ fun NaviRoute(
             )
         }
 
-        composable(route = "buildings/{buildingId}/floors/{floorId}/rooms/{id}/form",
+        composable(route = "buildings/{buildingId}/floors/{floorId}/rooms/{roomId}/form",
             arguments = listOf(
                 navArgument("buildingId") {
                     type = NavType.StringType
@@ -335,7 +336,7 @@ fun NaviRoute(
                 navArgument("floorId") {
                     type = NavType.StringType
                 },
-                navArgument("id") {
+                navArgument("roomId") {
                     type = NavType.StringType
                 },
             ))
@@ -345,7 +346,7 @@ fun NaviRoute(
                 buildingViewModel,
                 buildingId = it.arguments?.getString("buildingId")!!,
                 floorId = it.arguments?.getString("floorId")!!,
-                roomId = it.arguments?.getString("id")!!,
+                roomId = it.arguments?.getString("roomId")!!,
             )
         }
 

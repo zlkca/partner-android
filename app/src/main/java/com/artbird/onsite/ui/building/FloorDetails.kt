@@ -2,6 +2,7 @@ package com.artbird.onsite.ui.building
 
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -29,6 +30,9 @@ fun FloorDetails(
     navController: NavController,
     building: Building,
     floor: Floor,
+    onSelectRoom: (room: Room) -> Unit = { room: Room -> },
+    onBack: () -> Unit = {},
+    onEdit: () -> Unit = {},
 ){
     var rooms = floor.rooms; // : List<Floor> by remember { mutableStateOf(arrayListOf()) }
     var selectedFloorIndex by remember { mutableStateOf(0) }
@@ -39,8 +43,8 @@ fun FloorDetails(
     ) {
         if(floor!=null) {
             DetailsViewActionBar(
-                onBack = { navController.navigate("floors") },
-                onEdit = { navController.navigate("floors/${floor._id}/form") },
+                onBack = onBack,
+                onEdit = onEdit,
             )
             Body1(text = building!!.name)
             Body1(text = "${floor!!.name}")
@@ -68,8 +72,14 @@ fun FloorDetails(
             RoomList(
                 rooms!!,
                 selectedIndex = selectedFloorIndex,
+                onSelect = { index ->
+                    if(rooms != null && rooms.isNotEmpty()){
+                        onSelectRoom(rooms[index]);
+                    }
+                },
                 onAddSample = {},
                 onAddRoom = {
+                    Log.d("zlk", "Add Room Screen buildings/${building._id}/floors/${floor._id}/rooms/new/form")
                     navController.navigate("buildings/${building._id}/floors/${floor._id}/rooms/new/form")
                 }
             )

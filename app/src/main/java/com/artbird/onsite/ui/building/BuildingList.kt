@@ -37,9 +37,9 @@ fun BuildingListItem(item: Building, selected: Boolean, index:Int){
 
 @Composable
 fun BuildingList(
-    navController: NavController,
     buildings: List<Building>,
     onSelect: (index: Int) -> Unit = { i: Int -> },
+    onAdd: ()-> Unit ={},
     onAddSample: ()-> Unit = {},
     selectedIndex: Int,
 ){
@@ -48,7 +48,7 @@ fun BuildingList(
             .padding(8.dp)
     ) {
         ListActionBar(items = listOf(
-            ActionChip("Building", onClick = { navController.navigate("buildings/new/form") }),
+            ActionChip("Building", onClick = onAdd),
             ActionChip("Sample Building", onClick = onAddSample)
         ))
 
@@ -106,7 +106,6 @@ fun PreviewBuildingList(){
 
     SLTheme {
         BuildingList(
-            rememberNavController(),
             buildings,
             selectedIndex = 1
         )

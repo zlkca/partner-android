@@ -143,7 +143,6 @@ fun BuildingListScreen(
         }
     }else {
         BuildingList(
-            navController,
             buildings!!,
             selectedIndex = selectedBuildingIndex,
             onSelect = { index ->
@@ -151,7 +150,8 @@ fun BuildingListScreen(
                 val building = buildings!![index]
                 selectedBuilding = building
                 navController.navigate("buildings/${building._id}")
-            }
+            },
+            onAdd = { navController.navigate("buildings/new/form") }
         )
 //        Column(
 //            modifier = Modifier

@@ -42,6 +42,7 @@ fun ImperialLengthInput(
                 onChange(ImparialLength(len.inches, it))
                             },
             label = "Remains",
+            trailingIcon = { Text("/16")},
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp)

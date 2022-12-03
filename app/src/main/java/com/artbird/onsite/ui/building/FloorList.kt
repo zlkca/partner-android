@@ -38,10 +38,10 @@ fun FloorListItem(item: Floor, selected: Boolean, index:Int){
 
 @Composable
 fun FloorList(
-    navController: NavController,
     buildingId: String,
     floors: List<Floor>,
     onSelect: (index: Int) -> Unit = { i: Int -> },
+    onAdd: ()-> Unit = {},
     onAddSample: ()-> Unit = {},
     selectedIndex: Int,
 ){
@@ -50,7 +50,7 @@ fun FloorList(
             .padding(8.dp)
     ) {
         ListActionBar(items = listOf(
-            ActionChip("Floor", onClick = { navController.navigate("buildings/${buildingId}/floors/new/form") }),
+            ActionChip("Floor", onClick = onAdd),
             ActionChip("Sample Floor", onClick = onAddSample)
         ))
 
@@ -99,7 +99,6 @@ fun PreviewFloorList(){
 
     SLTheme {
         FloorList(
-            rememberNavController(),
             buildingId,
             floors,
             selectedIndex = 1

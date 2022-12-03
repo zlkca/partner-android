@@ -7,25 +7,33 @@ package com.artbird.onsite.domain
 //    var notes: String,
 //)
 
+
+
 data class WindowWidth(
-    var top: Int, // 1/16 inches, inch fragments
-    var mid: Int,
-    var bottom: Int,
+    var unit: String = "inch",
+    var top: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
+    var mid: String = "",
+    var bottom: String = "",
 )
+
 data class WindowHeight(
-    var left: Int, // 1/16 inches, inch fragments
-    var mid: Int,
-    var right: Int,
+    var unit: String = "inch",
+    var left: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
+    var mid: String = "",
+    var right: String = "",
 )
+
 data class BafflePosition(
-    var top: Int, // 1/16 inches, inch fragments
-    var bottom: Int,
+    var unit: String = "inch",
+    var top: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
+    var bottom: String = "",
 )
 data class LockerSize(
-    var top: Int, // 1/16 inches, inch fragments
-    var bottom: Int,
-    var left: Int,
-    var right: Int,
+    var unit: String = "inch",
+    var top: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
+    var bottom: String = "",
+    var left: String = "",
+    var right: String = "",
 )
 data class LockerPosition(
     var vertical: String,
@@ -38,24 +46,24 @@ data class Locker(
 )
 
 data class Window (
-    var _id: String? = null,
-    val name: String,
-    val notes: String,
-    val width: WindowWidth,
-    val height: WindowHeight,
+    var _id: String = "",
+    val name: String = "",
+    val notes: String = "",
+    val width: WindowWidth = WindowWidth(),
+    val height: WindowHeight = WindowHeight(),
     val type: String = "Normal",
-    val position: String,
-    var openingDirection: String,
-    var numOfWindows: Int,
-    var mountPosition: String,
-    val bafflePosition: BafflePosition,
-    val bladeSize: String,
-    val leverType: String,
+    val position: String = "L",
+    var openingDirection: String = "L",
+    var numOfWindows: Int = 0,
+    var mountPosition: String = "L",
+    val bafflePosition: BafflePosition = BafflePosition(),
+    val bladeSize: String = "",
+    val leverType: String = "",
     val frameStyle: String = "L Frame",
     val lockers: List<Locker> = listOf(),
     val originalFrameStyle: String = "Normal",
-    val room: BaseEntity,
-    val appointment: BaseAppointment,
+    val roomId: String = "",
+    val appointmentId: String = "",
 )
 
 data class ImparialLength(

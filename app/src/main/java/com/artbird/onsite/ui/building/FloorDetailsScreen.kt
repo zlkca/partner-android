@@ -1,5 +1,6 @@
 package com.artbird.onsite.ui.building
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -118,7 +119,16 @@ fun FloorDetailsScreen(
     FloorDetails(
         navController = navController,
         building = building,
-        floor = floor
+        floor = floor,
+        onSelectRoom = {
+            Log.d("zlk", "To Room details screen: buildings/${buildingId}/floors/${floorId}/rooms/${it._id}")
+            navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${it._id}")
+        },
+        onBack = {
+            Log.d("zlk","Back from Floor Details to Building details: buildings/${buildingId}/floors/${floorId}")
+            navController.navigate("buildings/${buildingId}")
+        },
+        onEdit = { navController.navigate("buildings/${buildingId}/floors/${floor._id}/form") },
     )
 //    Column(
 //        modifier = Modifier.padding(8.dp)

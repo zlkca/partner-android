@@ -66,10 +66,10 @@ fun BuildingDetails(
 
 
             FloorList(
-                navController,
                 building._id,
                 floors!!,
                 selectedIndex = selectedFloorIndex,
+                onAdd = { navController.navigate("buildings/${building._id}/floors/new/form") },
                 onAddSample = {},
                 onSelect = { index ->
                     onSelectFloor(floors[index]);

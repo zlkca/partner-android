@@ -40,9 +40,9 @@ fun WindowListItem(item: Window, selected: Boolean, index:Int){
 
 @Composable
 fun WindowList(
-    navController: NavController,
     windows: List<Window>,
     onSelect: (index: Int) -> Unit = { i: Int -> },
+    onAdd: ()-> Unit = {},
     onAddSample: ()-> Unit = {},
     selectedIndex: Int,
 ){
@@ -51,7 +51,7 @@ fun WindowList(
             .padding(8.dp)
     ) {
         ListActionBar(items = listOf(
-            ActionChip("Window", onClick = { navController.navigate("windows/new/form") }),
+            ActionChip("Window", onClick = onAdd),
             ActionChip("Sample Window", onClick = onAddSample)
         ))
 
@@ -183,7 +183,6 @@ fun PreviewWindowList(){
     )
     SLTheme {
         WindowList(
-            rememberNavController(),
             windows,
             selectedIndex = 1
         )

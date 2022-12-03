@@ -78,6 +78,7 @@ fun NumberInput(
 //    keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    trailingIcon: @Composable () -> Unit = {}
     ){
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -107,6 +108,7 @@ fun NumberInput(
         ),
         maxLines = maxLines,
         interactionSource = interactionSource,
+        trailingIcon = trailingIcon,
     )
 }
 
