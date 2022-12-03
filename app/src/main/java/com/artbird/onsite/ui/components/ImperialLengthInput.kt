@@ -35,17 +35,19 @@ fun ImperialLengthInput(
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp)
+//                .width(120.dp)
         )
         NumberInput(
             value = len.leftover,
             onValueChange = {
                 onChange(ImparialLength(len.inches, it))
                             },
-            label = "Remains",
+            label = "And",
             trailingIcon = { Text("/16")},
             modifier = Modifier
-                .weight(1f)
+//                .weight(1f)
                 .padding(end = 8.dp)
+                .width(110.dp)
         )
     }
 }
@@ -53,26 +55,26 @@ fun ImperialLengthInput(
 @Preview(showBackground = true)
 @Composable
 fun PreviewImperialLengthInput(){
-    var len by remember { mutableStateOf(ImparialLength("23", "17")) }
+    var len by remember { mutableStateOf(ImparialLength("23", "11")) }
 
     fun handleChange(l: ImparialLength){
         len.inches = l.inches
         len.leftover = l.leftover
     }
     Column() {
-        Row(){
-            ImperialLengthInput("Left", len, ::handleChange,
-                modifier = Modifier.weight(1f).padding(end = 8.dp))
-            ImperialLengthInput("Right", len, ::handleChange,
-                modifier = Modifier.weight(1f).padding(start = 8.dp))
-        }
-
-        Row(){
-            ImperialLengthInput("Top", len, ::handleChange,
-                modifier = Modifier.weight(1f).padding(end = 8.dp))
-            ImperialLengthInput("Bottom", len, ::handleChange,
-                modifier = Modifier.weight(1f).padding(end = 8.dp))
-        }
+//        Row(){
+//            ImperialLengthInput("Left", len, ::handleChange,
+//                modifier = Modifier.weight(1f).padding(end = 8.dp))
+//            ImperialLengthInput("Right", len, ::handleChange,
+//                modifier = Modifier.weight(1f).padding(start = 8.dp))
+//        }
+//
+//        Row(){
+//            ImperialLengthInput("Top", len, ::handleChange,
+//                modifier = Modifier.weight(1f).padding(end = 8.dp))
+//            ImperialLengthInput("Bottom", len, ::handleChange,
+//                modifier = Modifier.weight(1f).padding(end = 8.dp))
+//        }
 
             ImperialLengthInput("Left", len, ::handleChange)
             ImperialLengthInput("Right", len, ::handleChange)

@@ -147,38 +147,38 @@ fun WindowList(
 fun PreviewWindowList(){
     val windows = listOf(
         Window("", "Window 1", "",
-            WindowWidth(0, 0, 0),
-            WindowHeight(0,0,0),
+            WindowWidth(),
+            WindowHeight(),
             type ="Normal",
             "L",
             "L",
             1,
             mountPosition = "Inside",
-            BafflePosition(0,0),
+            BafflePosition(),
             "",
             "",
             frameStyle = "L Frame",
             originalFrameStyle = "Normal",
             lockers = listOf<Locker>(),
-            room = BaseEntity("", ""),
-            appointment = BaseAppointment("", "title")
+//            room = BaseEntity("", ""),
+//            appointment = BaseAppointment("", "title")
         ),
         Window("", "Window 2", "",
-            WindowWidth(0, 0, 0),
-            WindowHeight(0,0,0),
+            WindowWidth(),
+            WindowHeight(),
             "Normal",
             "L",
             "L",
             1,
             mountPosition = "Inside",
-            BafflePosition(0,0),
+            BafflePosition(),
             "",
             "",
             frameStyle = "L Frame",
             originalFrameStyle = "Normal",
             lockers = listOf<Locker>(),
-            room = BaseEntity("", ""),
-            appointment = BaseAppointment("", "title")
+//            room = BaseEntity("", ""),
+//            appointment = BaseAppointment("", "title")
         ),
     )
     SLTheme {

@@ -59,16 +59,16 @@ fun LockerForm(
             )
         }
 
-        var left = toImparialLength(locker.size.left)
-        ImperialLengthInput("Left", left, {
-                it -> onSizeChange("left", it)}
-        )
-        var right = toImparialLength(locker.size.right)
-        ImperialLengthInput("Right", right, {it-> onSizeChange("right", it)})
-        var top = toImparialLength(locker.size.top)
-        ImperialLengthInput("Top", top, {it -> onSizeChange("top", it)})
-        var bottom = toImparialLength(locker.size.bottom)
-        ImperialLengthInput("Bottom", bottom, {it -> onSizeChange("bottom", it)})
+//        var left = toImparialLength(locker.size.left)
+//        ImperialLengthInput("Left", left, {
+//                it -> onSizeChange("left", it)}
+//        )
+//        var right = toImparialLength(locker.size.right)
+//        ImperialLengthInput("Right", right, {it-> onSizeChange("right", it)})
+//        var top = toImparialLength(locker.size.top)
+//        ImperialLengthInput("Top", top, {it -> onSizeChange("top", it)})
+//        var bottom = toImparialLength(locker.size.bottom)
+//        ImperialLengthInput("Bottom", bottom, {it -> onSizeChange("bottom", it)})
     }
 }
 

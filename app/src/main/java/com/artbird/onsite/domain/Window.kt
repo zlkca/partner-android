@@ -42,7 +42,7 @@ data class LockerPosition(
 data class Locker(
     var id: String = "",
     var position: LockerPosition = LockerPosition("LM", "RB"),
-    var size: LockerSize = LockerSize(0,0,0,0)
+    var size: LockerSize = LockerSize()
 )
 
 data class Window (

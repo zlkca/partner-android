@@ -153,14 +153,14 @@ fun WindowFormScreen(
             name = window?.name.toString()
             notes = window?.notes.toString()
             width = UIWindowWidth(
-                top =toImparialLength(window?.width!!.top),
-                mid =toImparialLength(window?.width!!.mid),
-                bottom =toImparialLength(window?.width!!.bottom),
+//                top =toImparialLength(window?.width!!.top),
+//                mid =toImparialLength(window?.width!!.mid),
+//                bottom =toImparialLength(window?.width!!.bottom),
             )
             height = UIWindowHeight(
-                left =toImparialLength(window?.height!!.left),
-                mid =toImparialLength(window?.height!!.mid),
-                right =toImparialLength(window?.height!!.right),
+//                left =toImparialLength(window?.height!!.left),
+//                mid =toImparialLength(window?.height!!.mid),
+//                right =toImparialLength(window?.height!!.right),
             )
             numOfWindows = intToString(window?.numOfWindows!!)
             type = window?.type !!
@@ -170,8 +170,8 @@ fun WindowFormScreen(
             bladeSize = window?.bladeSize !!
             leverType = window?.leverType !!
             bafflePosition = UIBafflePosition(
-                toImparialLength(window?.bafflePosition!!.top),
-                toImparialLength(window?.bafflePosition!!.bottom),
+//                toImparialLength(window?.bafflePosition!!.top),
+//                toImparialLength(window?.bafflePosition!!.bottom),
             )
             originalFrameStyle = window?.originalFrameStyle!!
             frameStyle = window?.frameStyle!!
@@ -185,9 +185,9 @@ fun WindowFormScreen(
     fun getValidLockers(): ArrayList<Locker> {
         val locks = ArrayList<Locker>();
         lockers.forEach {
-            if (it.size.top != 0 && it.size.left != 0 && it.size.bottom != 0 && it.size.right != 0 ) {
-                locks.add(it)
-            }
+//            if (it.size.top != 0 && it.size.left != 0 && it.size.bottom != 0 && it.size.right != 0 ) {
+//                locks.add(it)
+//            }
         }
         return locks;
     }
@@ -196,25 +196,25 @@ fun WindowFormScreen(
         val data = Window(
             name = name,
             notes = notes,
-            height = WindowHeight(
-                toInchFragments(height.left),
-                toInchFragments(height.mid),
-                toInchFragments(height.right),
-            ),
-            width = WindowWidth(
-                toInchFragments(width.top),
-                toInchFragments(width.mid),
-                toInchFragments(width.bottom)
-            ),
-            type = type,
-            position = position,
-            openingDirection = openingDirection,
-            numOfWindows = convertToInt(numOfWindows),
-            mountPosition = mountPosition,
-            bafflePosition = BafflePosition(
-                toInchFragments(bafflePosition.top),
-                toInchFragments(bafflePosition.bottom)
-            ),
+//            height = WindowHeight(
+//                toInchFragments(height.left),
+//                toInchFragments(height.mid),
+//                toInchFragments(height.right),
+//            ),
+//            width = WindowWidth(
+//                toInchFragments(width.top),
+//                toInchFragments(width.mid),
+//                toInchFragments(width.bottom)
+//            ),
+//            type = type,
+//            position = position,
+//            openingDirection = openingDirection,
+//            numOfWindows = convertToInt(numOfWindows),
+//            mountPosition = mountPosition,
+//            bafflePosition = BafflePosition(
+//                toInchFragments(bafflePosition.top),
+//                toInchFragments(bafflePosition.bottom)
+//            ),
             bladeSize = bladeSize,
             leverType = leverType,
             frameStyle = frameStyle,
@@ -270,7 +270,7 @@ fun WindowFormScreen(
                             Locker(
                                 id = it.id,
                                 it.position,
-                                LockerSize(it.size.top, it.size.bottom, toInchFragments(len), it.size.right)
+//                                LockerSize(it.size.top, it.size.bottom, toInchFragments(len), it.size.right)
                             )
                         )
                     }
@@ -279,7 +279,7 @@ fun WindowFormScreen(
                             Locker(
                                 id = it.id,
                                 it.position,
-                                LockerSize(it.size.top, it.size.bottom, it.size.left, toInchFragments(len))
+//                                LockerSize(it.size.top, it.size.bottom, it.size.left, toInchFragments(len))
                             )
                         )
                     }
@@ -288,7 +288,7 @@ fun WindowFormScreen(
                             Locker(
                                 id = it.id,
                                 it.position,
-                                LockerSize(toInchFragments(len), it.size.bottom, it.size.left, it.size.right)
+//                                LockerSize(toInchFragments(len), it.size.bottom, it.size.left, it.size.right)
                             )
                         )
                     }
@@ -297,7 +297,7 @@ fun WindowFormScreen(
                             Locker(
                                 id = it.id,
                                 it.position,
-                                LockerSize(it.size.top, toInchFragments(len), it.size.left, it.size.right)
+//                                LockerSize(it.size.top, toInchFragments(len), it.size.left, it.size.right)
                             )
                         )
                     }
