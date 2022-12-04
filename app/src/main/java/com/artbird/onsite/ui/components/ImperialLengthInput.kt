@@ -14,41 +14,48 @@ fun ImperialLengthInput(
     len: ImparialLength,
     onChange: (len: ImparialLength) -> Unit,
     modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 8.dp, bottom= 8.dp)
+        .width(200.dp)
+//        .fillMaxWidth()
+//        .padding(top = 8.dp, bottom= 8.dp)
 ){
-    Row(
-        modifier = modifier
-    ) {
-        Text(text = label,
-            modifier = Modifier
-                .padding(start = 8.dp, top = 8.dp, bottom = 0.dp, end = 8.dp)
-                .width(60.dp)
-        )
+    Column(modifier=Modifier.width(200.dp)) {
+        Row(modifier=Modifier.width(200.dp)){
+            Label2(text = label,
+//            modifier = Modifier
+//                .padding(start = 8.dp, top = 8.dp, bottom = 0.dp, end = 8.dp)
+//                .width(60.dp)
+            )
+        }
 
-        NumberInput(
-            value = len.inches,
-            onValueChange = {
-                onChange(ImparialLength(it, len.leftover))
-                            },
-            label = "Inches",
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp)
-//                .width(120.dp)
-        )
-        NumberInput(
-            value = len.leftover,
-            onValueChange = {
-                onChange(ImparialLength(len.inches, it))
-                            },
-            label = "And",
-            trailingIcon = { Text("/16")},
-            modifier = Modifier
-//                .weight(1f)
-                .padding(end = 8.dp)
-                .width(110.dp)
-        )
+        Row(
+            modifier = modifier.width(200.dp)
+        ) {
+
+            NumberInput(
+                value = len.inches,
+                onValueChange = {
+                    onChange(ImparialLength(it, len.leftover))
+                                },
+    //            label = "Inches",
+                trailingIcon = { Text("in")},
+                modifier = Modifier
+    //                .weight(1f)
+                    .padding(end = 8.dp)
+                    .width(100.dp)
+            )
+            NumberInput(
+                value = len.leftover,
+                onValueChange = {
+                    onChange(ImparialLength(len.inches, it))
+                                },
+    //            label = "And",
+                trailingIcon = { Text("/16")},
+                modifier = Modifier
+    //                .weight(1f)
+                    .padding(end = 8.dp)
+                    .width(80.dp)
+            )
+        }
     }
 }
 

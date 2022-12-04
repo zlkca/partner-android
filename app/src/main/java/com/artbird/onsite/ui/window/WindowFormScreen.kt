@@ -322,6 +322,6 @@ fun WindowFormScreen(
             }
         },
         onSave = ::handleSubmit
-        )
+    )
 }
 

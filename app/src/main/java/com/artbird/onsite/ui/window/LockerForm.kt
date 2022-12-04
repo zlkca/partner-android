@@ -21,18 +21,7 @@ fun toInchString( value: Int): String {
         return "${inches}\" ${leftover}/16"
     }
 }
-// val --- 1 / 16 inches
-fun toImparialLength( value: Int): ImparialLength {
-    val inches = value / 12
-    val leftover = value % 12
-    return ImparialLength(inches.toString(), leftover.toString())
-}
 
-// return 1/16 inches
-fun toInchFragments(len: ImparialLength): Int {
-    val t = len.inches.toInt() * 12;
-    return t + len.leftover.toInt();
-}
 
 @Composable
 fun LockerForm(

@@ -1,6 +1,7 @@
 package com.artbird.onsite.ui.utils
 
 import com.artbird.onsite.domain.Address
+import com.artbird.onsite.domain.ImparialLength
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -93,3 +94,34 @@ fun getCurrentDateString(): String? {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return dateTime.format(formatter)
 }
+
+fun toImparialLength(s: String): ImparialLength {
+    return if(s.isNotEmpty()){
+        val a = s.split("in")
+        ImparialLength(a[0], a[1])
+    }else{
+        ImparialLength()
+    }
+}
+
+// convert to "12in13" or "", or "12in" or "in13"
+fun toImparialLengthString(v: ImparialLength):  String{
+    return if(v.inches.isEmpty() && v.leftover.isEmpty()){
+        ""
+    }else{
+        "${v.inches}in${v.leftover}"
+    }
+}
+
+//// val --- 1 / 16 inches
+//fun toImparialLength( value: Int): ImparialLength {
+//    val inches = value / 12
+//    val leftover = value % 12
+//    return ImparialLength(inches.toString(), leftover.toString())
+//}
+//
+//// return 1/16 inches
+//fun toInchFragments(len: ImparialLength): Int {
+//    val t = len.inches.toInt() * 12;
+//    return t + len.leftover.toInt();
+//}

@@ -67,7 +67,7 @@ fun Input(
 fun NumberInput(
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    label: String,
+    label: String = "",
     placeholder: String = "",
     value: String,
     onValueChange: (String)->Unit,
@@ -89,7 +89,7 @@ fun NumberInput(
         readOnly = readOnly,
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = label) },
+        label = { if(label.isNotEmpty()) Text(text = label) },
         singleLine = singleLine,
         placeholder = { Text(placeholder) },
         modifier = modifier,

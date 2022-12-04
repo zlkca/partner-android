@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.Window
@@ -24,6 +23,27 @@ fun WindowForm(
     onSave: ()-> Unit = {},
     onCancel: ()-> Unit = {}
 ){
+    var nWindows: Int by remember { mutableStateOf(1) }
+
+    Row(
+        horizontalArrangement = Arrangement.End
+    ) {
+        Column(modifier = Modifier.weight(1F)) {
+            WindowCanvas(
+                numOfWindows = nWindows,
+            )
+        }
+
+        WindowOptions(
+            numOfWindows = nWindows,
+            onChange = {name, v ->
+                when(name){
+                    "numOfWindows" -> nWindows = v.toInt()
+                }
+            }
+        )
+    }
+
 //    val verticalScrollState = rememberScrollState()
 //    var width by remember { mutableStateOf(UIWindowWidth()) }
 //    var height by remember { mutableStateOf(UIWindowHeight()) }
@@ -199,7 +219,9 @@ fun WindowForm(
 
 @Preview(
     name="Light Mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    device = Devices.AUTOMOTIVE_1024p,
+    widthDp = 2560, heightDp = 1600
 )
 @Preview(showBackground = true)
 @Composable

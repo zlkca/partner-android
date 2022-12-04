@@ -21,6 +21,15 @@ fun Title2(text: String, color: Color =colorScheme.onBackground){
 }
 
 @Composable
+fun Label2(text: String){
+    Text(
+        text = text,
+        color = colorScheme.onBackground,
+        style = typography.labelMedium
+    )
+}
+
+@Composable
 fun Label3(text: String){
     Text(
         text = text,

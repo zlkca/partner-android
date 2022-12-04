@@ -67,8 +67,8 @@ data class Window (
 )
 
 data class ImparialLength(
-    var inches: String,
-    var leftover: String,
+    var inches: String = "",
+    var leftover: String = "",
 )
 
 data class UIWindowWidth(
