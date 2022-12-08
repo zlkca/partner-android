@@ -1,12 +1,14 @@
 package com.artbird.onsite.ui.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.ImparialLength
+import com.artbird.onsite.ui.theme.typography
 
 @Composable
 fun ImperialLengthInput(
@@ -20,11 +22,7 @@ fun ImperialLengthInput(
 ){
     Column(modifier=Modifier.width(200.dp)) {
         Row(modifier=Modifier.width(200.dp)){
-            Label2(text = label,
-//            modifier = Modifier
-//                .padding(start = 8.dp, top = 8.dp, bottom = 0.dp, end = 8.dp)
-//                .width(60.dp)
-            )
+            Label2(text = label)
         }
 
         Row(
@@ -32,12 +30,12 @@ fun ImperialLengthInput(
         ) {
 
             NumberInput(
+                textStyle = typography.bodySmall,
                 value = len.inches,
                 onValueChange = {
                     onChange(ImparialLength(it, len.leftover))
-                                },
-    //            label = "Inches",
-                trailingIcon = { Text("in")},
+                },
+                trailingIcon = { Label2("in")},
                 modifier = Modifier
     //                .weight(1f)
                     .padding(end = 8.dp)
@@ -47,9 +45,8 @@ fun ImperialLengthInput(
                 value = len.leftover,
                 onValueChange = {
                     onChange(ImparialLength(len.inches, it))
-                                },
-    //            label = "And",
-                trailingIcon = { Text("/16")},
+                },
+                trailingIcon = { Label2("/16")},
                 modifier = Modifier
     //                .weight(1f)
                     .padding(end = 8.dp)

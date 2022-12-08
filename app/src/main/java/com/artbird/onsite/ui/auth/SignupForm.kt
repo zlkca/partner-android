@@ -2,6 +2,7 @@ package com.artbird.onsite.ui.auth
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -10,9 +11,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artbird.onsite.R
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme
 
@@ -36,8 +39,18 @@ fun SignupForm(
         verticalArrangement = Arrangement.Top,
     ) {
 
+
+
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
+            Image(painterResource(R.drawable.logo_256),"Logo")
+        }
+
         Box(
-            modifier = Modifier.padding(top=30.dp, bottom = 30.dp)
+            modifier = Modifier.padding(top=15.dp, bottom = 15.dp)
         )
 
         Input(
@@ -109,7 +122,7 @@ fun SignupForm(
             )
         }
 
-        Text(
+        Body2(
             color = MaterialTheme.colorScheme.onBackground,
             text = "Already have an account? Sign in now",
             modifier = Modifier

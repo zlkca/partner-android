@@ -7,7 +7,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.client.ClientDetails
 import com.artbird.onsite.ui.client.ProfileViewModel
@@ -25,30 +24,19 @@ fun ClientDetailsScreen(
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
     val projects by projectViewModel.projects.observeAsState()
 
-    var selectedIndex by remember { mutableStateOf(0) }
     var client by remember { mutableStateOf(Profile()) }
 
-//    LaunchedEffect(key1 = clientId) {
-//        if (clientId != null && clientId != "new") {
-//            profileViewModel.getProfileByAccountId(clientId)
-//            projectViewModel.getProjectsByClientId(clientId)
-//        }
-//    }
-
-//    LaunchedEffect(key1 = clientProfile){
-//        if(clientProfile != null) {
-//            client = clientProfile!!
-//        }
-//    }
-
-    fun getRecordLabel(item: Project, name: String): String {
-        return item.created
+    LaunchedEffect(key1 = clientId) {
+        if (clientId != null && clientId != "new") {
+            profileViewModel.getProfileByAccountId(clientId)
+            projectViewModel.getProjectsByClientId(clientId)
+        }
     }
 
-    fun handleSelectRecord(index: Int) {
-//        selectedIndex = index
-//        val record = projects!![index]
-//        navController.navigate("clients/${client.id}/projects/${record._id}")
+    LaunchedEffect(key1 = clientProfile){
+        if(clientProfile != null) {
+            client = clientProfile!!
+        }
     }
 
     Column(
@@ -61,7 +49,7 @@ fun ClientDetailsScreen(
         )
         ClientDetails(
             navController,
-            clientProfile!!,
+            client!!,
             projects!!
         )
 //        DetailsViewActionBar(

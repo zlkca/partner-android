@@ -18,17 +18,17 @@ fun BottomAppBar(roleName: String, onClick: (item: MenuItem) -> Unit){
         "sales" -> listOf(
             MenuItem("Client", "clients", Icons.Filled.Group),
             MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
+//            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
             MenuItem("Settings", "settings", Icons.Filled.Settings),
         )
         "technician" -> listOf(
             MenuItem("Client", "clients", Icons.Filled.Group),
             MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
+//            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
             MenuItem("Settings", "settings", Icons.Filled.Settings),
         )
         "partner" -> listOf(
-            MenuItem("Project", "projects", Icons.Filled.House),
+//            MenuItem("Project", "projects", Icons.Filled.House),
             MenuItem("Client", "clients", Icons.Filled.Group),
             MenuItem("Settings", "settings", Icons.Filled.Settings),
         )

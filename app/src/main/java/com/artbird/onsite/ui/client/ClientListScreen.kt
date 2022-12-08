@@ -55,7 +55,7 @@ fun ClientListScreen(
     ) {
 
         ListActionBar(items = listOf(
-            ActionChip("Client", onClick = {navController.navigate("profiles/new/form")}),
+            ActionChip("Client", onClick = {navController.navigate("clients/new/form")}),
         ))
 
         if (accounts != null && accounts?.isNotEmpty()!!) {

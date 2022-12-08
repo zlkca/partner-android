@@ -3,16 +3,20 @@ package com.artbird.onsite.ui.auth
 //import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artbird.onsite.R
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme
 
@@ -34,8 +38,15 @@ fun LoginForm(
         verticalArrangement = Arrangement.Top,
     ) {
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
+            Image(painterResource(R.drawable.logo_256),"Logo")
+        }
+
         Box(
-            modifier = Modifier.padding(top=30.dp, bottom = 30.dp)
+            modifier = Modifier.padding(top=15.dp, bottom = 15.dp)
         )
 
         Input(
@@ -44,7 +55,7 @@ fun LoginForm(
             label = "Email",
         )
 
-        if (error["email"] != "" ) {
+        if (error["email"] != null && error["email"] != "" ) {
             Text(
                 text = if(error["email"] == "Email not found") "Email not found" else "",
                 color = Color.Red,
@@ -60,23 +71,21 @@ fun LoginForm(
             visualTransformation = PasswordVisualTransformation(),
         )
 
-        if (error["password"] != "" ) {
-            Text(
+        if (error["password"] != null && error["password"] != "") {
+            Body2(
                 text = "Password not match",
-                color = Color.Red,
-//                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp)
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
 
-        Text(
+        Body3(
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier
-                .padding(top=20.dp, start=8.dp)
+                .padding(top=40.dp, start=8.dp)
                 .clickable(enabled = true) {
                     onPageChange("signup")
                 },
-            text = "Signup as partner"
+            text = "No Account yet?  Signup as partner"
         )
 
         Column(

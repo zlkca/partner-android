@@ -4,6 +4,7 @@ import com.artbird.onsite.ui.window.WindowList
 
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
@@ -56,6 +57,7 @@ fun RoomDetails(
             },
             onAddSample = {},
             onAdd = {
+                Log.d("zlk", "Create window: buildings/${building._id}/floors/${floor._id}/rooms/${room._id}/windows/new/form")
                 navController.navigate("buildings/${building._id}/floors/${floor._id}/rooms/${room._id}/windows/new/form")
             }
         )

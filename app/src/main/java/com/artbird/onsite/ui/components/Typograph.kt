@@ -48,20 +48,26 @@ fun Body1(text: String, color: Color= colorScheme.onBackground){
     )
 }
 @Composable
-fun Body2(text: String, color: Color= colorScheme.onBackground){
+fun Body2(text: String, color: Color= colorScheme.onBackground,
+          modifier: Modifier = Modifier.padding(bottom = 10.dp)
+){
     Text(
         text = text,
         color = color,
         style = typography.bodyMedium,
-        modifier = Modifier.padding(bottom = 10.dp)
+        modifier = modifier
     )
 }
 @Composable
-fun Body3(text: String, color: Color= colorScheme.onBackground){
+fun Body3(
+    text: String,
+    color: Color= colorScheme.onBackground,
+    modifier: Modifier = Modifier.padding(bottom = 10.dp)
+){
     Text(
         text = text,
         color = color,
         style = typography.bodySmall,
-        modifier = Modifier.padding(bottom = 10.dp)
+        modifier = modifier
     )
 }

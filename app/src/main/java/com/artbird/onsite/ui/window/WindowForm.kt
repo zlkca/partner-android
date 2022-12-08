@@ -23,7 +23,7 @@ fun WindowForm(
     onSave: ()-> Unit = {},
     onCancel: ()-> Unit = {}
 ){
-    var nWindows: Int by remember { mutableStateOf(1) }
+    var nWindows: Int by remember { mutableStateOf(0) }
 
     Row(
         horizontalArrangement = Arrangement.End
@@ -38,7 +38,7 @@ fun WindowForm(
             numOfWindows = nWindows,
             onChange = {name, v ->
                 when(name){
-                    "numOfWindows" -> nWindows = v.toInt()
+                    "numOfWindows" -> nWindows = if(v.isNotEmpty()) v.toInt() else 0
                 }
             }
         )

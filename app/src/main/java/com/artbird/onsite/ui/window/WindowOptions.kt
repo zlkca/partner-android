@@ -12,7 +12,7 @@ fun WindowOptions(
     numOfWindows: Int = 1,
     onChange: (name: String, v: String) -> Unit = { name, v -> }
 ){
-    Column(modifier = Modifier.width(500.dp)) {
+    Column(modifier = Modifier.width(300.dp)) {
         NumberInput(
             value = numOfWindows.toString(),
             onValueChange = { onChange("numOfWindows", it) },

@@ -25,7 +25,7 @@ interface RecordApiService {
 
     @GET("projects")
     suspend fun getProjectsByClientId(
-        @Query("client.id") clientId : String
+        @Query("clientId") clientId : String
     ): Response<List<Project>>
 
     @GET("projects")

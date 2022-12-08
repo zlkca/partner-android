@@ -45,6 +45,7 @@ import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.client.*
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
+import com.artbird.onsite.ui.window.WindowFormScreen
 
 data class MenuItem(val label: String, val path : String, val icon: ImageVector)
 
@@ -125,7 +126,7 @@ fun NaviRoute(
             )
         }
 
-        composable(route = "profiles/{id}/form",
+        composable(route = "clients/{id}/form",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.StringType
@@ -367,16 +368,16 @@ fun NaviRoute(
                 },
             ))
         {
-//            WindowFormScreen(
-//                navController,
-//                buildingViewModel,
-//                windowViewModel,
-////                appointment,
-//                buildingId = it.arguments?.getString("buildingId")!!,
-//                floorId = it.arguments?.getString("floorId")!!,
-//                roomId = it.arguments?.getString("roomId")!!,
-//                windowId = it.arguments?.getString("id")!!,
-//            )
+            WindowFormScreen(
+                navController,
+                buildingViewModel,
+                windowViewModel,
+                appointment = Appointment(),
+                buildingId = it.arguments?.getString("buildingId")!!,
+                floorId = it.arguments?.getString("floorId")!!,
+                roomId = it.arguments?.getString("roomId")!!,
+                windowId = it.arguments?.getString("id")!!,
+            )
         }
 
 
@@ -627,7 +628,7 @@ fun MyApp(
                               address = it
                             },
                             dir = dir, // LocalContext.current.filesDir,
-                            startDestination = "projects",
+                            startDestination = "clients",
                         )
 
                     }

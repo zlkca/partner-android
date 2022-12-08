@@ -26,7 +26,7 @@ fun ClientDetails(
     Column(
         modifier = Modifier.background(color= MaterialTheme.colorScheme.background)
     ){
-        Label3("ACCOUNT")
+//        Label3("ACCOUNT")
 
         Label3("USERNAME")
         Body1(account.username)
@@ -41,7 +41,7 @@ fun ClientDetails(
         Body1(account.status)
 
 
-        Label3("INFO")
+//        Label3("INFO")
 
         Label3("FIRSTNAME")
         Body1(profile.firstName)
@@ -61,7 +61,7 @@ fun ClientDetails(
                     selectedIndex,
                     onSelect = { index ->
                         val project = projects[index]
-                        navController.navigate("clients/${profile.id}/projects/${project._id}")
+                        navController.navigate("clients/${profile.account.id}/projects/${project._id}")
                     },
                     itemContent = { it, selected, index ->
                         ProjectListItem(item=it, selected=selected)

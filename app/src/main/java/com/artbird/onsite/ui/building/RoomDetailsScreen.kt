@@ -59,18 +59,18 @@ fun RoomDetailsScreen(
 //        DropdownMenuItem("edit", "Edit", Icons.Outlined.Edit, "Edit", ::handleEditWindow),
 //        DropdownMenuItem("delete", "Delete", Icons.Outlined.Delete, "Delete", ::handleDeleteWindow),
 //    )
-//    LaunchedEffect(key1 = buildingId){
-//        if(buildingId != null && buildingId != "new") {
-//            buildingViewModel.getBuilding(buildingId)
-//        }
-//    }
-//
-//    LaunchedEffect(key1 = building) {
-//        if (building != null && buildingId != "new") {
-//            floor = building!!.floors.find { it -> it._id == floorId}!!
-//            room = floor!!.rooms.find { it -> it._id == roomId}!!
-//        }
-//    }
+    LaunchedEffect(key1 = buildingId){
+        if(buildingId != null && buildingId != "new") {
+            buildingViewModel.getBuilding(buildingId)
+        }
+    }
+
+    LaunchedEffect(key1 = building) {
+        if (building != null && buildingId != "new") {
+            floor = building!!.floors.find { it -> it._id == floorId}!!
+            room = floor!!.rooms.find { it -> it._id == roomId}!!
+        }
+    }
 //
 //    LaunchedEffect(key1 = roomId){
 //        if(roomId != null && roomId != "new") {

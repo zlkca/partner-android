@@ -1,9 +1,11 @@
 package com.artbird.onsite
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.LocalConfiguration
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressViewModel
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
@@ -74,19 +76,39 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         setContent {
             SLTheme() {
-                MyApp(
-                    accountViewModel,
-                    authViewModel,
-                    addressViewModel,
-                    roleViewModel,
-                    clientViewModel,
-                    appointmentViewModel,
-                    windowViewModel,
-                    layoutViewModel,
-                    quoteViewModel,
-                    recordViewModel,
-                    getExternalDirectory()
-                )
+                val configuration = LocalConfiguration.current
+                when (configuration.orientation) {
+                    Configuration.ORIENTATION_LANDSCAPE -> {
+                        MyApp(
+                            accountViewModel,
+                            authViewModel,
+                            addressViewModel,
+                            roleViewModel,
+                            clientViewModel,
+                            appointmentViewModel,
+                            windowViewModel,
+                            layoutViewModel,
+                            quoteViewModel,
+                            recordViewModel,
+                            getExternalDirectory()
+                        )
+                    }
+                    else -> {
+                        MyApp(
+                            accountViewModel,
+                            authViewModel,
+                            addressViewModel,
+                            roleViewModel,
+                            clientViewModel,
+                            appointmentViewModel,
+                            windowViewModel,
+                            layoutViewModel,
+                            quoteViewModel,
+                            recordViewModel,
+                            getExternalDirectory()
+                        )
+                    }
+            }
             }
 //            val pdfDir = getDirectory()
 //            PdfScreen(LocalContext.current, "myQuote", pdfDir, QuotePdfPage());

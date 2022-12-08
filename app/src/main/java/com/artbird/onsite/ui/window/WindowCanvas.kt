@@ -25,9 +25,9 @@ import com.artbird.onsite.domain.WindowWidth
 import com.artbird.onsite.ui.components.ImperialLengthInput
 import kotlin.math.roundToInt
 
-const val StandardWidth = 700
-const val StandardHeight = 1400
-const val MaxCanvasWidth = 1200.0F
+const val StandardWidth = 600
+const val StandardHeight = 900
+const val MaxCanvasWidth = 1400.0F
 const val LeftSideWidth = 240
 
 @Composable
@@ -86,7 +86,7 @@ fun WindowCanvas(
                 )
             }
             Row(modifier = Modifier
-                .width(totalWidth.toInt().dp)
+                .width(MaxCanvasWidth.toInt().dp)
             ) {
                 Canvas(modifier = Modifier.width(totalWidth.toInt().dp)) {
 //                val canvasWidth = size.width // size.width
@@ -138,7 +138,7 @@ fun PreviewWindowCanvas(){
 
     SLTheme {
         WindowCanvas(
-            numOfWindows = 2
+            numOfWindows = 1
         )
     }
 }

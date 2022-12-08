@@ -3,15 +3,16 @@ package com.artbird.onsite.ui.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,6 +68,7 @@ fun Input(
 fun NumberInput(
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    textStyle: TextStyle = LocalTextStyle.current,
     label: String = "",
     placeholder: String = "",
     value: String,
@@ -78,7 +80,7 @@ fun NumberInput(
 //    keyboardActions: KeyboardActions = KeyboardActions.Default,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    trailingIcon: @Composable () -> Unit = {}
+    trailingIcon: @Composable () -> Unit = {},
     ){
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -87,6 +89,7 @@ fun NumberInput(
     OutlinedTextField(
         enabled = enabled,
         readOnly = readOnly,
+        textStyle = textStyle,
         value = value,
         onValueChange = onValueChange,
         label = { if(label.isNotEmpty()) Text(text = label) },
@@ -111,6 +114,8 @@ fun NumberInput(
         trailingIcon = trailingIcon,
     )
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

@@ -62,7 +62,6 @@ fun ClientForm(
             onValueChange = { onChange("email", it) },
             label = "Email",
         )
-
         if (error["email"] != "" ) {
             Text(
                 text = if(error["email"] == "Email not found") "Email not found" else "",
@@ -71,7 +70,11 @@ fun ClientForm(
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
-
+        Input(
+            value = account.username,
+            onValueChange = { onChange("username", it) },
+            label = "username",
+        )
         Input(
             value = account.phone,
             onValueChange = { onChange("phone", it) },

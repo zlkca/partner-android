@@ -34,11 +34,11 @@ fun ClientFormScreen(
 //
 //    var firstName by remember { mutableStateOf("") }
 
-//    LaunchedEffect(key1 = clientId) {
-//        if (clientId != null && clientId != "new") {
-//            profileViewModel.getProfileByAccountId(clientId)
-//        }
-//    }
+    LaunchedEffect(key1 = clientId) {
+        if (clientId != null && clientId != "new") {
+            profileViewModel.getProfileByAccountId(clientId)
+        }
+    }
 
     LaunchedEffect(key1 = clientProfile){
         if(clientProfile != null && clientId != "new") {
@@ -66,6 +66,7 @@ fun ClientFormScreen(
             firstName = client.firstName,
             lastName = client.lastName,
             account = Account(
+                username = client.account.username,
                 email = client.account.email,
                 phone = client.account.phone,
             ),
@@ -78,17 +79,20 @@ fun ClientFormScreen(
         }else {
             profileViewModel.updateClient(clientId, data)
 //            profileViewModel.getClientsByRecommenderId(recommender.id)
-            navController.navigate("clients/${clientProfile!!.id}")
+            navController.navigate("clients/${clientId}")
         }
     }
 
     fun handleChange(fieldName: String, value: String){
         when(fieldName){
             "email" -> {
-                client = client.copy(account = Account(email = value, phone=client.account.phone))
+                client = client.copy(account = client.account.copy(email = value))
+            }
+            "username" -> {
+                client = client.copy( account = client.account.copy(username=value))
             }
             "phone" -> {
-                client = client.copy( account = Account(email = client.account.email, phone=value))
+                client = client.copy( account = client.account.copy(phone=value))
             }
             "firstName" -> {
                 client = client.copy(firstName = value)

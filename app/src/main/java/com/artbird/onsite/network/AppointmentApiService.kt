@@ -8,8 +8,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 object APIConstant {
-    const val NONSQL_API_URL = "http://192.168.0.16:5001/"
-    const val RDB_API_URL = "http://192.168.0.16:5000/"
+    const val NONSQL_API_URL = "http://192.168.0.24:5001/"
+    const val RDB_API_URL = "http://192.168.0.24:5000/"
 //    const val GOOGLE_MAP_API_URL = "https://maps.googleapis.com/"
     const val LOCATIONIQ_API_URL = "https://api.locationiq.com/v1/"
 // "https://g5kncyxqmb.execute-api.us-east-1.amazonaws.com/dev/"
