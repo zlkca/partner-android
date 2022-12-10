@@ -45,6 +45,7 @@ import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.client.*
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
+import com.artbird.onsite.ui.settings.ChangePasswordScreen
 import com.artbird.onsite.ui.window.WindowFormScreen
 
 data class MenuItem(val label: String, val path : String, val icon: ImageVector)
@@ -53,6 +54,7 @@ data class MenuItem(val label: String, val path : String, val icon: ImageVector)
 fun NaviRoute(
     user: Account,
     address: String,
+    authViewModel: AuthViewModel,
     accountViewModel: AccountViewModel,
     navController: NavController,
     roleViewModel: RoleViewModel,
@@ -485,7 +487,11 @@ fun NaviRoute(
         }
 
         composable(route = "change-password") {
-//            ChangePasswordScreen(navController, authViewModel, user)
+            ChangePasswordScreen(
+                navController,
+                authViewModel,
+                user
+            )
         }
 
         composable(route = "projects") {
@@ -610,6 +616,7 @@ fun MyApp(
                             user = user!!,
                             address,
                             navController = navController,
+                            authViewModel = authViewModel,
                             accountViewModel = accountViewModel,
                             roleViewModel = roleViewModel,
                             appointmentViewModel = appointmentViewModel,
