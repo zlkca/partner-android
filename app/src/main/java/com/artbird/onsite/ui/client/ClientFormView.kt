@@ -29,7 +29,7 @@ fun ClientFormOld(
 ){
 //    val clientDetails by clientViewModel.clientDetails.observeAsState()
 
-    var accountDetails by remember { mutableStateOf(Account2()) }
+    var accountDetails by remember { mutableStateOf(Profile()) }
     var addressDetails by remember { mutableStateOf(Address()) }
 
 //    LaunchedEffect(key1 = clientId) {
@@ -54,10 +54,10 @@ fun ClientFormOld(
 
     LaunchedEffect(key1 = clientDetails){
         if(clientDetails != null && clientId != "new") {
-            firstName = clientDetails!!.firstName
-            username = clientDetails!!.account.username
-            email = clientDetails!!.account.email
-            phone = clientDetails!!.account.phone
+//            firstName = clientDetails!!.firstName
+//            username = clientDetails!!.account.username
+//            email = clientDetails!!.account.email
+//            phone = clientDetails!!.account.phone
 
 //            unitNumber = clientDetails!!.address.unitNumber
 //            streetNumber = clientDetails!!.address.streetNumber

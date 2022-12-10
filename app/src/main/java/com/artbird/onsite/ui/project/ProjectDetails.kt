@@ -21,7 +21,7 @@ fun ProjectDetails(project: Project){
         modifier = Modifier.background(color=MaterialTheme.colorScheme.background)
     ){
         Label3("CLIENT USERNAME")
-        Body1("${client.account.username}")
+        Body1("${client.username}")
 
         Label3("ADDRESS")
         if(project.address.streetName.isNotEmpty()){
@@ -43,7 +43,7 @@ fun ProjectDetails(project: Project){
 @Composable
 fun PreviewProjectDetails(){
     val project = Project("1",
-        client = Profile("1", account = Account("1", "Jacky")),
+        client = Account("1", "Jacky"),
         address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         created = "2022-11-08",
         stages = listOf<Stage>(

@@ -5,14 +5,18 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.account.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientFormScreen(
     navController: NavController,
+    accountViewModel: AccountViewModel,
     profileViewModel: ProfileViewModel,
     clientId: String,
     recommender: Account,
+    role: Role,
+    onSetAccountEmail: (email: String) -> Unit = {email -> }
 ){
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
     var client by remember { mutableStateOf(Profile()) }
@@ -69,15 +73,22 @@ fun ClientFormScreen(
                 username = client.account.username,
                 email = client.account.email,
                 phone = client.account.phone,
+                role= role
             ),
             creator = recommender,
         )
         if(clientId == "new"){
-            profileViewModel.createClient(data)
-//            profileViewModel.getClientsByRecommenderId(recommender.id)
+            profileViewModel.createProfile(data)
+
+            if (recommender.role.name == "partner") {
+                accountViewModel.getClientsByRecommenderId(recommender.id)
+            }else if(recommender.role.name == "sales" || recommender.role.name == "technician"){
+                accountViewModel.getAccountsByEmployeeId(recommender.id, recommender.role.name)
+            }
+
             navController.navigate("clients")
         }else {
-            profileViewModel.updateClient(clientId, data)
+            profileViewModel.updateProfileByAccountId(clientId, data)
 //            profileViewModel.getClientsByRecommenderId(recommender.id)
             navController.navigate("clients/${clientId}")
         }

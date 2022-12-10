@@ -8,7 +8,6 @@ import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Client
 import com.artbird.onsite.domain.Profile
 import com.artbird.onsite.network.ProfileApi
-import com.artbird.onsite.repository.AccountRepository
 import com.artbird.onsite.repository.ProfileRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,8 +21,8 @@ class ProfileViewModel : ViewModel() {
     private val _status = MutableLiveData<ApiStatus>()
     val status: LiveData<ApiStatus> = _status
 
-    private val _profiles = MutableLiveData<List<Profile>>(arrayListOf())
-    val profiles: LiveData<List<Profile>> = _profiles
+    private val _profiles = MutableLiveData<List<Account>>(arrayListOf())
+    val profiles: LiveData<List<Account>> = _profiles
 
     private val _clients = MutableLiveData<List<Client>>(arrayListOf())
     val clients: LiveData<List<Client>> = _clients
@@ -117,29 +116,51 @@ class ProfileViewModel : ViewModel() {
     }
 
 
-    fun createClient(body: Profile) {
+    fun createProfile(body: Profile) {
         viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.client.ApiStatus.LOADING
+            _status.value = ApiStatus.LOADING
             try {
-                ProfileApi.retrofitService.createClient(body)
-                _status.value = com.artbird.onsite.ui.client.ApiStatus.DONE
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.createProfile(body)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _profile.value = rsp.body()!!
+                }else {
+                    val type = object : TypeToken<Profile>() {}.type
+                    val it: Profile = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _profile.value = it!!
+                }
+                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
-                _profile.value = null // listOf()
-                _status.value = com.artbird.onsite.ui.client.ApiStatus.ERROR
+                _profile.value = null
+                _status.value = ApiStatus.ERROR
                 throw e
             }
         }
     }
 
-    fun updateClient(id: String, body: Profile) {
+    fun updateProfileByAccountId(accountId: String, body: Profile) {
         viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.client.ApiStatus.LOADING
+            _status.value = ApiStatus.LOADING
             try {
-                ProfileApi.retrofitService.updateClient(id, body)
-                _status.value = com.artbird.onsite.ui.client.ApiStatus.DONE
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.updateProfileByAccountId(accountId, body)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _profile.value = rsp.body()!!
+                }else {
+                    val type = object : TypeToken<Profile>() {}.type
+                    val it: Profile = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _profile.value = it!!
+                }
+                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
-                _profile.value = null // listOf()
-                _status.value = com.artbird.onsite.ui.client.ApiStatus.ERROR
+                _profile.value = null
+                _status.value = ApiStatus.ERROR
                 throw e
             }
         }

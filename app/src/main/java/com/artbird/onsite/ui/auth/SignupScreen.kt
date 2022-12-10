@@ -38,25 +38,24 @@ fun SignupScreen(
         }
     }
 
-    fun handleSubmit(username: String, password: String, email:String, phone: String){
+    fun handleSubmit(email:String, phone: String, password: String, ){
             val role = roles!!.find { it.name == "partner"}
-//            val data = Account(
-//                id="",
-//                username = username,
-//                password = password,
-//                email = email,
-//                phone = phone,
-//                status = "P", // pending
-//                roleId = role!!.id
-//            )
-//            authViewModel.signup(data)
+            val data = Account(
+                id="",
+                username = "",
+                password = password,
+                email = email,
+                phone = phone,
+                status = "Pending", // pending
+                role = role!!
+            )
+            authViewModel.signup(data)
     }
 
     SignupForm(
-        username,
-        password,
         email,
         phone,
+        password,
         error,
         onChange=::handleChange,
         onSubmit=::handleSubmit,

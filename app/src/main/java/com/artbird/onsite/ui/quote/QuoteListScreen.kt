@@ -19,7 +19,7 @@ fun QuoteListScreen(
     navController: NavController,
     quoteViewModel: QuoteViewModel,
     appointment: Appointment,
-    client: Profile
+    client: Account
 ) {
     val quotes: List<Quote> by quoteViewModel.quotes.observeAsState(listOf())
 

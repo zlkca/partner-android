@@ -22,13 +22,12 @@ import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
 fun SignupForm(
-    username: String = "",
-    password: String = "",
     email: String = "",
     phone: String = "",
+    password: String = "",
     error: Map<String, String> = mapOf<String, String>(),
     onChange: (name: String, value: String) -> Unit,
-    onSubmit: (username: String, password: String, email:String, phone: String) -> Unit,
+    onSubmit: (email:String, phone: String, password: String) -> Unit,
     onPageChange: (page: String) -> Unit = {},
 )
 {
@@ -38,8 +37,6 @@ fun SignupForm(
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-
-
 
 
         Row(
@@ -52,41 +49,6 @@ fun SignupForm(
         Box(
             modifier = Modifier.padding(top=15.dp, bottom = 15.dp)
         )
-
-        Input(
-            value = username,
-            onValueChange = { onChange("username", it) },
-            label = "Username",
-        )
-
-        if(error["username"] == "Username exists"){
-            Text(
-                text = "Username exists, please try another",
-                color = Color.Red,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }else if(error["username"] == "Username empty"){
-            Text(
-                text = "Please enter a username",
-                color = Color.Red,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-
-        Input(
-            value = password,
-            onValueChange = { onChange("password", it) },
-            label = "Password",
-            visualTransformation = PasswordVisualTransformation(),
-        )
-
-        if (error["password"] == "Password empty") {
-            Text(
-                text = "Please enter a password",
-                color = Color.Red,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
 
         Input(
             value = email,
@@ -122,6 +84,21 @@ fun SignupForm(
             )
         }
 
+        Input(
+            value = password,
+            onValueChange = { onChange("password", it) },
+            label = "Password",
+            visualTransformation = PasswordVisualTransformation(),
+        )
+
+        if (error["password"] == "Password empty") {
+            Text(
+                text = "Please enter a password",
+                color = Color.Red,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+
         Body2(
             color = MaterialTheme.colorScheme.onBackground,
             text = "Already have an account? Sign in now",
@@ -140,10 +117,9 @@ fun SignupForm(
                 "Create Partner Account",
                 onClick = {
                     onSubmit(
-                        username,
-                        password,
                         email,
-                        phone
+                        phone,
+                        password,
                     )
                 },
                 modifier = Modifier
@@ -166,7 +142,7 @@ fun PreviewFormActionBar(){
     SLTheme {
         SignupForm(
             onChange = {name, value -> },
-            onSubmit = {username, password, email, phone -> }
+            onSubmit = {email, phone, password,  -> }
         )
     }
 }

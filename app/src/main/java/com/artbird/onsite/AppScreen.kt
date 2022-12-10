@@ -74,6 +74,7 @@ fun NaviRoute(
 //    clientProfile: Profile,
 ){
     val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
+    var highlightedClient by remember { mutableStateOf(null) }
 
     NavHost(
         navController = navController as NavHostController,
@@ -134,11 +135,14 @@ fun NaviRoute(
             )
         ){
             if (user != null) {
+                val role = roles!!.find { it.name == "client"}
                 ClientFormScreen(
                     navController,
+                    accountViewModel,
                     profileViewModel,
                     clientId = it.arguments?.getString("id")!!,
-                    recommender = user
+                    recommender = user,
+                    role = role!!
                 )
             }
         }

@@ -9,8 +9,8 @@ class AccountRepository(){
         return AccountApi.retrofitService.search(query)
     }
 
-    suspend fun getAccountsByRecommenderId(recommenderId: String): Response<List<Account>> {
-        return AccountApi.retrofitService.getAccountsByRecommenderId(recommenderId)
+    suspend fun getClientsByRecommenderId(recommenderId: String): Response<List<Account>> {
+        return AccountApi.retrofitService.getClientsByRecommenderId(recommenderId)
     }
 
     suspend fun getAccountsByEmployeeId(employeeId: String, roleName: String): Response<List<Account>> {

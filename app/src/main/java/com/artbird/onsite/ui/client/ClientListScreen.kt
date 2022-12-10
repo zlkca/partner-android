@@ -23,17 +23,27 @@ fun ClientListScreen(
     user: Account,
 ) {
     val accounts by accountViewModel.accounts.observeAsState()
+//    val selectedProfile by profileViewModel.profile.observeAsState()
+
 //    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
 
     var selectedIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(key1 = user) {
         if (user.role.name == "partner") {
-            accountViewModel.getAccountsByRecommenderId(user.id)
+            accountViewModel.getClientsByRecommenderId(user.id)
         }else if(user.role.name == "sales" || user.role.name == "technician"){
             accountViewModel.getAccountsByEmployeeId(user.id, user.role.name)
         }
     }
+
+//    LaunchedEffect(key1 = selectedProfile){
+//        if(selectedProfile != null && selectedProfile!!.id.isNotEmpty()) {
+//            if(accounts!!.isNotEmpty()){
+//                selectedIndex = accounts!!.indexOfFirst { it -> it.id == selectedProfile!!.account.id }
+//            }
+//        }
+//    }
 
     fun handleSelectClient(index: Int) {
 

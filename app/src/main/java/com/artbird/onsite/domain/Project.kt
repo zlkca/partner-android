@@ -1,5 +1,7 @@
 package com.artbird.onsite.domain
 
+import com.artbird.onsite.domain.Account
+
 data class Stage(
     var name: String = "",
     var status: String = "",
@@ -9,7 +11,7 @@ data class Stage(
 
 data class Project(
     var _id: String = "",
-    var client: Profile = Profile(),
+    var client: Account = Account(),
     var address: Address = Address(),
     var recommender: Account = Account(),
     var sales: Account = Account(),

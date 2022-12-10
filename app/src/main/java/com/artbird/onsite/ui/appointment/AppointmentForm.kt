@@ -21,7 +21,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Address
-import com.artbird.onsite.domain.Profile
 import com.artbird.onsite.ui.address.AddressForm
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme

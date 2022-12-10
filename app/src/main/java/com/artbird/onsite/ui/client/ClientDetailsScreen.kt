@@ -21,6 +21,7 @@ fun ClientDetailsScreen(
     projectViewModel: ProjectViewModel,
     clientId: String,
 ) {
+//    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
     val projects by projectViewModel.projects.observeAsState()
 
@@ -34,7 +35,7 @@ fun ClientDetailsScreen(
     }
 
     LaunchedEffect(key1 = clientProfile){
-        if(clientProfile != null) {
+        if(clientProfile != null && clientProfile!!.id.isNotEmpty()) {
             client = clientProfile!!
         }
     }

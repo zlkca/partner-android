@@ -39,7 +39,7 @@ fun AppointmentFormScreen(
     val verticalScrollState = rememberScrollState()
 
     LaunchedEffect(key1 = clientProfile) {
-            client = clientProfile.account
+            client = clientProfile!!.account
     }
 
 //    LaunchedEffect(key1 = appointmentId) {

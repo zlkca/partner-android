@@ -1,22 +1,11 @@
 package com.artbird.onsite.ui.appointment
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ReceiptLong
-import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 
-import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.client.ProfileViewModel
-import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.utils.getDate
-import com.artbird.onsite.ui.utils.getTime
 
 
 @Composable
@@ -26,7 +15,7 @@ fun AppointmentDetailsScreen(
     appointmentViewModel: AppointmentViewModel,
     clientViewModel: ProfileViewModel,
     user: Account, // logged in user
-    onSelectClient: (c: Profile) -> Unit = {},
+    onSelectClient: (c: Account) -> Unit = {},
     onSelectAppointment: (a: Appointment2) -> Unit = {},
 ) {
     val appointment by appointmentViewModel.appointment.observeAsState(Appointment2())

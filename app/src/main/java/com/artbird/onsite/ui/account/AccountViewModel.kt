@@ -49,12 +49,12 @@ class AccountViewModel : ViewModel() {
         }
     }
 
-    fun getAccountsByRecommenderId(recommenderId: String) {
+    fun getClientsByRecommenderId(recommenderId: String) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
-                    repo.getAccountsByRecommenderId(recommenderId)
+                    repo.getClientsByRecommenderId(recommenderId)
                 }
                 val code = rsp.code()
 

@@ -21,6 +21,11 @@ interface ProfileApiService {
     @GET("profile/accounts/{accountId}")
     suspend fun getProfileByAccountId(@Path("accountId") accountId: String): Response<Profile>
 
+    @POST("profiles")
+    suspend fun createProfile(@Body profile: Profile): Response<Profile>
+
+    @PUT("profiles/{accountId}")
+    suspend fun updateProfileByAccountId(@Path("accountId") accountId: String, @Body updates: Profile): Response<Profile>
 
     @GET("clients")
     suspend fun searchByRecommender(
@@ -38,11 +43,8 @@ interface ProfileApiService {
     suspend fun getClientsByRecommenderId(@Query("recommenderId") recommenderId : String): List<Client>
 
 
-    @POST("clients")
-    suspend fun createClient(@Body client: Profile): PostResponse
 
-    @PUT("clients/{id}")
-    suspend fun updateClient(@Path("id") id: String, @Body updates: Profile): PutResponse
+
 
 }
 

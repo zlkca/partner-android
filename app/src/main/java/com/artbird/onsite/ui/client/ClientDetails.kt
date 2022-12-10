@@ -89,7 +89,7 @@ fun PreviewClientDetails(){
         created = "2022-11-08",
     )
     val projects = listOf<Project>(Project("1",
-        client = Profile("1", account = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active")),
+        client = Account("1", username="sydney", email="sydney@shutter.ca", phone="123-456-7890", status="active"),
 //        address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7"),
         created = "2022-11-08",
         stages = listOf<Stage>(

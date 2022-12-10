@@ -22,7 +22,7 @@ fun ClientScreen(
         }
     }
 
-    var clientDetails by remember { mutableStateOf(Profile()) }
+    var clientDetails by remember { mutableStateOf(Account()) }
     var page by remember { mutableStateOf("client-list") } // list -> details
     var clientIndex by remember { mutableStateOf(0) }
 

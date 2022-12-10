@@ -24,7 +24,9 @@ interface AccountApiService {
     ): Response<List<Account>>
 
     @GET("accounts")
-    suspend fun getAccountsByRecommenderId(@Query("recommenderId") recommenderId : String): Response<List<Account>>
+    suspend fun getClientsByRecommenderId(
+        @Query("recommenderId") recommenderId : String,
+    ): Response<List<Account>>
 
     @GET("accounts")
     suspend fun getAccountsByEmployeeId(
