@@ -12,4 +12,8 @@ class AuthRepository(){
     suspend fun signup(account: Account): Response<Auth> {
         return AuthApi.retrofitService.signup(account)
     }
+
+    suspend fun changePassword(credential: Credential): Response<PutResponse> {
+        return AuthApi.retrofitService.changePassword(credential)
+    }
 }

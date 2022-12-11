@@ -5,27 +5,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.components.Body2
 import com.artbird.onsite.ui.components.FormActionBar
 import com.artbird.onsite.ui.components.Input
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
 fun ClientForm(
-    navController: NavController,
     firstName: String,
     lastName: String,
     account: Account,
     error: Map<String, String> = mapOf<String, String>(),
     onChange: (fieldName: String, value: String) -> Unit = {f,v -> },
+    onCancel: ()-> Unit = {},
     onSave: ()-> Unit = {}
 ) {
     val verticalScrollState = rememberScrollState()
@@ -35,7 +36,7 @@ fun ClientForm(
         .verticalScroll(verticalScrollState))
     {
         FormActionBar(
-            onCancel = {navController.navigate("clients")},
+            onCancel = onCancel,
             onSave,
         )
 
@@ -50,36 +51,35 @@ fun ClientForm(
             onValueChange = { onChange("lastName", it) },
             label = "Last Name",
         )
-        Text("")
-//        Input(
-//            value = client.account.username,
-//            onValueChange = { onChange("username", it) },
-//            label = "Account Name",
-//        )
-
-        Input(
-            value = account.email,
-            onValueChange = { onChange("email", it) },
-            label = "Email",
-        )
-        if (error["email"] != "" ) {
-            Text(
-                text = if(error["email"] == "Email not found") "Email not found" else "",
-                color = Color.Red,
-//                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
         Input(
             value = account.username,
             onValueChange = { onChange("username", it) },
             label = "username",
         )
         Input(
+            value = account.email,
+            onValueChange = { onChange("email", it) },
+            label = "Email",
+        )
+        if (error.isNotEmpty() && error["email"] != null && error["email"] != "" ) {
+            Body2(
+                text = error["email"]!!,
+                color = colorScheme.onError,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+        Input(
             value = account.phone,
             onValueChange = { onChange("phone", it) },
             label = "Phone",
         )
+        if (error.isNotEmpty() && error["phone"] != null && error["phone"] != "" ) {
+            Body2(
+                text = error["phone"]!!,
+                color = colorScheme.onError,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
     }
 }
 
@@ -95,10 +95,10 @@ fun PreviewClientForm(){
 
     SLTheme {
         ClientForm(
-            rememberNavController(),
             firstName = client.firstName,
             lastName = client.lastName,
-            account = client.account
+            account = client.account,
+            error = mapOf("email" to "Email cannot be empty")
         )
     }
 }

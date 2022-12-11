@@ -25,22 +25,32 @@ import javax.net.ssl.SSLHandshakeException
 
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel,
+    authViewModel: AuthViewModel,
     onSubmit: (auth: Auth) -> Unit = {},
     onPageChange: (page: String) -> Unit = {}
 ){
-    val auth: Auth by viewModel.auth.observeAsState(
+    val auth: Auth by authViewModel.auth.observeAsState(
         Auth("","", "", account = Account())
     )
 
+    val authError by authViewModel.error.observeAsState()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val error by remember { mutableStateOf(mapOf<String, String>())}
+    var error by remember { mutableStateOf(mapOf<String, String>())}
 
 
     LaunchedEffect(key1 = auth) {
         if(auth != null) {
             onSubmit(auth)
+        }
+    }
+
+    LaunchedEffect(key1 = authError) {
+        if(authError != null) {
+            if(authError!!.code != 200){
+                error = mapOf(authError!!.field to authError!!.message)
+            }
         }
     }
 
@@ -52,7 +62,7 @@ fun LoginScreen(
     }
 
     fun handleSubmit(password: String, email:String,){
-        viewModel.login(Credential(
+        authViewModel.login(Credential(
             email=email,
             password=password)
         )
@@ -74,7 +84,10 @@ fun LoginScreen(
         error,
         onChange=::handleChange,
         onSubmit=::handleSubmit,
-        onPageChange={v -> onPageChange(v)},
+        onPageChange={v ->
+            authViewModel.clearError()
+            onPageChange(v)
+                     },
     )
 
 //
@@ -145,7 +158,7 @@ fun LoginScreen(
 //            LongButton(
 //                "Sign in",
 //                onClick = {
-//                    viewModel.login(Credential(username, password))
+//                    authViewModel.login(Credential(username, password))
 //                },
 //
 //                modifier = Modifier

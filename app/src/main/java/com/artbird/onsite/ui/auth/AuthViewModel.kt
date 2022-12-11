@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Auth
+import com.artbird.onsite.domain.FormError
 import com.artbird.onsite.domain.Credential
-import com.artbird.onsite.network.AuthApi
 import com.artbird.onsite.repository.AuthRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -25,8 +25,15 @@ class AuthViewModel : ViewModel() {
     private val _auth = MutableLiveData<Auth>()
     val auth: LiveData<Auth> = _auth
 
+    private val _error = MutableLiveData<FormError>()
+    val error: LiveData<FormError> = _error
+
     private val repo = AuthRepository()
     private val gson = Gson()
+
+    fun clearError(){
+        _error.value = null
+    }
 
     fun login(credential: Credential) {
         viewModelScope.launch {
@@ -39,13 +46,15 @@ class AuthViewModel : ViewModel() {
 
                 if(code == 200) {
                     _auth.value = rsp.body()!!
-
+                    _error.value = FormError() // No error
+                    _status.value = ApiStatus.DONE
                 }else {
-                    val type = object : TypeToken<Auth>() {}.type
-                    val it: Auth = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _auth.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _error.value = it!!
+                    _status.value = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
+
             } catch (e: Exception) {
                 _auth.value = null
                 _status.value = ApiStatus.ERROR
@@ -64,13 +73,14 @@ class AuthViewModel : ViewModel() {
                 val code = rsp.code()
                 if(code == 200) {
                     _auth.value = rsp.body()!!
+                    _error.value = FormError() // No error
+                    _status.value = ApiStatus.DONE
                 }else {
-
-                    val type = object : TypeToken<Auth>() {}.type
-                    val it: Auth = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _auth.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _error.value = it!!
+                    _status.value = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _auth.value = null
                 _status.value = ApiStatus.ERROR
@@ -83,9 +93,22 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
-                AuthApi.retrofitService.changePassword(credential)
-                _status.value = ApiStatus.DONE
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.changePassword(credential)
+                }
+                val code = rsp.code()
+                if(code == 200) {
+//                    _auth.value = rsp.body()!!
+                    _error.value = FormError() // No error
+                    _status.value = ApiStatus.DONE
+                }else {
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _error.value = it!!
+                    _status.value = ApiStatus.ERROR
+                }
             } catch (e: Exception) {
+                _auth.value = null
                 _status.value = ApiStatus.ERROR
                 throw e
             }

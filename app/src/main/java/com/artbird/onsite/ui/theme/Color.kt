@@ -30,7 +30,7 @@ val primary_light = Color(110, 128, 119) // 0x6E8077
 
 val onPrimary = Color(0xFFFFFFFF)
 
-val secondary_main = Color(160, 125,45) // 0xA07D2DFF)
+val secondary_main = Color(160, 125,45) // 0xFFA07D2D)
 val secondary_light = Color(175, 146, 76)
 val onSecondary = Color(0xFFFFFFFF)
 
@@ -41,6 +41,10 @@ var onBackgroundDark = Color(0xFFFFFFFF)
 val white = Color(0xFFFFFFFF)
 val black = Color(0x000000)
 var darkBlack = Color(0xddd)
+
+
+var onErrorLight = Color(0xFF8e1010)
+var onErrorDark = Color(0xFFF78d8d)
 
 val LightColors = lightColorScheme(
     primary = primary_main, // selected list item
@@ -54,7 +58,7 @@ val LightColors = lightColorScheme(
 
     background = backgroundLight,
     onBackground = onBackgroundLight,
-
+    onError = onErrorLight,
 //    surface = primary_light,
 
 // ..
@@ -71,7 +75,7 @@ val DarkColors = darkColorScheme(
     onSecondary = onSecondary,
 
     onBackground = onBackgroundDark,
-
+    onError = onErrorDark,
 //    surface = primary_light,
 // ..
 )

@@ -17,18 +17,27 @@ fun SignupScreen(
 {
     val roles by roleViewModel.roles.observeAsState()
     val auth: Auth by authViewModel.auth.observeAsState(Auth("","", "", account = Account()))
+    val authError by authViewModel.error.observeAsState()
+
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
-    val error by remember { mutableStateOf(mapOf<String, String>())}
+    var error by remember { mutableStateOf(mapOf<String, String>())}
 
     LaunchedEffect(key1 = auth) {
         if(auth.error == "") {
             onSubmit(auth)
         }
     }
-
+    LaunchedEffect(key1 = authError) {
+        if(authError != null) {
+            if(authError!!.code != 200){
+                error = mapOf(authError!!.field to authError!!.message)
+            }
+        }
+    }
     fun handleChange(name: String, value: String) {
         when (name){
             "username" -> username = value
@@ -59,7 +68,10 @@ fun SignupScreen(
         error,
         onChange=::handleChange,
         onSubmit=::handleSubmit,
-        onPageChange={v -> onPageChange(v)},
+        onPageChange={v ->
+            authViewModel.clearError()
+            onPageChange(v)
+                     },
     )
 }
 

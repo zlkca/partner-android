@@ -61,6 +61,7 @@ fun OldFormActionBar(
 fun FormActionBar(
     onCancel: () -> Unit = {},
     onSave: () -> Unit = {},
+    showSaveButton: Boolean = true,
 ){
     Column(){
         Row(
@@ -80,7 +81,9 @@ fun FormActionBar(
                     .padding(end = 8.dp),
                 horizontalArrangement = Arrangement.End
             ){
-                SmallButton("Save", onClick = onSave)
+                if(showSaveButton) {
+                    SmallButton("Save", onClick = onSave)
+                }
             }
         }
     }

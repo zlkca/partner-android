@@ -19,9 +19,18 @@ fun ClientFormScreen(
     onSetAccountEmail: (email: String) -> Unit = {email -> }
 ){
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
+    val formError by profileViewModel.error.observeAsState()
+
     var client by remember { mutableStateOf(Profile()) }
+    var error by remember { mutableStateOf(mapOf<String, String>())}
 
-
+    LaunchedEffect(key1 = formError) {
+        if(formError != null) {
+            if(formError!!.code != 200){
+                error = mapOf(formError!!.field to formError!!.message)
+            }
+        }
+    }
 //    var accountId by remember { mutableStateOf("") }
 //    var addressId by remember { mutableStateOf("") }
 //
@@ -63,7 +72,21 @@ fun ClientFormScreen(
         }
     }
 
+    LaunchedEffect(key1 = formError) {
+        if(formError != null) {
+            if(formError!!.code != 200){
+                error = mapOf(formError!!.field to formError!!.message)
+            }else{
+                profileViewModel.clearError()
 
+                if(clientId == "new") {
+                    navController.navigate("clients")
+                }else{
+                    navController.navigate("clients/${clientId}")
+                }
+            }
+        }
+    }
 
     fun handleSubmit(){
         val data = Profile(
@@ -86,11 +109,11 @@ fun ClientFormScreen(
                 accountViewModel.getAccountsByEmployeeId(recommender.id, recommender.role.name)
             }
 
-            navController.navigate("clients")
+
         }else {
             profileViewModel.updateProfileByAccountId(clientId, data)
 //            profileViewModel.getClientsByRecommenderId(recommender.id)
-            navController.navigate("clients/${clientId}")
+
         }
     }
 
@@ -115,11 +138,15 @@ fun ClientFormScreen(
     }
 
     ClientForm(
-        navController = navController,
         firstName = client.firstName,
         lastName = client.lastName,
         account = client.account,
+        error = error,
         onChange = ::handleChange,
+        onCancel = {
+            profileViewModel.clearError()
+            navController.navigate("clients")
+                   },
         onSave = ::handleSubmit
     )
 

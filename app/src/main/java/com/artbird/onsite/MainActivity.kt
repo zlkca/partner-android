@@ -5,6 +5,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressViewModel
@@ -17,6 +21,7 @@ import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.window.WindowViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.io.File
 
 
@@ -75,8 +80,21 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 
         setContent {
+
+
             SLTheme() {
+
+                val systemUiController = rememberSystemUiController()
+
+                SideEffect {
+                    systemUiController.setSystemBarsColor(
+                        color = Color(160, 125,45)
+                    )
+                }
+
+
                 val configuration = LocalConfiguration.current
+
                 when (configuration.orientation) {
                     Configuration.ORIENTATION_LANDSCAPE -> {
                         MyApp(

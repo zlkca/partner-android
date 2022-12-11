@@ -34,7 +34,7 @@ interface AuthApiService {
     suspend fun signup(@Body account: Account): Response<Auth>
 
     @PUT("password")
-    suspend fun changePassword(@Body credential: Credential): PutResponse
+    suspend fun changePassword(@Body credential: Credential): Response<PutResponse>
 }
 
 object AuthApi {

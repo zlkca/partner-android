@@ -31,6 +31,7 @@ fun SignupForm(
     onPageChange: (page: String) -> Unit = {},
 )
 {
+    val colorScheme = MaterialTheme.colorScheme
     Column(
         Modifier
             .fillMaxSize()
@@ -56,16 +57,10 @@ fun SignupForm(
             label = "Email",
         )
 
-        if(error["email"] == "Email exists"){
-            Text(
-                text = "Email exists, please try another",
-                color = Color.Red,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }else if (error["email"] == "Email empty") {
-            Text(
-                text = "Please enter an email",
-                color = Color.Red,
+        if(error.isNotEmpty() && error["email"] != null && error["email"] != ""){
+            Body2(
+                text = error["email"]!!,
+                color = colorScheme.onError,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -76,10 +71,10 @@ fun SignupForm(
             label = "Phone number",
         )
 
-        if (error["phone"] == "Phone empty") {
-            Text(
-                text = "Please enter a phone number",
-                color = Color.Red,
+        if (error.isNotEmpty() && error["phone"] != null && error["phone"] != "") {
+            Body2(
+                text = error["phone"]!!,
+                color = colorScheme.onError,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -91,10 +86,10 @@ fun SignupForm(
             visualTransformation = PasswordVisualTransformation(),
         )
 
-        if (error["password"] == "Password empty") {
-            Text(
-                text = "Please enter a password",
-                color = Color.Red,
+        if (error.isNotEmpty() && error["password"] != null && error["password"] != "") {
+            Body2(
+                text = error["password"]!!,
+                color = colorScheme.onError,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }

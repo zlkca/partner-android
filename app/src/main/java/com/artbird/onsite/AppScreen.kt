@@ -1,8 +1,11 @@
 package com.artbird.onsite
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -33,6 +36,8 @@ import com.artbird.onsite.ui.window.WindowViewModel
 import java.io.File
 
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.artbird.onsite.ui.auth.SignupScreen
 import com.artbird.onsite.ui.project.ProjectDetailsScreen
 import com.artbird.onsite.ui.project.ProjectViewModel
@@ -43,6 +48,7 @@ import com.artbird.onsite.ui.appointment.AppointmentDetailsScreen
 import com.artbird.onsite.ui.appointment.AppointmentFormScreen
 import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.client.*
+import com.artbird.onsite.ui.components.Label2
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
 import com.artbird.onsite.ui.settings.ChangePasswordScreen
@@ -597,6 +603,8 @@ fun MyApp(
         appointmentId = id
     }
 
+
+
     if(isLoggedIn) {
             Scaffold(
                 bottomBar = {
@@ -661,7 +669,7 @@ fun MyApp(
     }else{
         if(page == "login"){
             LoginScreen(
-                viewModel = authViewModel,
+                authViewModel = authViewModel,
                 onSubmit = {
                     isLoggedIn = it.jwt.isNotEmpty()
                     user = it.account

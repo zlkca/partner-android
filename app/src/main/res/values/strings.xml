@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">onsite</string>
+    <string name="app_name">ShutterLux</string>
     <string name="statusContentStr">Image Status</string>
     <string name="imageGridContentStr">image grid</string>
 </resources>

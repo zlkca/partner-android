@@ -25,12 +25,20 @@ fun SettingsScreen(
             modifier = Modifier.padding(8.dp)
         )
 
-        Text(text = "Change Password",
+        Text(text = "Change My Password",
             modifier = Modifier
                 .padding(8.dp)
                 .clickable(enabled = true) {
                     navController.navigate("change-password")
                 },
         )
+
+//        Text(text = "Edit My Profile",
+//            modifier = Modifier
+//                .padding(8.dp)
+//                .clickable(enabled = true) {
+//                    // navController.navigate("change-password")
+//                },
+//        )
     }
 }

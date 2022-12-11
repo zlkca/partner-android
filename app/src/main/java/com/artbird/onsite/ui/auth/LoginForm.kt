@@ -31,6 +31,8 @@ fun LoginForm(
     onPageChange: (page: String) -> Unit = {},
 )
 {
+    val colorScheme = MaterialTheme.colorScheme
+
     Column(
         Modifier
             .fillMaxSize()
@@ -55,11 +57,10 @@ fun LoginForm(
             label = "Email",
         )
 
-        if (error["email"] != null && error["email"] != "" ) {
-            Text(
-                text = if(error["email"] == "Email not found") "Email not found" else "",
-                color = Color.Red,
-//                style = MaterialTheme.typography.caption,
+        if (error.isNotEmpty() && error["email"] != null && error["email"] != "" ) {
+            Body2(
+                text = error["email"]!!,
+                color = colorScheme.onError,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -71,10 +72,11 @@ fun LoginForm(
             visualTransformation = PasswordVisualTransformation(),
         )
 
-        if (error["password"] != null && error["password"] != "") {
+        if (error.isNotEmpty() && error["password"] != null && error["password"] != "") {
             Body2(
-                text = "Password not match",
-                color = MaterialTheme.colorScheme.onBackground,
+                text = error["password"]!!,
+                color = colorScheme.onError,
+                modifier = Modifier.padding(start = 16.dp)
             )
         }
 
@@ -119,6 +121,7 @@ fun LoginForm(
 fun PreviewLoginForm(){
     SLTheme {
         LoginForm(
+            error = mapOf("email" to "my email error"),
             onChange = { name, value -> },
             onSubmit = { password, email -> }
         )

@@ -14,4 +14,3 @@ data class Auth(
     val account: Account,
 )
 
-
