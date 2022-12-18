@@ -39,12 +39,16 @@ fun Select(
     label: String,
     value: String,
     options: List<OptionItem>,
-    onValueChange: (v: String) -> Unit,
-    onClickDropdownMenu: (it: OptionItem) -> Unit = {},
-    modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp),
+    onValueChange: (v: OptionItem) -> Unit = {},
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp),
     ) {
     var expanded by remember { mutableStateOf(false) }
     var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
+
+    var defaultValue = options.find { it.label == value }
+    var selectedOption by remember { mutableStateOf(defaultValue) }
 
     val icon = if (expanded)
         Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
@@ -56,8 +60,10 @@ fun Select(
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+            value = selectedOption!!.label,
+            onValueChange = {
+//                onValueChange(selectedOption)
+                            },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
@@ -80,7 +86,8 @@ fun Select(
                     text= { Text(it.label) },
                     onClick = {
                         expanded = false
-                        onClickDropdownMenu(it)
+                        selectedOption = it
+                        onValueChange(it)
                     } )
             }
         }
@@ -90,7 +97,7 @@ fun Select(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSelect(){
-    var selectedText by remember { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf("Item2") }
     fun handleClick(it: OptionItem){
         selectedText = it.label
     }
@@ -105,6 +112,6 @@ fun PreviewSelect(){
         label = "Type",
         value = selectedText,
         options = options,
-        onValueChange = { selectedText = it }
+        onValueChange = { selectedText = it.label }
     )
 }

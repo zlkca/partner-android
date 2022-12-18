@@ -40,13 +40,13 @@ fun WindowOptions(
         OptionItem("L", "L"),
     )) }
 
-    var windowType by remember { mutableStateOf("")}
+    var windowType by remember { mutableStateOf(OptionItem())}
 
     var directionOptions by remember { mutableStateOf(listOf<OptionItem>()) }
 
     var openingDirection by remember { mutableStateOf("") }
     var frameStyle by remember {
-        mutableStateOf("")
+        mutableStateOf(OptionItem())
     }
     var dividerRail by remember {
         mutableStateOf(DividerRail(height = "", top = ""))
@@ -89,16 +89,16 @@ fun WindowOptions(
         NumberInput(
             value = numOfWindows,
             onValueChange = {
-                directionOptions = getDirectionOptions(it, windowType)
+//                directionOptions = getDirectionOptions(it, windowType)
                 onChange("numOfWindows", it)
                             },
             label = "Num of Windows",
         )
 
         Select(
-            value = windowType,
+            value = windowType.label,
             onValueChange ={
-                directionOptions = getDirectionOptions(it, windowType)
+                directionOptions = getDirectionOptions(it.value, windowType.value)
                 windowType = it
                            },
             label = "Window Type",
@@ -108,16 +108,16 @@ fun WindowOptions(
         Select(
             value = openingDirection,
             onValueChange ={
-                onChange("openingDirection", it)
+                onChange("openingDirection", it.value)
             },
             label = "Open Direction",
             options = directionOptions
         )
 
         Select(
-            value = frameStyle,
+            value = frameStyle.label,
             onValueChange ={
-                onChange("frameStyle", it)
+                frameStyle = it
             },
             label = "Frame Style",
             options = frameOptions

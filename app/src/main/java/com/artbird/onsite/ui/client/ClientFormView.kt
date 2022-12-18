@@ -215,7 +215,7 @@ fun ClientFormOld(
 
                 Select(
                     value = province,
-                    onValueChange = { province = it },
+                    onValueChange = { province = it.value },
                     label = "Province",
                     options = provinceOptions,
                     modifier = Modifier

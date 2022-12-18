@@ -288,14 +288,14 @@ fun WindowScreen(
             )
             Select(
                 value = bladeSize,
-                onValueChange = { bladeSize = it },
+//                onValueChange = { bladeSize = it },
                 label = "Blade Size",
                 options = bladeOptions
             )
 
             Select(
                 value = leverType,
-                onValueChange = { leverType = it },
+//                onValueChange = { leverType = it },
                 label = "Lever Type",
                 options = leverOptions
             )
@@ -334,7 +334,7 @@ fun WindowScreen(
 
             Select(
                 value = installPosition,
-                onValueChange = { installPosition = it },
+//                onValueChange = { installPosition = it },
                 label = "Install Position",
                 options = installPositionOptions
             )
