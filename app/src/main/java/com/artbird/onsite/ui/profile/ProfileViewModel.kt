@@ -53,9 +53,10 @@ class ProfileViewModel : ViewModel() {
                 if(code == 200) {
                     _profile.value = rsp.body()!!
                 }else {
-                    val type = object : TypeToken<Profile>() {}.type
-                    val it: Profile = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _profile.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _profile.value = null
+                    _error.value = it!!
                 }
                 _status.value = ApiStatus.DONE
             } catch (e: Exception) {

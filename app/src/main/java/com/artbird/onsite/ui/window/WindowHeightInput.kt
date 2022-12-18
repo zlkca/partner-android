@@ -33,7 +33,7 @@ fun WindowHeightInput(
         ) {
             ImperialLengthInput("Left", toImparialLength(left),
                 onChange = {
-                    onChange("left", toImparialLengthString(it))
+                    onChange("height-left", toImparialLengthString(it))
                 })
         }
         Box( contentAlignment =  Alignment.Center,
@@ -42,7 +42,7 @@ fun WindowHeightInput(
         ) {
             ImperialLengthInput("Middle", toImparialLength(middle),
                 onChange = {
-                    onChange("middle", toImparialLengthString(it))
+                    onChange("height-middle", toImparialLengthString(it))
                 })
         }
         Box(modifier = Modifier
@@ -51,7 +51,7 @@ fun WindowHeightInput(
         ) {
             ImperialLengthInput("Right", toImparialLength(right),
                 onChange = {
-                    onChange("right", toImparialLengthString(it))
+                    onChange("height-right", toImparialLengthString(it))
                 })
         }
     }

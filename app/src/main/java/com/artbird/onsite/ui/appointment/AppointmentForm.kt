@@ -41,7 +41,7 @@ fun AppointmentForm(
     error: Map<String, String> = mapOf<String, String>(),
     onValChange: (name: String, value: String) -> Unit,
     onSubmit: () -> Unit = {},
-//    onUserChange:(name: String) -> Unit = {},
+    onCancel: () -> Unit = {},
 ){
     val verticalScrollState = rememberScrollState()
 //    val addressOptions = listOf<RadioOption>(
@@ -72,7 +72,13 @@ fun AppointmentForm(
 //                    onUserChange("client")
 //                }
 //            )
-
+    Column(modifier = Modifier
+        .padding(12.dp)
+    ) {
+        FormActionBar(
+            onCancel = onCancel,
+            onSave = onSubmit
+        )
 
         Column(modifier = Modifier
 //            .padding(12.dp)
@@ -121,7 +127,7 @@ fun AppointmentForm(
                 label = "Notes",
             )
 
-            DatePicker(LocalContext.current, "Date", date, { y,m,d ->
+            DatePicker(LocalContext.current, "Date", date, { y, m, d ->
                 val dateTime =
                     LocalDateTime.now().withYear(y).withMonth(m).withDayOfMonth(d)
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -139,14 +145,14 @@ fun AppointmentForm(
                 )
 
                 TimePicker(LocalContext.current, "End Time", endTime,
-                    onValueChange = { h, m -> onValChange("endTime", getTime(h, m))},
+                    onValueChange = { h, m -> onValChange("endTime", getTime(h, m)) },
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp)
                 )
             }
         }
-
+    }
 }
 
 @Preview(

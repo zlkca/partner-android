@@ -9,12 +9,22 @@ import com.artbird.onsite.ui.components.NumberInput
 
 @Composable
 fun WindowOptions(
-    numOfWindows: Int = 1,
+    numOfWindows: String = "",
+    windowType: String = "",
     onChange: (name: String, v: String) -> Unit = { name, v -> }
 ){
+    //    val typeOptions = listOf(
+//        OptionItem("Normal",::clickTypeOption),
+//        OptionItem("Bay",::clickTypeOption),
+//        OptionItem("Arch",::clickTypeOption),
+//        OptionItem("Slide",::clickTypeOption),
+//        OptionItem("Bi-Fold",::clickTypeOption),
+//        OptionItem("High",::clickTypeOption),
+//    )
+
     Column(modifier = Modifier.width(300.dp)) {
         NumberInput(
-            value = numOfWindows.toString(),
+            value = numOfWindows,
             onValueChange = { onChange("numOfWindows", it) },
             label = "Num of Windows",
         )

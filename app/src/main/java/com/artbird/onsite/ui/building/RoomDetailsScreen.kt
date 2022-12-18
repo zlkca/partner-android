@@ -72,11 +72,11 @@ fun RoomDetailsScreen(
         }
     }
 //
-//    LaunchedEffect(key1 = roomId){
-//        if(roomId != null && roomId != "new") {
-//            windowViewModel.getWindowsByRoomId(roomId)
-//        }
-//    }
+    LaunchedEffect(key1 = roomId){
+        if(roomId != null && roomId != "new") {
+            windowViewModel.getWindowsByRoomId(roomId)
+        }
+    }
 
 //    if(status === DELETE_DONE) {
 //        Toast.makeText(
@@ -119,7 +119,8 @@ fun RoomDetailsScreen(
         room = room,
         windows = windows,
         onSelectWindow = {w->
-            navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${roomId}/windows/${w._id}")
+            Log.d("zlk", "buildings/${buildingId}/floors/${floorId}/rooms/${roomId}/windows/${w._id}/form")
+            navController.navigate("buildings/${buildingId}/floors/${floorId}/rooms/${roomId}/windows/${w._id}/form")
         },
         onBack = {
             Log.d("zlk","Back from Room Details to floor details: buildings/${buildingId}/floors/${floorId}")

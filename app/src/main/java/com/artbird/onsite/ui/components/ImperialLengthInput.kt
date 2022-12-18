@@ -50,7 +50,7 @@ fun ImperialLengthInput(
                 modifier = Modifier
     //                .weight(1f)
                     .padding(end = 8.dp)
-                    .width(80.dp)
+                    .width(100.dp)
             )
         }
     }
@@ -59,7 +59,7 @@ fun ImperialLengthInput(
 @Preview(showBackground = true)
 @Composable
 fun PreviewImperialLengthInput(){
-    var len by remember { mutableStateOf(ImparialLength("23", "11")) }
+    var len by remember { mutableStateOf(ImparialLength("23", "34")) }
 
     fun handleChange(l: ImparialLength){
         len.inches = l.inches

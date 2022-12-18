@@ -1,11 +1,8 @@
 package com.artbird.onsite
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -28,7 +25,6 @@ import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.auth.LoginScreen
 import com.artbird.onsite.ui.building.*
 import com.artbird.onsite.ui.quote.QuoteDetailsScreen
-import com.artbird.onsite.ui.measure.MeasureScreen
 import com.artbird.onsite.ui.quote.QuoteViewModel
 import com.artbird.onsite.ui.role.RoleViewModel
 import com.artbird.onsite.ui.window.WindowListScreen
@@ -36,8 +32,6 @@ import com.artbird.onsite.ui.window.WindowViewModel
 import java.io.File
 
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.artbird.onsite.ui.auth.SignupScreen
 import com.artbird.onsite.ui.project.ProjectDetailsScreen
 import com.artbird.onsite.ui.project.ProjectViewModel
@@ -48,7 +42,6 @@ import com.artbird.onsite.ui.appointment.AppointmentDetailsScreen
 import com.artbird.onsite.ui.appointment.AppointmentFormScreen
 import com.artbird.onsite.ui.appointment.AppointmentListScreen
 import com.artbird.onsite.ui.client.*
-import com.artbird.onsite.ui.components.Label2
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
 import com.artbird.onsite.ui.settings.ChangePasswordScreen
@@ -168,14 +161,10 @@ fun NaviRoute(
         composable(route = "appointments") {
             if (user != null) {
                 AppointmentListScreen(
-                    navController = navController,
-                    appointmentViewModel = appointmentViewModel,
+                    navController=navController,
+                    appointmentViewModel=appointmentViewModel,
                     employee = user,
-                )
-//                AppointmentListScreen(
-//                    user,
-//                    navController,
-//                    appointmentViewModel,
+                    onSelectAppointment = onChangeAppointment
 //                    onMeasure,
 //                    onAdd={
 //                        onChangeClient(
@@ -199,7 +188,7 @@ fun NaviRoute(
 //                            )
 //                        )
 //                    }
-//                )
+                )
             }
         }
 
@@ -216,10 +205,7 @@ fun NaviRoute(
                     navController = navController,
                     appointmentId = it.arguments?.getString("id")!!,
                     appointmentViewModel = appointmentViewModel,
-                    clientViewModel = profileViewModel,
-//                    onSelectClient = onChangeClient,
                     onSelectAppointment = onChangeAppointment,
-                    user = user,
                 )
             }
         }
@@ -247,8 +233,7 @@ fun NaviRoute(
             BuildingListScreen(
                 navController,
                 buildingViewModel,
-                appointment,
-//                clientProfile,
+                appointment
             )
         }
 
@@ -382,12 +367,12 @@ fun NaviRoute(
         {
             WindowFormScreen(
                 navController,
-                buildingViewModel,
+//                buildingViewModel,
                 windowViewModel,
-                appointment = Appointment(),
-                buildingId = it.arguments?.getString("buildingId")!!,
-                floorId = it.arguments?.getString("floorId")!!,
-                roomId = it.arguments?.getString("roomId")!!,
+//                appointment = Appointment(),
+//                buildingId = it.arguments?.getString("buildingId")!!,
+//                floorId = it.arguments?.getString("floorId")!!,
+//                roomId = it.arguments?.getString("roomId")!!,
                 windowId = it.arguments?.getString("id")!!,
             )
         }
@@ -414,21 +399,21 @@ fun NaviRoute(
 //            )
 //        }
 
-        composable(route = "appointments/{id}/buildings",
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                }
-            )
-        ){
-            MeasureScreen(
-                navController,
-                appointmentId=it.arguments?.getString("id"),
-                appointmentViewModel,
-                buildingViewModel,
-                windowViewModel,
-            )
-        }
+//        composable(route = "appointments/{id}/buildings",
+//            arguments = listOf(
+//                navArgument("id") {
+//                    type = NavType.StringType
+//                }
+//            )
+//        ){
+//            MeasureScreen(
+//                navController,
+//                appointmentId=it.arguments?.getString("id"),
+//                appointmentViewModel,
+//                buildingViewModel,
+//                windowViewModel,
+//            )
+//        }
 
         composable(route = "quotes"){
 //            QuoteListScreen(

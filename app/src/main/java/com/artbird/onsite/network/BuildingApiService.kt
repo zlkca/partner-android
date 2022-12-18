@@ -3,6 +3,7 @@ package com.artbird.onsite.network
 import com.artbird.onsite.domain.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -25,7 +26,7 @@ interface BuildingApiService {
     suspend fun createBuilding(@Body building: Building): Building
 
     @POST("buildings/sample")
-    suspend fun createBuildingSample(@Body building: Building): PostResponse
+    suspend fun createSampleBuilding(@Body req: SampleBuildingReqBody): Response<Building>
 
     @PUT("buildings/{id}")
     suspend fun updateBuilding(@Path("id") id: String, @Body updates: Building): Building?

@@ -6,6 +6,7 @@ import com.artbird.onsite.domain.PutResponse
 import com.artbird.onsite.domain.Window
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -22,17 +23,21 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface WindowApiService {
-    @GET("windows")
-    suspend fun getWindows(): List<Window>
+
+
+    @GET("windows/rooms/{roomId}")
+    suspend fun getWindowsByRoomId(@Path("roomId") roomId: String): Response<List<Window>>
 
     @GET("windows/{id}")
-    suspend fun getWindow(@Path("id") id: String): Window
+    suspend fun getWindow(@Path("id") id: String): Response<Window>
+
+
+    @GET("windows")
+    suspend fun getWindows(): List<Window>
 
     @POST("windows")
     suspend fun createWindow(@Body window: Window): PostResponse
 
-    @GET("windows/rooms/{roomId}")
-    suspend fun getWindowsByRoomId(@Path("roomId") roomId: String): List<Window>?
 
     @PUT("windows/{id}")
     suspend fun updateWindow(@Path("id") id: String, @Body updates: Window): PutResponse

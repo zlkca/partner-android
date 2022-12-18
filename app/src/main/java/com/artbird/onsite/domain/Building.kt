@@ -34,6 +34,12 @@ data class Building(
     var appointmentId: String = ""
 )
 
+data class SampleBuildingReqBody(
+//    var name: String = "",
+//    var notes: String = "",
+    var appointmentId: String = "",
+)
+
 // Api
 // -- populateDefaultArea
 // -- populateDefaultFloor

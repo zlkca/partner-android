@@ -33,7 +33,7 @@ fun WindowWidthInput(
         ){
             ImperialLengthInput("Top", toImparialLength(top),
                 onChange = {
-                    onChange("top", toImparialLengthString(it))
+                    onChange("width-top", toImparialLengthString(it))
                 })
         }
         Row(
@@ -43,7 +43,7 @@ fun WindowWidthInput(
         ){
             ImperialLengthInput("Middle", toImparialLength(middle),
                 onChange = {
-                    onChange("middle", toImparialLengthString(it))
+                    onChange("width-middle", toImparialLengthString(it))
                 })
         }
         Row(
@@ -53,7 +53,7 @@ fun WindowWidthInput(
         ){
             ImperialLengthInput("Bottom", toImparialLength(bottom),
                 onChange = {
-                    onChange("bottom", toImparialLengthString(it))
+                    onChange("width-bottom", toImparialLengthString(it))
                 })
         }
     }

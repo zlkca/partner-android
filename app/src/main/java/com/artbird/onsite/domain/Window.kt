@@ -63,7 +63,6 @@ data class Window (
     val lockers: List<Locker> = listOf(),
     val originalFrameStyle: String = "Normal",
     val roomId: String = "",
-    val appointmentId: String = "",
 )
 
 data class ImparialLength(

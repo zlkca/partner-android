@@ -31,9 +31,8 @@ import androidx.compose.ui.unit.toSize
 
 data class OptionItem (
     val label: String,
-    val onClick: (OptionItem)->Unit
+    val value: String,
 )
-
 
 @Composable
 fun Select(
@@ -41,6 +40,7 @@ fun Select(
     value: String,
     options: List<OptionItem>,
     onValueChange: (v: String) -> Unit,
+    onClickDropdownMenu: (it: OptionItem) -> Unit = {},
     modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp),
     ) {
     var expanded by remember { mutableStateOf(false) }
@@ -80,7 +80,7 @@ fun Select(
                     text= { Text(it.label) },
                     onClick = {
                         expanded = false
-                        it.onClick(it)
+                        onClickDropdownMenu(it)
                     } )
             }
         }
@@ -95,9 +95,9 @@ fun PreviewSelect(){
         selectedText = it.label
     }
     val options = listOf(
-        OptionItem("Item1",::handleClick),
-        OptionItem("Item2",::handleClick),
-        OptionItem("Item3",::handleClick)
+        OptionItem("Item1", "it1"),
+        OptionItem("Item2", "it2"),
+        OptionItem("Item3", "it3")
     )
 
 

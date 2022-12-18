@@ -1,5 +1,6 @@
 package com.artbird.onsite.ui.appointment
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +13,8 @@ import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.client.ProfileViewModel
 import com.artbird.onsite.ui.components.FormActionBar
 import com.artbird.onsite.ui.utils.getAddressString
+import com.artbird.onsite.ui.utils.getDate
+import com.artbird.onsite.ui.utils.getTime
 import java.text.SimpleDateFormat
 
 @Composable
@@ -23,7 +26,8 @@ fun AppointmentFormScreen(
     user: Account, // logged in user
 ){
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
-//    val appointment by appointmentViewModel.appointment.observeAsState()
+    val appointment by appointmentViewModel.appointment.observeAsState()
+
     var client by remember { mutableStateOf(Account()) }
 
     var address by remember { mutableStateOf(Address()) }
@@ -48,16 +52,17 @@ fun AppointmentFormScreen(
 //        }
 //    }
 //
-//    LaunchedEffect(key1 = appointment){
-//        if(appointment != null && appointmentId != "new") {
-////            clientProfile = appointment?.clientProfile!!
-//            title = appointment?.title!!
-//            notes = appointment?.notes!!
-//            date = getDate(appointment?.start!!)
-//            start = getTime(appointment?.start!!)
-//            end = getTime(appointment?.end!!)
-//        }
-//    }
+    LaunchedEffect(key1 = appointment){
+        if(appointment != null && appointmentId != "new") {
+            client = appointment?.client!!
+            title = appointment?.title!!
+            notes = appointment?.notes!!
+            date = getDate(appointment?.start!!)
+            start = getTime(appointment?.start!!)
+            end = getTime(appointment?.end!!)
+            address = appointment?.address!!
+        }
+    }
 
     fun validate(): Boolean {
         var e = mutableMapOf<String, String>()
@@ -138,19 +143,7 @@ fun AppointmentFormScreen(
             navController.navigate("appointments")
         }
     }
-    Column(modifier = Modifier
-        .padding(12.dp)
-    ) {
-        FormActionBar(
-            onCancel = {
-//                if(appointmentId!= "new"){
-//                    navController.navigate("appointments/$appointmentId")
-//                }else{
-//                    navController.navigate("appointments")
-//                }
-            },
-            onSave = ::handleSubmit
-        )
+
         AppointmentForm(
             navController,
             client,
@@ -176,9 +169,17 @@ fun AppointmentFormScreen(
                     "postcode" -> address = address.copy(postcode = value)
                 }
             },
-            onSubmit = ::handleSubmit
+            onSubmit = ::handleSubmit,
+            onCancel = {
+                if(appointmentId!= "new"){
+                    Log.d("zlk", "appointments/${appointmentId}")
+                    navController.navigate("appointments/${appointmentId}")
+                }else{
+                    navController.navigate("appointments")
+                }
+            }
         )
-    }
+
 }
 
 

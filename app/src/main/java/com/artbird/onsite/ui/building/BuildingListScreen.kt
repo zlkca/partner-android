@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
+import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
 import com.artbird.onsite.ui.components.ListActionBar
@@ -29,6 +30,7 @@ fun BuildingListScreen(
     buildingViewModel: BuildingViewModel,
     appointment: Appointment2,
 ) {
+//    val appointment by appointmentViewModel.appointment.observeAsState()
     val buildings by buildingViewModel.buildings.observeAsState(listOf())
     var selectedBuilding by buildingViewModel.selectedBuilding
 
@@ -37,8 +39,8 @@ fun BuildingListScreen(
 
 //    var status by remember { mutableStateOf(com.shutterlux.onsite.ui.building.ApiStatus.LOADING) }
 
-    LaunchedEffect(key1 = appointment._id) {
-        if (appointment._id != "" && appointment._id != "new") {
+    LaunchedEffect(key1 = appointment) {
+        if (appointment._id != "") {
             buildingViewModel.getBuildingsByAppointmentId(appointment._id)
         }
     }
@@ -66,34 +68,6 @@ fun BuildingListScreen(
 
     fun getBuildingLabel(item: Building, name: String): String {
         return item.name
-    }
-
-    fun handleAddSample() {
-        // create default building
-        buildingViewModel.createBuildingSample(
-            Building("",
-                "New Address",
-                "New building",
-                appointmentId = appointment._id,
-                floors = listOf(
-                    Floor("", "First Floor", "", rooms = listOf(
-                        Room("", "Living Room", ""),
-                        Room("", "Family Room", ""),
-                        Room("", "Dinning Room", ""),
-                        Room("", "Kitchen", ""),
-                    )),
-                    Floor("", "Second Floor", "", rooms = listOf(
-                        Room("", "Master Bedroom", ""),
-                        Room("", "Room 1", ""),
-                        Room("", "Room 2", ""),
-                        Room("", "Room 3", ""),
-                        Room("", "Washroom1", ""),
-                        Room("", "Washroom2", ""),
-                    )),
-                )
-            ),
-        )
-        buildingViewModel.getBuildingsByAppointmentId(appointment._id)
     }
 
 
@@ -143,6 +117,7 @@ fun BuildingListScreen(
         }
     }else {
         BuildingList(
+            appointment!!,
             buildings!!,
             selectedIndex = selectedBuildingIndex,
             onSelect = { index ->
@@ -151,31 +126,12 @@ fun BuildingListScreen(
                 selectedBuilding = building
                 navController.navigate("buildings/${building._id}")
             },
-            onAdd = { navController.navigate("buildings/new/form") }
+            onAdd = { navController.navigate("buildings/new/form") },
+            onAddSample = {
+                buildingViewModel.createSampleBuilding(SampleBuildingReqBody(appointmentId = appointment._id));
+                buildingViewModel.getBuildingsByAppointmentId(appointment._id);
+            },
+            onBack = { navController.navigate("appointments/${appointment._id}")}
         )
-//        Column(
-//            modifier = Modifier
-//                .padding(8.dp)
-//        ) {
-//
-////            Text(text = getAddressString(client.address), modifier = Modifier.padding(8.dp))
-//
-//            ListActionBar(items = listOf(
-//                ActionChip("Building", onClick = { navController.navigate("buildings/new/form") }),
-//                ActionChip("Sample Building", onClick = ::handleAddSample)
-//            ))
-//
-//            if (buildings != null && buildings?.isNotEmpty()!!) {
-//                com.artbird.onsite.ui.components.List<Building>(
-//                    buildings!!,
-//                    selectedBuildingIndex,
-//                    fields = listOf("name"),
-//                    onGetLabel = ::getBuildingLabel,
-//                    onSelect = ::handleSelectBuilding,
-//                    onSelectMenu = { index -> selectedBuildingIndex = index },
-//                    menus = menus,
-//                )
-//            }
-//        }
     }
 }

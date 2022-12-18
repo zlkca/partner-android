@@ -7,11 +7,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.artbird.onsite.domain.Building
-import com.artbird.onsite.domain.Floor
-import com.artbird.onsite.domain.Room
+import com.artbird.onsite.domain.*
 import com.artbird.onsite.network.BuildingApi
+import com.artbird.onsite.repository.BuildingRepository
+import com.artbird.onsite.repository.ProfileRepository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class ApiStatus { LOADING, ERROR, DONE,
     DELETE_BUILDING_DONE, DELETE_BUILDING_ERROR,
@@ -43,6 +47,13 @@ class BuildingViewModel : ViewModel() {
 
     private val _room = MutableLiveData<Room>()
     val room: LiveData<Room> = _room
+
+
+    private val _error = MutableLiveData<FormError>()
+    val error: LiveData<FormError> = _error
+
+    private val repo = BuildingRepository()
+    private val gson = Gson()
 
     var selectedBuilding = mutableStateOf(Building())
     var selectedFloor = mutableStateOf(Floor())
@@ -96,19 +107,33 @@ class BuildingViewModel : ViewModel() {
         }
     }
 
-    fun createBuildingSample(body: Building) {
+    fun createSampleBuilding(body: SampleBuildingReqBody) {
         viewModelScope.launch {
             _status.value = ApiStatus.LOADING
             try {
-                BuildingApi.retrofitService.createBuildingSample(body)
-                _status.value = ApiStatus.DONE
+                val rsp = withContext(Dispatchers.IO) {
+                    repo.createSampleBuilding(body)
+                }
+                val code = rsp.code()
+
+                if(code == 200) {
+                    _building.value = rsp.body()!!
+                    _error.value = FormError()
+                    _status.value = ApiStatus.DONE
+                }else {
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _error.value = it!!
+                    _status.value = ApiStatus.ERROR
+                }
             } catch (e: Exception) {
-                _building.value = null // listOf()
+                _building.value = null
                 _status.value = ApiStatus.ERROR
                 throw e
             }
         }
     }
+
 
     fun getBuildingsByAppointmentId(id: String) {
         viewModelScope.launch {

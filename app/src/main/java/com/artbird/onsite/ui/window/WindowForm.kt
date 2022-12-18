@@ -23,14 +23,22 @@ fun WindowForm(
     onSave: ()-> Unit = {},
     onCancel: ()-> Unit = {}
 ){
-    var nWindows: Int by remember { mutableStateOf(0) }
+    var nWindows: String by remember { mutableStateOf("") }
+    var directionOptions = listOf<String>()
+    var windowType by remember { mutableStateOf("")}
+
+
+
 
     Row(
         horizontalArrangement = Arrangement.End
     ) {
         Column(modifier = Modifier.weight(1F)) {
             WindowCanvas(
-                numOfWindows = nWindows,
+                numOfWindows = if(nWindows.toDoubleOrNull() != null) nWindows.toInt() else 0,
+                w = window.width,
+                h = window.height,
+                onChange = onChange
             )
         }
 
@@ -38,7 +46,10 @@ fun WindowForm(
             numOfWindows = nWindows,
             onChange = {name, v ->
                 when(name){
-                    "numOfWindows" -> nWindows = if(v.isNotEmpty()) v.toInt() else 0
+                    "numOfWindows" -> {
+                        nWindows = v
+                        onChange("numOfWindows", v)
+                    }
                 }
             }
         )
@@ -220,8 +231,8 @@ fun WindowForm(
 @Preview(
     name="Light Mode",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    device = Devices.AUTOMOTIVE_1024p,
-    widthDp = 2560, heightDp = 1600
+//    device = Devices.AUTOMOTIVE_1024p,
+    widthDp = 2048, heightDp = 1536
 )
 @Preview(showBackground = true)
 @Composable

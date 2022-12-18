@@ -38,7 +38,7 @@ fun AppointmentDetails(
         if(appointment != null) {
             DetailsViewActionBar(
                 onBack = { navController.navigate("appointments")},
-                onEdit = { navController.navigate("appointments/$appointment._id/form") }
+                onEdit = { navController.navigate("appointments/${appointment._id}/form") }
             )
 
             Column(

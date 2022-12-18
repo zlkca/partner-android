@@ -73,9 +73,9 @@ fun ClientFormOld(
     val verticalScrollState = rememberScrollState()
 
     val provinceOptions = listOf(
-        OptionItem("ON", {addressDetails.province = it.label}),
-        OptionItem("QC", {addressDetails.province = it.label}),
-        OptionItem("BC", {addressDetails.province = it.label}),
+        OptionItem("ON", "ON"),
+        OptionItem("QC", "QC"),
+        OptionItem("BC", "BC"),
     )
 
     fun handleSubmit(){
