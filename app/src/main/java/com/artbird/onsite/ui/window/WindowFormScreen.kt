@@ -58,51 +58,23 @@ fun WindowFormScreen(
         }
     }
 
-    fun getDirectionOptions(nWindows: String, windowType: String): List<String> {
-        return when(nWindows){
-            "1" -> listOf<String>("L", "R")
-            "2" -> listOf<String>("LR", "LL", "RR")
-            "3" -> {
-                when(windowType){
-                    "bay" -> listOf<String>("LTLTR", "LTRTR")
-                    else -> listOf<String>("LRTR", "LTLR", "LLL", "RRR")
-                }
-            }
-            "4" -> {
-                when(windowType){
-                    "bay" -> listOf<String>("LTLRTR")
-                    else -> listOf<String>("LRTLR", "LLRR")
-                }
-            }
-            "5" -> {
-                when(windowType){
-                    "bay" -> listOf<String>("LTLRTRTR")
-                    else -> listOf<String>("LRTLRTR", "LRTLTLR", "LTLRTLR")
-                }
-            }
-            "6" -> listOf<String>("LRTLRTLR")
-            "7" -> listOf<String>("LRTLRTLRTR")
-            "8" -> listOf<String>("LRTLRTLRTLR")
-            else -> listOf()
-        }
-    }
+
 
     WindowForm(
         window = window,
         onChange = {name, value ->
-//            when(name){
-//                "height-left" -> window = window.copy(height=window.height.copy(left=value))
-//                "height-middle" -> window = window.copy(height=window.height.copy(mid=value))
-//                "height-right" -> window = window.copy(height=window.height.copy(right=value))
-//                "width-top" -> window = window.copy(width=window.width.copy(top=value))
-//                "width-middle" -> window = window.copy(width=window.width.copy(mid=value))
-//                "width-bottom" -> window = window.copy(width=window.width.copy(bottom=value))
-//                "numOfWindows" -> {
-//                    directionOptions = getDirectionOptions(value, windowType)
-//                }
-//            }
-        }
+            when(name){
+                "height-left" -> window = window.copy(height=window.height.copy(left=value))
+                "height-middle" -> window = window.copy(height=window.height.copy(mid=value))
+                "height-right" -> window = window.copy(height=window.height.copy(right=value))
+                "width-top" -> window = window.copy(width=window.width.copy(top=value))
+                "width-middle" -> window = window.copy(width=window.width.copy(mid=value))
+                "width-bottom" -> window = window.copy(width=window.width.copy(bottom=value))
+                "numOfWindows" -> window = window.copy(numOfWindows = value)
+                }
+            }
     )
+}
 
 //    val windowState by windowViewModel.window.observeAsState()
 //    val building by buildingViewModel.building.observeAsState()
@@ -386,5 +358,5 @@ fun WindowFormScreen(
 //        },
 //        onSave = ::handleSubmit
 //    )
-}
+//}
 

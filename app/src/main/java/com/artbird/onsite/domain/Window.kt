@@ -44,6 +44,16 @@ data class Locker(
     var position: LockerPosition = LockerPosition("LM", "RB"),
     var size: LockerSize = LockerSize()
 )
+data class DividerRail(
+    var unit: String = "inch",
+    var height: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
+    var top: String = ""
+)
+
+data class DirectionArray(
+    var directions: List<String> = listOf(),
+    var ts: List<Int> = listOf()
+)
 
 data class Window (
     var _id: String = "",
@@ -54,7 +64,7 @@ data class Window (
     val type: String = "Normal",
     val position: String = "L",
     var openingDirection: String = "L",
-    var numOfWindows: Int = 0,
+    var numOfWindows: String = "",
     var mountPosition: String = "L",
     val bafflePosition: BafflePosition = BafflePosition(),
     val bladeSize: String = "",

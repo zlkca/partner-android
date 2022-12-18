@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.toSize
 
 
 data class OptionItem (
-    val label: String,
-    val value: String,
+    val label: String = "",
+    val value: String = "",
 )
 
 @Composable

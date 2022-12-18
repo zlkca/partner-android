@@ -95,7 +95,7 @@ fun WindowScreen(
 //                floatToString(window?.height!!.mid),
 //                floatToString(window?.height!!.right),
 //            )
-            numOfWindows = intToString(window?.numOfWindows!!)
+//            numOfWindows = intToString(window?.numOfWindows!!)
             type = window ?. type !!
 //            position = window?.position!!
 //                    direction = window ?. direction !!
@@ -115,8 +115,8 @@ fun WindowScreen(
     }
 
     val bladeOptions = listOf(
-        OptionItem("2.5 Inch",::clickBladeOption),
-        OptionItem("3.5 Inch",::clickBladeOption),
+        OptionItem("2.5 Inch", "2.5in"),
+        OptionItem("3.5 Inch","3.5in"),
     )
 
     fun clickLeverTypeOption(it: OptionItem){
@@ -124,8 +124,8 @@ fun WindowScreen(
     }
 
     val leverOptions = listOf(
-        OptionItem("Invisible",::clickLeverTypeOption),
-        OptionItem("Others",::clickLeverTypeOption),
+        OptionItem("Invisible", "invisible"),
+        OptionItem("Others", "others"),
     )
 
     fun clickInstallOption(it: OptionItem){
@@ -177,8 +177,8 @@ fun WindowScreen(
     }
 
     val installPositionOptions = listOf(
-        OptionItem("Interal",::clickInstallOption),
-        OptionItem("External",::clickInstallOption),
+        OptionItem("Interal","internal"),
+        OptionItem("External","external"),
     )
 
     Column(

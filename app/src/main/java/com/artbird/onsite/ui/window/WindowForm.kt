@@ -24,8 +24,6 @@ fun WindowForm(
     onCancel: ()-> Unit = {}
 ){
     var nWindows: String by remember { mutableStateOf("") }
-    var directionOptions = listOf<String>()
-    var windowType by remember { mutableStateOf("")}
 
 
 
