@@ -39,7 +39,7 @@ fun WindowFormScreen(
 //    appointment: Appointment,
 //    buildingId: String,
 //    floorId: String,
-//    roomId: String,
+    roomId: String,
 //    windowId: String?,
 ) {
     val windowState by windowViewModel.window.observeAsState()
@@ -72,7 +72,15 @@ fun WindowFormScreen(
                 "width-bottom" -> window = window.copy(width=window.width.copy(bottom=value))
                 "numOfWindows" -> window = window.copy(numOfWindows = value)
                 }
+            },
+        onSave = {
+            if (window!= null && windowId != "new") {
+                //  windowViewModel.updateWindow(windowId!!, data)
+            } else {
+                windowViewModel.createWindow(it.copy(roomId=roomId))
             }
+            navController.popBackStack()
+        }
     )
 }
 

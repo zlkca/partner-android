@@ -113,6 +113,17 @@ fun toImparialLengthString(v: ImparialLength):  String{
     }
 }
 
+fun toFloatInch(s: String): Float {
+    val a = s.split("in").filter { it -> it != "" };
+
+    if(a.size == 1) {
+        return a[0].toFloat();
+    }else if(a.size == 2) {
+        return a[0].toFloat() + a[1].toFloat() / 16
+    }else {
+        return 0F
+    }
+}
 //// val --- 1 / 16 inches
 //fun toImparialLength( value: Int): ImparialLength {
 //    val inches = value / 12

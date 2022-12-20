@@ -2,12 +2,15 @@ package com.artbird.onsite.ui.window
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.WindowDividerRail
 import com.artbird.onsite.domain.Window
 import com.artbird.onsite.domain.WindowFrameStyles
+import com.artbird.onsite.ui.components.FormActionBar
 import com.artbird.onsite.ui.components.OptionItem
 import com.artbird.onsite.ui.theme.SLTheme
 
@@ -17,8 +20,7 @@ fun WindowForm(
     window: Window,
     error: Map<String, String> = mapOf<String, String>(),
     onChange: (fieldName: String, value: String) -> Unit = {f,v -> },
-
-    onSave: ()-> Unit = {},
+    onSave: (w: Window)-> Unit = {},
     onCancel: ()-> Unit = {}
 ){
     var nWindows: String by remember { mutableStateOf("") }
@@ -43,26 +45,45 @@ fun WindowForm(
             )
         }
 
-        WindowOptions(
-            numOfWindows = nWindows,
-            windowType = windowType,
-            windowFrameStyles = frameStyles,
-            windowDirections = windowDirections,
-            onChange = {name, v ->
-                when(name){
-                    "numOfWindows" -> {
-                        nWindows = v
-                        onChange("numOfWindows", v)
-                    }
-                    "openingDirection" -> { windowDirections = v }
-                    "divider-height" -> onChange("divider-height", v)
-                    "divider-top" -> onChange("divider-top", v)
+        Column(
+            modifier = Modifier
+                .width(310.dp)
+        ) {
+            FormActionBar(
+                onCancel = onCancel,
+                onSave = {
+                    onSave(window.copy(
+                        type = windowType,
+                        numOfWindows = nWindows,
+                        dividerRail = dividerRail,
+                        frameStyle = frameStyles,
+                        openingDirections = windowDirections
+                    ))
                 }
-            },
-            onFrameStyleChange = {
-                frameStyles = it
-            }
-        )
+            )
+
+            WindowOptions(
+                numOfWindows = nWindows,
+                windowType = windowType,
+                windowFrameStyles = frameStyles,
+                dividerRail = dividerRail,
+                onChange = {name, v ->
+                    when(name){
+                        "numOfWindows" -> {
+                            nWindows = v
+                            onChange("numOfWindows", v)
+                        }
+                        "openingDirection" -> { windowDirections = v }
+                        "divider-height" -> { dividerRail = dividerRail.copy(height = v) }
+                        "divider-top" -> { dividerRail = dividerRail.copy(top = v) }
+                    }
+                },
+                onFrameStyleChange = {
+                    frameStyles = it
+                }
+            )
+        }
+
     }
 
 //    val verticalScrollState = rememberScrollState()

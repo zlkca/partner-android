@@ -2,8 +2,11 @@ package com.artbird.onsite.ui.window
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +25,7 @@ fun WindowOptions(
     numOfWindows: String = "",
     windowType: String = "",
     windowFrameStyles: WindowFrameStyles = WindowFrameStyles(),
-    windowDirections: String = "",
+    dividerRail:WindowDividerRail = WindowDividerRail(),
     onChange: (name: String, v: String) -> Unit = { name, v -> },
     onFrameStyleChange: (style: WindowFrameStyles) -> Unit = {},
 ){
@@ -40,12 +43,8 @@ fun WindowOptions(
     var directionOptions by remember { mutableStateOf(listOf<OptionItem>()) }
 
     var openingDirection by remember { mutableStateOf("") }
-    var frameStyle by remember {
-        mutableStateOf(OptionItem())
-    }
-    var dividerRail by remember {
-        mutableStateOf(WindowDividerRail(height = "", top = ""))
-    }
+
+    val verticalScrollState = rememberScrollState()
 
     fun toOptions(list: List<String>): List<OptionItem> {
         return list.map { OptionItem(it, it) }
@@ -80,7 +79,11 @@ fun WindowOptions(
         }
     }
 
-    Column(modifier = Modifier.width(310.dp)) {
+    Column(modifier = Modifier
+        .verticalScroll(verticalScrollState)
+        .width(310.dp)
+        .height(560.dp)
+    ) {
         NumberInput(
             value = numOfWindows,
             onValueChange = {
@@ -145,7 +148,8 @@ fun PreviewWindowOptions(){
     SLTheme {
         WindowOptions(
             numOfWindows = "2",
-            windowType = "Normal"
+            windowType = "Normal",
+            dividerRail = WindowDividerRail(height="20in5", top="42in7")
         )
     }
 }

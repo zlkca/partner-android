@@ -372,7 +372,7 @@ fun NaviRoute(
 //                appointment = Appointment(),
 //                buildingId = it.arguments?.getString("buildingId")!!,
 //                floorId = it.arguments?.getString("floorId")!!,
-//                roomId = it.arguments?.getString("roomId")!!,
+                roomId = it.arguments?.getString("roomId")!!,
                 windowId = it.arguments?.getString("id")!!,
             )
         }

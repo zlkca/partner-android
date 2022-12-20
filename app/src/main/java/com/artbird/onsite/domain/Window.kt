@@ -70,16 +70,18 @@ data class Window (
     val height: WindowHeight = WindowHeight(),
     val type: String = "Normal",
     val position: String = "L",
-    var openingDirection: String = "L",
+    var openingDirections: String = "",
     var numOfWindows: String = "",
     var mountPosition: String = "L",
     val bafflePosition: BafflePosition = BafflePosition(),
     val bladeSize: String = "",
     val leverType: String = "",
-    val frameStyle: String = "L Frame",
+    var frameStyle: WindowFrameStyles = WindowFrameStyles(),
     val lockers: List<Locker> = listOf(),
     val originalFrameStyle: String = "Normal",
+    var dividerRail: WindowDividerRail = WindowDividerRail(),
     val roomId: String = "",
+
 )
 
 data class ImparialLength(

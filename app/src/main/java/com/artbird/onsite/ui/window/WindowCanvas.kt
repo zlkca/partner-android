@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.theme.SLTheme
+import com.artbird.onsite.ui.utils.toFloatInch
 import kotlin.math.roundToInt
 
 const val StandardWidth = 600
@@ -164,6 +165,21 @@ fun WindowCanvas(
                         start += width + padding
                     }
 
+
+                    if(h.left.isNotEmpty() && w.top.isNotEmpty() && dividerRail.height.isNotEmpty() && dividerRail.top.isNotEmpty()){
+                        val hl = toFloatInch(h.left)
+                        val hd = toFloatInch(dividerRail.height)
+                        val td = toFloatInch(dividerRail.top)
+
+                        val top = StandardHeight * td / hl
+                        val height = StandardHeight * hd /hl
+
+                        drawRect(
+                            topLeft = Offset(0f, top),
+                            size = Size(totalWidth, height),
+                            color = Color.Gray
+                        )
+                    }
 
                     this.drawIntoCanvas {
                         it.nativeCanvas.drawText(
