@@ -60,7 +60,7 @@ fun Select(
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = selectedOption!!.label,
+            value = selectedOption?.label ?: "",
             onValueChange = {
 //                onValueChange(selectedOption)
                             },

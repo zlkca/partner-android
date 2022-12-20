@@ -1,7 +1,6 @@
 package com.artbird.onsite.ui.window
 
 import android.content.res.Configuration
-import android.graphics.Path
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,26 +20,22 @@ import com.artbird.onsite.ui.utils.toImparialLengthString
 @Composable
 fun WindowOptions(
     numOfWindows: String = "",
-    onChange: (name: String, v: String) -> Unit = { name, v -> }
+    windowType: String = "",
+    windowFrameStyles: WindowFrameStyles = WindowFrameStyles(),
+    windowDirections: String = "",
+    onChange: (name: String, v: String) -> Unit = { name, v -> },
+    onFrameStyleChange: (style: WindowFrameStyles) -> Unit = {},
 ){
 
     var typeOptions by remember { mutableStateOf(listOf<OptionItem>(
-        OptionItem("Normal Window", "normal"),
-        OptionItem("Bay Window", "bay"),
-        OptionItem("Sliding Window", "sliding"),
-        OptionItem("Arch Window", "arch"),
-        OptionItem("Bi-Fold Window", "bi-fold"),
-        OptionItem("High Window", "high"),
+        OptionItem("Normal", "Normal"),
+        OptionItem("Bay", "Bay"),
+        OptionItem("Sliding", "Sliding"),
+        OptionItem("Arch", "Arch"),
+        OptionItem("Bi-Fold", "Bi-Fold"),
+        OptionItem("High", "High"),
     )) }
 
-    var frameOptions by remember { mutableStateOf(listOf<OptionItem>(
-        OptionItem("Z", "Z"),
-        OptionItem("big Z", "bigZ"),
-        OptionItem("HG", "HG"),
-        OptionItem("L", "L"),
-    )) }
-
-    var windowType by remember { mutableStateOf(OptionItem())}
 
     var directionOptions by remember { mutableStateOf(listOf<OptionItem>()) }
 
@@ -49,7 +44,7 @@ fun WindowOptions(
         mutableStateOf(OptionItem())
     }
     var dividerRail by remember {
-        mutableStateOf(DividerRail(height = "", top = ""))
+        mutableStateOf(WindowDividerRail(height = "", top = ""))
     }
 
     fun toOptions(list: List<String>): List<OptionItem> {
@@ -62,19 +57,19 @@ fun WindowOptions(
             "2" -> toOptions(listOf("LR", "LL", "RR"))
             "3" -> {
                 when(windowType){
-                    "bay" -> toOptions(listOf("LTLTR", "LTRTR"))
+                    "Bay" -> toOptions(listOf("LTLTR", "LTRTR"))
                     else -> toOptions(listOf("LRTR", "LTLR", "LLL", "RRR"))
                 }
             }
             "4" -> {
                 when(windowType){
-                    "bay" -> toOptions(listOf("LTLRTR"))
+                    "Bay" -> toOptions(listOf("LTLRTR"))
                     else -> toOptions(listOf("LRTLR", "LLRR"))
                 }
             }
             "5" -> {
                 when(windowType){
-                    "bay" -> toOptions(listOf("LTLRTRTR"))
+                    "Bay" -> toOptions(listOf("LTLRTRTR"))
                     else -> toOptions(listOf("LRTLRTR", "LRTLTLR", "LTLRTLR"))
                 }
             }
@@ -85,47 +80,45 @@ fun WindowOptions(
         }
     }
 
-    Column(modifier = Modifier.width(300.dp)) {
+    Column(modifier = Modifier.width(310.dp)) {
         NumberInput(
             value = numOfWindows,
             onValueChange = {
-//                directionOptions = getDirectionOptions(it, windowType)
+                directionOptions = getDirectionOptions(it, windowType)
                 onChange("numOfWindows", it)
-                            },
+            },
             label = "Num of Windows",
         )
 
         Select(
-            value = windowType.label,
-            onValueChange ={
-                directionOptions = getDirectionOptions(it.value, windowType.value)
-                windowType = it
-                           },
+            value = windowType,
+            onValueChange = {
+                directionOptions = getDirectionOptions(numOfWindows, it.value)
+                onChange("windowType", it.value)
+            },
             label = "Window Type",
             options = typeOptions
         )
 
-        Select(
-            value = openingDirection,
-            onValueChange ={
-                onChange("openingDirection", it.value)
-            },
-            label = "Open Direction",
-            options = directionOptions
-        )
+        if(numOfWindows.isNotEmpty() && windowType.isNotEmpty()) {
+            Select(
+                value = openingDirection,
+                onValueChange = {
+                    onChange("openingDirection", it.value)
+                },
+                label = "Open Direction",
+                options = directionOptions
+            )
+        }
 
-        Select(
-            value = frameStyle.label,
-            onValueChange ={
-                frameStyle = it
-            },
-            label = "Frame Style",
-            options = frameOptions
+        FrameStyleSelect(
+            windowFrameStyles,
+            onChange = onFrameStyleChange
         )
 
         Column(modifier = Modifier.padding(start=10.dp),) {
             ImperialLengthInput(
-                "Divider Rail Height",
+                "Divider Rail Heigactoht",
                 toImparialLength(dividerRail.height),
 
                 onChange = {
@@ -152,6 +145,7 @@ fun PreviewWindowOptions(){
     SLTheme {
         WindowOptions(
             numOfWindows = "2",
+            windowType = "Normal"
         )
     }
 }

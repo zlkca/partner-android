@@ -2,16 +2,13 @@ package com.artbird.onsite.ui.window
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.artbird.onsite.domain.WindowDividerRail
 import com.artbird.onsite.domain.Window
-import com.artbird.onsite.ui.components.*
+import com.artbird.onsite.domain.WindowFrameStyles
+import com.artbird.onsite.ui.components.OptionItem
 import com.artbird.onsite.ui.theme.SLTheme
 
 
@@ -20,13 +17,16 @@ fun WindowForm(
     window: Window,
     error: Map<String, String> = mapOf<String, String>(),
     onChange: (fieldName: String, value: String) -> Unit = {f,v -> },
+
     onSave: ()-> Unit = {},
     onCancel: ()-> Unit = {}
 ){
     var nWindows: String by remember { mutableStateOf("") }
+    var windowType by remember { mutableStateOf("")}
 
-
-
+    var dividerRail by remember { mutableStateOf(WindowDividerRail())}
+    var windowDirections by remember { mutableStateOf("")}
+    var frameStyles by remember { mutableStateOf(WindowFrameStyles())}
 
     Row(
         horizontalArrangement = Arrangement.End
@@ -36,19 +36,31 @@ fun WindowForm(
                 numOfWindows = if(nWindows.toDoubleOrNull() != null) nWindows.toInt() else 0,
                 w = window.width,
                 h = window.height,
+                directions = windowDirections,
+                frameStyles = frameStyles,
+                dividerRail = dividerRail,
                 onChange = onChange
             )
         }
 
         WindowOptions(
             numOfWindows = nWindows,
+            windowType = windowType,
+            windowFrameStyles = frameStyles,
+            windowDirections = windowDirections,
             onChange = {name, v ->
                 when(name){
                     "numOfWindows" -> {
                         nWindows = v
                         onChange("numOfWindows", v)
                     }
+                    "openingDirection" -> { windowDirections = v }
+                    "divider-height" -> onChange("divider-height", v)
+                    "divider-top" -> onChange("divider-top", v)
                 }
+            },
+            onFrameStyleChange = {
+                frameStyles = it
             }
         )
     }

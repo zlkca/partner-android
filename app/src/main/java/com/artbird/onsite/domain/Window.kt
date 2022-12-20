@@ -44,10 +44,17 @@ data class Locker(
     var position: LockerPosition = LockerPosition("LM", "RB"),
     var size: LockerSize = LockerSize()
 )
-data class DividerRail(
+data class WindowDividerRail(
     var unit: String = "inch",
     var height: String = "", // eg."12in13" = 12 and 13/16 inches, inch fragments
     var top: String = ""
+)
+
+data class WindowFrameStyles(
+    var top: String = "",
+    var right: String = "",
+    var bottom: String = "",
+    var left: String = "",
 )
 
 data class DirectionArray(

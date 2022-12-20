@@ -25,7 +25,8 @@ fun Label2(text: String){
     Text(
         text = text,
         color = colorScheme.onBackground,
-        style = typography.labelMedium
+        style = typography.labelMedium,
+        modifier = Modifier.padding(top=8.dp, bottom = 8.dp)
     )
 }
 
@@ -34,7 +35,8 @@ fun Label3(text: String){
     Text(
         text = text,
         color = colorScheme.onBackground,
-        style = typography.labelSmall
+        style = typography.labelSmall,
+        modifier = Modifier.padding(top=8.dp, bottom = 8.dp)
     )
 }
 

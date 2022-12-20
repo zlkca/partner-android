@@ -9,11 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.artbird.onsite.R
@@ -32,89 +34,101 @@ fun LoginForm(
 )
 {
     val colorScheme = MaterialTheme.colorScheme
-
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+    BoxWithConstraints(
+        contentAlignment = Alignment.Center,
     ) {
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ){
-            Image(painterResource(R.drawable.logo_256),"Logo")
-        }
+            Column(
+                if (maxWidth < 960.dp)
+                    Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                else
+                    Modifier
+                        .width(600.dp)
+                ,
 
-        Box(
-            modifier = Modifier.padding(top=15.dp, bottom = 15.dp)
-        )
+                verticalArrangement = Arrangement.Top,
+            ) {
 
-        Input(
-            value = email,
-            onValueChange = { onChange("email", it) },
-            label = "Email",
-        )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(painterResource(R.drawable.logo_256), "Logo")
+                }
 
-        if (error.isNotEmpty() && error["email"] != null && error["email"] != "" ) {
-            Body2(
-                text = error["email"]!!,
-                color = colorScheme.onError,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
+                Box(
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                )
 
-        Input(
-            value = password,
-            onValueChange = { onChange("password", it) },
-            label = "Password",
-            visualTransformation = PasswordVisualTransformation(),
-        )
+                Input(
+                    value = email,
+                    onValueChange = { onChange("email", it) },
+                    label = "Email",
+                )
 
-        if (error.isNotEmpty() && error["password"] != null && error["password"] != "") {
-            Body2(
-                text = error["password"]!!,
-                color = colorScheme.onError,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-
-        Body3(
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier
-                .padding(top=40.dp, start=8.dp)
-                .clickable(enabled = true) {
-                    onPageChange("signup")
-                },
-            text = "No Account yet?  Signup as partner"
-        )
-
-        Column(
-            Modifier
-                .padding(6.dp),
-        ){
-            LongButton(
-                "Sign in",
-                onClick = {
-                    onSubmit(
-                        password,
-                        email,
+                if (error.isNotEmpty() && error["email"] != null && error["email"] != "") {
+                    Body2(
+                        text = error["email"]!!,
+                        color = colorScheme.onError,
+                        modifier = Modifier.padding(start = 16.dp)
                     )
-                },
+                }
 
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .focusTarget()
-            )
+                Input(
+                    value = password,
+                    onValueChange = { onChange("password", it) },
+                    label = "Password",
+                    visualTransformation = PasswordVisualTransformation(),
+                )
+
+                if (error.isNotEmpty() && error["password"] != null && error["password"] != "") {
+                    Body2(
+                        text = error["password"]!!,
+                        color = colorScheme.onError,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
+
+                Body3(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(top = 40.dp, start = 8.dp)
+                        .clickable(enabled = true) {
+                            onPageChange("signup")
+                        },
+                    text = "No Account yet?  Signup as partner"
+                )
+
+                Column(
+                    Modifier
+                        .padding(6.dp),
+                ) {
+                    LongButton(
+                        "Sign in",
+                        onClick = {
+                            onSubmit(
+                                password,
+                                email,
+                            )
+                        },
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .focusTarget()
+                    )
+                }
+            }
         }
-    }
 }
 
 @Preview(
     name="Light Mode",
-    uiMode = UI_MODE_NIGHT_YES
+    uiMode = UI_MODE_NIGHT_YES,
+    device = Devices.AUTOMOTIVE_1024p,
+    widthDp = 2560, heightDp = 1600
 )
 @Preview(showBackground = true)
 @Composable

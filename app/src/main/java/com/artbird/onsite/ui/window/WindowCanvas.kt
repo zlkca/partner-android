@@ -1,18 +1,15 @@
 package com.artbird.onsite.ui.window
 
-import android.content.res.Configuration
-import android.text.TextPaint
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,21 +21,25 @@ const val StandardWidth = 600
 const val StandardHeight = 900
 const val MaxCanvasWidth = 1400.0F
 const val LeftSideWidth = 240
+const val padding = 20f
 
 fun getDirections(s: String): DirectionArray {
     if(s.isNotEmpty()) {
-        val a = s.split("");
+        val a = s.trim().split("").filter{ it -> it.isNotEmpty()};
+//        Log.d("zlk", a.toString())
         val directions = ArrayList<String>();
         val ts = ArrayList<Int>();
         var index = 0;
         a.forEach {
-            if (it !== "T") {
+            if (it != "T") {
                 directions.add(it)
                 index++
             } else {
                 ts.add(index)
             }
         };
+//        Log.d("zlk", directions.toString())
+//        Log.d("zlk", ts.toString())
         return DirectionArray(directions, ts)
     }else{
         return DirectionArray();
@@ -51,11 +52,13 @@ fun WindowCanvas(
     numOfWindows: Int = 1,
     w: WindowWidth = WindowWidth(),
     h: WindowHeight = WindowHeight(),
+    frameStyles: WindowFrameStyles = WindowFrameStyles(),
+    dividerRail: WindowDividerRail = WindowDividerRail(),
     directions: String = "",
     onChange: (name: String, s: String) -> Unit = { name, s -> },
 ){
     
-    val padding = 20f
+
     var width = StandardWidth
     var totalWidth = (StandardWidth + 2 * padding)*numOfWindows
     if( totalWidth > MaxCanvasWidth){
@@ -64,10 +67,9 @@ fun WindowCanvas(
     }
 
     val directionArray = getDirections(directions);
-    val textMeasure = rememberTextMeasurer()
-    val paint = TextPaint();
-//    mTextPaint.setTextSize(16 * getResources().getDisplayMetrics().density);
-//    paint.setColor(MaterialTheme.colorScheme.onBackground);
+    val paint = android.graphics.Paint();
+    paint.color = 0xff1c480a.toInt() // colorScheme.onBackground
+    paint.textSize = 56f
 
     Column(modifier = Modifier
         .width((totalWidth + LeftSideWidth).toInt().dp)
@@ -114,7 +116,6 @@ fun WindowCanvas(
                 Canvas(modifier = Modifier.width(totalWidth.toInt().dp)) {
 //                val canvasWidth = size.width // size.width
 //                val canvasHeight = size.height
-
                     var start = 0F // (canvasWidth - totalWidth) / 2
                     drawRect(
                         topLeft = Offset(start, 20.0F),
@@ -122,6 +123,11 @@ fun WindowCanvas(
                         color = Color.Gray
                     )
 
+
+
+
+                    start = 0F
+                    var tsIndex = 0
                     repeat(numOfWindows) { index ->
                         start = start + padding
                         drawRect(
@@ -130,43 +136,63 @@ fun WindowCanvas(
                             color = Color.White
                         )
 
+//                        Log.d("zlk", "index: ${index}")
+//                        Log.d("zlk", "direction: ${directionArray.directions[index]}")
                         if(directionArray.directions.size > index){
+                            this.drawIntoCanvas {
+                                it.nativeCanvas.drawText(
+                                    directionArray.directions[index],
+                                    start + (width/2),
+                                    700f,
+                                    paint
+                                )
+                            }
+                        }
 
-//                            drawText(
-//                                textMeasurer = textMeasure,
-//                                text = "Hello", // directionArray.directions[index],
-//                                topLeft = Offset(100.dp.toPx(), 200.dp.toPx())
-////                                topLeft = Offset((start).dp.toPx(), (200).dp.toPx())
-//                            )
-
-//                            drawContext.canvas.nativeCanvas.apply {
-//                                drawText(
-//                                    "Hey, Himanshu",
-//                                    size.width / 2,
-//                                    size.height / 2,
-////                                    Paint().apply {
-////                                        textSize = 100
-////                                        color = Color.BLUE
-////                                        textAlign = Paint.Align.CENTER
-////                                    }
-//                                )
-//                            }
-
-//                            drawText(
-//                                "Hey, Himanshu",
-//                                size.width / 2,
-//                                size.height / 2,
-//                            )
+                        if(tsIndex < directionArray.ts.size && directionArray.ts[tsIndex] == index){
+                            this.drawIntoCanvas {
+                                it.nativeCanvas.drawText(
+                                    "T",
+                                    start - 2 * padding,
+                                    700f,
+                                    paint
+                                )
+                            }
+                            tsIndex++
                         }
 
                         start += width + padding
                     }
 
-//                    drawText(
-//                        textMeasurer = textMeasure,
-//                        text = "Hello world1",
-//                        topLeft = Offset(10.dp.toPx(), 10.dp.toPx())
-//                    )
+
+                    this.drawIntoCanvas {
+                        it.nativeCanvas.drawText(
+                            frameStyles.left,
+                            padding/2,
+                            StandardHeight.toFloat()/2,
+                            paint
+                        )
+
+                        it.nativeCanvas.drawText(
+                            frameStyles.right,
+                            totalWidth - padding - 100,
+                            StandardHeight.toFloat()/2,
+                            paint
+                        )
+
+                        it.nativeCanvas.drawText(
+                            frameStyles.top,
+                            totalWidth/2,
+                            padding/2 + 60,
+                            paint
+                        )
+                        it.nativeCanvas.drawText(
+                            frameStyles.bottom,
+                            totalWidth/2,
+                            StandardHeight - padding/2,
+                            paint
+                        )
+                    }
                 }
             }
         }
@@ -187,8 +213,9 @@ fun PreviewWindowCanvas(){
 
     SLTheme {
         WindowCanvas(
-            numOfWindows = 2,
-            directions = "LRTR"
+            numOfWindows = 3,
+            directions = "LRTR",
+            frameStyles = WindowFrameStyles("Z", "bigZ", "L", "HG")
         )
     }
 }
