@@ -12,8 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.Appointment
-import com.artbird.onsite.domain.Appointment2
-import com.artbird.onsite.domain.BaseAccount
+import com.artbird.onsite.domain.Account
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.utils.toLocalDateTime
 import java.time.LocalDate
@@ -22,14 +21,14 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun AppointmentSchedulerScreen(
-    user: BaseAccount,
+    user: Account,
     navController: NavController,
     viewModel: AppointmentViewModel,
     onMeasure: (appointmentId: String) -> Unit,
     onAdd: () -> Unit,
 ){
 
-    val appointments: List<Appointment2> by viewModel.appointments.observeAsState(arrayListOf())
+    val appointments: List<Appointment> by viewModel.appointments.observeAsState(arrayListOf())
     var events: List<Event> by remember { mutableStateOf(arrayListOf()) }
     var selectedDate by remember {
         mutableStateOf(LocalDate.now())

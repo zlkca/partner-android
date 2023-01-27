@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.artbird.onsite.domain.Quote
 import com.artbird.onsite.ui.components.Field
-import com.artbird.onsite.ui.window.toInchString
+//import com.artbird.onsite.ui.window.toInchString
 
 
 fun QuotePdfPage(
@@ -92,7 +92,7 @@ fun QuotePdfPage(
     quote?.windows!!.forEach { it ->
         canvas.drawText("${it?.floor!!.name} ${it?.room!!.name} ${it?.window!!.name}", x1, y, title)
         x1 += columns[0].width
-        canvas.drawText("${toInchString(it?.width!!)} X ${toInchString(it?.height!!)}", x1, y, title)
+//        canvas.drawText("${toInchString(it?.width!!)} X ${toInchString(it?.height!!)}", x1, y, title)
         x1 += columns[1].width
         canvas.drawText("${it.area}", x1, y, title)
         x1 += columns[2].width

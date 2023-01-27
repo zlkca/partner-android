@@ -1,15 +1,21 @@
 package com.artbird.onsite.ui.client
 
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.account.AccountViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientFormScreen(
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState,
     navController: NavController,
     accountViewModel: AccountViewModel,
     profileViewModel: ProfileViewModel,
@@ -23,6 +29,36 @@ fun ClientFormScreen(
 
     var client by remember { mutableStateOf(Profile()) }
     var error by remember { mutableStateOf(mapOf<String, String>())}
+
+    LaunchedEffect(key1 = profileViewModel.status) {
+        if (profileViewModel.status == ApiStatus.CREATE_DONE) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = "Create client successfully!",
+                    duration = SnackbarDuration.Short
+                )
+                profileViewModel.clearStatus()
+            }
+        }
+        if (profileViewModel.status == ApiStatus.UPDATE_DONE) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = "Update client successfully!",
+                    duration = SnackbarDuration.Short
+                )
+                profileViewModel.clearStatus()
+            }
+        }
+        if (profileViewModel.status == ApiStatus.DELETE_DONE) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = "Delete client successfully!",
+                    duration = SnackbarDuration.Short
+                )
+                profileViewModel.clearStatus()
+            }
+        }
+    }
 
     LaunchedEffect(key1 = formError) {
         if(formError != null) {

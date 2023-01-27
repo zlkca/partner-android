@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import com.artbird.onsite.ui.MyApp
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.address.AddressViewModel
 import com.artbird.onsite.ui.appointment.AppointmentViewModel
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val windowViewModel: WindowViewModel by viewModels()
     private val layoutViewModel: BuildingViewModel by viewModels()
     private val quoteViewModel: QuoteViewModel by viewModels()
-    private val recordViewModel: ProjectViewModel by viewModels()
+    private val projectViewModel: ProjectViewModel by viewModels()
 
     fun getExternalDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                             windowViewModel,
                             layoutViewModel,
                             quoteViewModel,
-                            recordViewModel,
+                            projectViewModel = projectViewModel,
                             getExternalDirectory()
                         )
                     }
@@ -122,7 +123,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                             windowViewModel,
                             layoutViewModel,
                             quoteViewModel,
-                            recordViewModel,
+                            projectViewModel = projectViewModel,
                             getExternalDirectory()
                         )
                     }

@@ -13,9 +13,9 @@ fun AppointmentDetailsScreen(
     navController: NavController,
     appointmentId: String, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
-    onSelectAppointment: (a: Appointment2) -> Unit = {},
+    onSelectAppointment: (a: Appointment) -> Unit = {},
 ) {
-    val appointment by appointmentViewModel.appointment.observeAsState(Appointment2())
+    val appointment by appointmentViewModel.appointment.observeAsState(Appointment())
 
     LaunchedEffect(key1 = appointmentId) {
         if (appointmentId != null && appointmentId != "new") {
@@ -74,7 +74,7 @@ fun AppointmentDetailsScreen(
 //            SearchClientScreen(
 //                clientViewModel,
 //                onSelect= { it ->
-//                    client = BaseClient(id="", BaseAccount(it.id, it.username))
+//                    client = BaseClient(id="", Account(it.id, it.username))
 //                    mode = "edit"
 //                }
 //            )

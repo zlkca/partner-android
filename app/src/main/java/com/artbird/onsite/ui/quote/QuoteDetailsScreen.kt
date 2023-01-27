@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import com.artbird.onsite.domain.QuoteWindow
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.utils.generatePDF
-import com.artbird.onsite.ui.window.toInchString
+//import com.artbird.onsite.ui.window.toInchString
 import java.io.File
 
 @Composable
@@ -225,7 +225,7 @@ fun QuoteDetailsScreen(
                                             Text("${it?.floor!!.name} ${it?.room!!.name} ${it?.window!!.name}")
                                         }
                                         "dimension" -> {
-                                            Text("${toInchString(it?.width!!)} X ${toInchString(it?.height!!)}")
+//                                            Text("${toInchString(it?.width!!)} X ${toInchString(it?.height!!)}")
                                         }
                                         "area" -> {
                                             Text("${it.area}")

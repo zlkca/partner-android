@@ -109,7 +109,7 @@ fun AppointmentFormScreen(
     fun handleSubmit(){
         if(validate()) {
             if (appointmentId != null && appointmentId != "new") {
-                val data = Appointment2(
+                val data = Appointment(
                     _id = "",
                     title,
                     notes,
@@ -117,13 +117,13 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address.copy(displayAddress = getAddressString(address)),
-                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
+                    client = client, // BaseClient(client.id, Account(client.account.id, client.account.username)),
                     employee = user, // Account(appointment?.employee!!.id, appointment?.employee!!.username),
                     createBy = user, // Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
                 )
 //                appointmentViewModel.updateAppointment(appointment?._id!!, data)
             } else {
-                val data = Appointment2(
+                val data = Appointment(
                     _id = "",
                     title,
                     notes,
@@ -131,9 +131,9 @@ fun AppointmentFormScreen(
                     end = "$date $end",
                     type = "sales",
                     address = address.copy(displayAddress = getAddressString(address)),
-                    client = client, // BaseClient(client.id, BaseAccount(client.account.id, client.account.username)),
-                    employee = user, // BaseAccount(user.id, user.username),
-                    createBy = user, // BaseAccount(user.id, user.username),
+                    client = client, // BaseClient(client.id, Account(client.account.id, client.account.username)),
+                    employee = user, // Account(user.id, user.username),
+                    createBy = user, // Account(user.id, user.username),
                 )
                 appointmentViewModel.createAppointment(data);
             }

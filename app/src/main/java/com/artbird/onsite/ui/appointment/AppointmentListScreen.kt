@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.Account
-import com.artbird.onsite.domain.Appointment2
+import com.artbird.onsite.domain.Appointment
 //import com.artbird.onsite.ui.appointments.AppointmentList
 //import com.artbird.onsite.ui.appointments.AppointmentViewModel
 import com.artbird.onsite.ui.components.DropdownMenuItem
@@ -21,7 +21,7 @@ fun AppointmentListScreen(
     navController: NavController,
     appointmentViewModel: AppointmentViewModel,
     employee: Account,
-    onSelectAppointment: (a: Appointment2) -> Unit = {},
+    onSelectAppointment: (a: Appointment) -> Unit = {},
 ) {
     val appointments by appointmentViewModel.appointments.observeAsState()
 //    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())

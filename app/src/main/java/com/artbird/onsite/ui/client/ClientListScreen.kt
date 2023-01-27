@@ -1,6 +1,8 @@
 package com.artbird.onsite.ui.client
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
@@ -11,9 +13,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.account.AccountViewModel
+import com.artbird.onsite.ui.account.ApiStatus
 import com.artbird.onsite.ui.components.ActionChip
 import com.artbird.onsite.ui.components.DropdownMenuItem
 import com.artbird.onsite.ui.components.ListActionBar
+
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.Alignment
 
 @Composable
 fun ClientListScreen(
@@ -37,18 +43,6 @@ fun ClientListScreen(
         }
     }
 
-//    LaunchedEffect(key1 = selectedProfile){
-//        if(selectedProfile != null && selectedProfile!!.id.isNotEmpty()) {
-//            if(accounts!!.isNotEmpty()){
-//                selectedIndex = accounts!!.indexOfFirst { it -> it.id == selectedProfile!!.account.id }
-//            }
-//        }
-//    }
-
-    fun handleSelectClient(index: Int) {
-
-    }
-
     fun handleEdit(index: Int){
         selectedIndex = index
         val client = accounts!![index]
@@ -59,32 +53,43 @@ fun ClientListScreen(
         DropdownMenuItem("edit", "Edit", Icons.Outlined.Edit, "Edit", ::handleEdit),
     )
 
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-    ) {
 
-        ListActionBar(items = listOf(
-            ActionChip("Client", onClick = {navController.navigate("clients/new/form")}),
-        ))
 
-        if (accounts != null && accounts?.isNotEmpty()!!) {
-            com.artbird.onsite.ui.components.List<Account>(
-                accounts!!,
-                selectedIndex,
-                onSelect =  { index ->
-                    selectedIndex = index
-                    val account = accounts!![index]
-                    profileViewModel.getProfileByAccountId(account.id)
-                    navController.navigate("clients/${account.id}")
-                },
-                itemContent = { it, selected, index ->
-                    AccountListItem(item=it, selected=selected, index =index)
-                }
-            )
+    if (accountViewModel.status == ApiStatus.LOADING){
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            CircularProgressIndicator()
+        }
+    }else {
+        Column(
+            modifier = Modifier
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            ListActionBar(items = listOf(
+                ActionChip("Client", onClick = { navController.navigate("clients/new/form") }),
+            ))
+
+            if (accounts != null && accounts?.isNotEmpty()!!) {
+                com.artbird.onsite.ui.components.List<Account>(
+                    accounts!!,
+                    selectedIndex,
+                    onSelect = { index ->
+                        selectedIndex = index
+                        val account = accounts!![index]
+                        profileViewModel.getProfileByAccountId(account.id)
+                        navController.navigate("clients/${account.id}")
+                    },
+                    itemContent = { it, selected, index ->
+                        AccountListItem(item = it, selected = selected, index = index)
+                    }
+                )
+            }
         }
     }
-
 }
 
 

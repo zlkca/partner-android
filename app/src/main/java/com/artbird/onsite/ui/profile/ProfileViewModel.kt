@@ -1,5 +1,8 @@
 package com.artbird.onsite.ui.client
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,11 +19,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-enum class ApiStatus { LOADING, ERROR, DONE }
+enum class ApiStatus {
+    IDLE,
+    LOADING,
+    ERROR,
+    DONE,
+    CREATE_DONE,
+    UPDATE_DONE,
+    DELETE_DONE,
+}
 
 class ProfileViewModel : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus> = _status
+    var status by mutableStateOf(ApiStatus.IDLE)
 
     private val _profiles = MutableLiveData<List<Account>>(arrayListOf())
     val profiles: LiveData<List<Account>> = _profiles
@@ -40,10 +50,12 @@ class ProfileViewModel : ViewModel() {
     fun clearError(){
         _error.value = null
     }
-
+    fun clearStatus(){
+        status = ApiStatus.IDLE
+    }
     fun getProfileByAccountId(accountId: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getProfileByAccountId(accountId)
@@ -52,16 +64,18 @@ class ProfileViewModel : ViewModel() {
 
                 if(code == 200) {
                     _profile.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<FormError>() {}.type
                     val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _profile.value = null
                     _error.value = it!!
+                    status = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
+
             } catch (e: Exception) {
                 _profile.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -84,13 +98,13 @@ class ProfileViewModel : ViewModel() {
 
     fun getClientsByRecommenderId(recommenderId: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+//            _status.value = ApiStatus.LOADING
             try {
                 _clients.value = ProfileApi.retrofitService.getClientsByRecommenderId(recommenderId)
-                _status.value = ApiStatus.DONE
+//                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _clients.value = listOf()
-                _status.value = ApiStatus.ERROR
+//                _status.value = ApiStatus.ERROR
                 throw e
             }
         }
@@ -98,13 +112,13 @@ class ProfileViewModel : ViewModel() {
 
     fun searchByRecommender(recommenderId: String, keyword: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+//            _status.value = ApiStatus.LOADING
             try {
                 _clients.value = ProfileApi.retrofitService.searchByRecommender(recommenderId, keyword)
-                _status.value = ApiStatus.DONE
+//                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _clients.value = listOf()
-                _status.value = ApiStatus.ERROR
+//                _status.value = ApiStatus.ERROR
                 throw e
             }
         }
@@ -112,13 +126,13 @@ class ProfileViewModel : ViewModel() {
 
     fun searchByAssignedEmployee(employeeId: String, keyword: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+//            _status.value = ApiStatus.LOADING
             try {
                 _clients.value = ProfileApi.retrofitService.searchByAssignedEmployee(employeeId, keyword)
-                _status.value = ApiStatus.DONE
+//                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _clients.value = listOf()
-                _status.value = ApiStatus.ERROR
+//                _status.value = ApiStatus.ERROR
                 throw e
             }
         }
@@ -127,7 +141,7 @@ class ProfileViewModel : ViewModel() {
 
     fun createProfile(body: Profile) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.createProfile(body)
@@ -137,16 +151,16 @@ class ProfileViewModel : ViewModel() {
                 if(code == 200) {
                     _profile.value = rsp.body()!!
                     _error.value = FormError()
-                    _status.value = ApiStatus.DONE
+                    status = ApiStatus.CREATE_DONE
                 }else {
                     val type = object : TypeToken<FormError>() {}.type
                     val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _error.value = it!!
-                    _status.value = ApiStatus.ERROR
+                    status = ApiStatus.ERROR
                 }
             } catch (e: Exception) {
                 _profile.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -154,7 +168,7 @@ class ProfileViewModel : ViewModel() {
 
     fun updateProfileByAccountId(accountId: String, body: Profile) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.updateProfileByAccountId(accountId, body)
@@ -164,17 +178,17 @@ class ProfileViewModel : ViewModel() {
                 if(code == 200) {
                     _profile.value = rsp.body()!!
                     _error.value = FormError()
-                    _status.value = ApiStatus.DONE
+                    status = ApiStatus.UPDATE_DONE
                 }else {
                     val type = object : TypeToken<FormError>() {}.type
                     val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _error.value = it!!
-                    _status.value = ApiStatus.ERROR
+                    status = ApiStatus.ERROR
                 }
 
             } catch (e: Exception) {
                 _profile.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }

@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.BaseAccount
 import com.artbird.onsite.domain.BaseClient
 import com.artbird.onsite.domain.Client
@@ -101,7 +102,7 @@ fun AppointmentScreen(
     buildingViewModel: BuildingViewModel,
     windowViewModel: WindowViewModel,
     clientViewModel: ProfileViewModel,
-    user: BaseAccount, // logged in user
+    user: Account, // logged in user
 ) {
     var mode by remember { mutableStateOf(if(appointmentId=="new") "edit" else "view") }
 
@@ -114,7 +115,7 @@ fun AppointmentScreen(
         }
     }
 
-    var client by remember { mutableStateOf(BaseClient("", BaseAccount("", ""))) }
+//    var client by remember { mutableStateOf(BaseClient("", Account("", ""))) }
     var title by remember { mutableStateOf("") }
     var notes by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
@@ -150,8 +151,8 @@ fun AppointmentScreen(
 //                end="${date}T${endTime}",
 //                type= "sales",
 //                client = client,
-//                employee = BaseAccount(appointment?.employee!!.id, appointment?.employee!!.username),
-//                createBy = BaseAccount(appointment?.createBy!!.id, appointment?.createBy!!.username),
+//                employee = Account(appointment?.employee!!.id, appointment?.employee!!.username),
+//                createBy = Account(appointment?.createBy!!.id, appointment?.createBy!!.username),
 //            )
 //            appointmentViewModel.updateAppointment(appointment?._id!!, data)
 //        } else {
@@ -163,8 +164,8 @@ fun AppointmentScreen(
 //                end="${date}T${endTime}",
 //                type= "sales",
 //                client = client,
-//                employee = BaseAccount(user.id, user.username),
-//                createBy = BaseAccount(user.id, user.username),
+//                employee = Account(user.id, user.username),
+//                createBy = Account(user.id, user.username),
 //            )
 //            appointmentViewModel.createAppointment(data);
 //        }
@@ -195,9 +196,9 @@ fun AppointmentScreen(
         }
     }
 
-    fun handleChangeClient(it: Client){
-
-    }
+//    fun handleChangeClient(it: Client){
+//
+//    }
 //    if(appointmentId == "new"){}
     Column(
         modifier = Modifier
@@ -243,7 +244,7 @@ fun AppointmentScreen(
 //            SearchClientScreen(
 //                clientViewModel,
 //                onSelect= { it ->
-//                    client = BaseAccount(it.id, it.username)
+//                    client = Account(it.id, it.username)
 //                    mode = "edit"
 //                }
 //            )

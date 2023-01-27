@@ -17,7 +17,7 @@ import com.artbird.onsite.ui.utils.getAddressString
 
 
 @Composable
-fun AppointmentListItem(item: Appointment2, selected: Boolean, index:Int){
+fun AppointmentListItem(item: Appointment, selected: Boolean, index:Int){
     val colorScheme = MaterialTheme.colorScheme
     val client = item.client
 
@@ -48,7 +48,7 @@ fun AppointmentListItem(item: Appointment2, selected: Boolean, index:Int){
 @Composable
 fun AppointmentList(
     navController: NavController,
-    appointments: List<Appointment2>,
+    appointments: List<Appointment>,
     selectedIndex: Int,
     onSelect: (index: Int) -> Unit = { i: Int -> },
 ) {
@@ -56,7 +56,7 @@ fun AppointmentList(
         ListActionBar(items = listOf(
             ActionChip("Appointment", onClick = {navController.navigate("appointments/new/form")}),
         ))
-        com.artbird.onsite.ui.components.List<Appointment2>(
+        com.artbird.onsite.ui.components.List<Appointment>(
             appointments,
             selectedIndex,
             onSelect = onSelect,
@@ -75,8 +75,8 @@ fun AppointmentList(
 @Preview(showBackground = true)
 @Composable
 fun PreviewAppointmentList(){
-    val appointments = listOf<Appointment2>(
-        Appointment2(
+    val appointments = listOf<Appointment>(
+        Appointment(
             "1",
             title="My first appointment",
             client = Account(username="rick", email="rick@shutter.ca", phone="123-456-7890"),
@@ -87,7 +87,7 @@ fun PreviewAppointmentList(){
             notes = "",
             createBy = Account(username="sales", email="sales@shutterlux.ca", phone="123-456-7890"),
         ),
-        Appointment2(
+        Appointment(
             "2",
             title="My second appointment",
             client = Account(username="lori", email="lori@shutter.ca", phone="123-456-7890"),
@@ -98,7 +98,7 @@ fun PreviewAppointmentList(){
             notes = "",
             createBy = Account(username="sales", email="sales@shutterlux.ca", phone="123-456-7890"),
         ),
-        Appointment2(
+        Appointment(
             "3",
             title="My 3rd appointment",
             client = Account(username="dale", email="dale@shutter.ca", phone="123-456-7890"),

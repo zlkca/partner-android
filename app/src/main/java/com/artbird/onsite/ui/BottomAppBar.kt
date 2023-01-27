@@ -8,27 +8,20 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.artbird.onsite.ui.theme.SLTheme
 
+data class MenuItem(val label: String, val path : String, val icon: ImageVector)
+
 @Composable
-fun BottomAppBar(roleName: String, onClick: (item: MenuItem) -> Unit){
+fun MyBottomAppBar(
+    roleName: String,
+    onClick: (item: MenuItem) -> Unit
+){
 
     val menuItems = when (roleName) {
-        "sales" -> listOf(
-            MenuItem("Client", "clients", Icons.Filled.Group),
-            MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-//            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
-            MenuItem("Settings", "settings", Icons.Filled.Settings),
-        )
-        "technician" -> listOf(
-            MenuItem("Client", "clients", Icons.Filled.Group),
-            MenuItem("Appointment", "appointments", Icons.Filled.CalendarToday),
-//            MenuItem("Measure", "buildings", Icons.Filled.Straighten),
-            MenuItem("Settings", "settings", Icons.Filled.Settings),
-        )
         "partner" -> listOf(
-//            MenuItem("Project", "projects", Icons.Filled.House),
             MenuItem("Client", "clients", Icons.Filled.Group),
             MenuItem("Settings", "settings", Icons.Filled.Settings),
         )
@@ -60,7 +53,7 @@ fun BottomAppBar(roleName: String, onClick: (item: MenuItem) -> Unit){
 @Composable
 fun PreviewBottomAppBar(){
     SLTheme {
-        BottomAppBar(
+        MyBottomAppBar(
             "partner",
             {}
         )

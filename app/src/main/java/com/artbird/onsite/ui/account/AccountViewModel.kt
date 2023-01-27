@@ -1,5 +1,8 @@
 package com.artbird.onsite.ui.account
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,21 +15,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-enum class ApiStatus { LOADING, ERROR, DONE }
+enum class ApiStatus { IDLE, LOADING, ERROR, DONE }
 
 class AccountViewModel : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus> = _status
+    var status by mutableStateOf(ApiStatus.IDLE)
 
     private val _accounts = MutableLiveData<List<Account>>(listOf())
     val accounts: LiveData<List<Account>> = _accounts
 
     private val repo = AccountRepository()
     private val gson = Gson()
-
+    
+    fun clearStatus(){
+        status = ApiStatus.IDLE
+    }
+    
     fun search(query: Map<String, String>) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.search(query)
@@ -35,15 +41,17 @@ class AccountViewModel : ViewModel() {
 
                 if(code == 200) {
                     _accounts.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<List<Account>>() {}.type
                     val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _accounts.value = it!!
+                    status = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
+
             } catch (e: Exception) {
                 _accounts.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -51,7 +59,7 @@ class AccountViewModel : ViewModel() {
 
     fun getClientsByRecommenderId(recommenderId: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getClientsByRecommenderId(recommenderId)
@@ -60,15 +68,16 @@ class AccountViewModel : ViewModel() {
 
                 if(code == 200) {
                     _accounts.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<List<Account>>() {}.type
                     val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _accounts.value = it!!
+                    status = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _accounts.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -76,7 +85,7 @@ class AccountViewModel : ViewModel() {
 
     fun getAccountsByEmployeeId(employeeId: String, roleName: String) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getAccountsByEmployeeId(employeeId, roleName)
@@ -85,15 +94,16 @@ class AccountViewModel : ViewModel() {
 
                 if(code == 200) {
                     _accounts.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<List<Account>>() {}.type
                     val it: List<Account> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _accounts.value = it!!
+                    status = ApiStatus.ERROR
                 }
-                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 _accounts.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }

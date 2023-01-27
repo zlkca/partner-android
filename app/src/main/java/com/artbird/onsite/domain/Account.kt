@@ -13,15 +13,6 @@ data class Account(
     var updated: String = ""
 )
 
-data class Account2(
-    var id: String = "",
-    var username: String = "",
-    var email: String = "",
-    var phone: String = "",
-    var status: String = "",
-    var role: Role = Role(),
-)
-
 data class BaseAccount(
     var id: String = "",
     var username: String = "",

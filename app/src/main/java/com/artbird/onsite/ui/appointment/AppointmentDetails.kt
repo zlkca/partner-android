@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Address
-import com.artbird.onsite.domain.Appointment2
+import com.artbird.onsite.domain.Appointment
 import com.artbird.onsite.ui.components.*
 import com.artbird.onsite.ui.theme.SLTheme
 import com.artbird.onsite.ui.utils.getDate
@@ -23,7 +23,7 @@ import com.artbird.onsite.ui.utils.getTime
 @Composable
 fun AppointmentDetails(
     navController: NavController,
-    appointment: Appointment2,
+    appointment: Appointment,
 ){
     val client = appointment.client
     val date = if(appointment?.start!! != null) getDate(appointment?.start!!) else ""
@@ -66,13 +66,13 @@ fun AppointmentDetails(
                         navController.navigate("buildings")
                     }
                 ),
-                ActionChip(
-                    "View Quote",
-                    icon = Icons.Filled.ReceiptLong,
-                    onClick = {
-                        navController.navigate("quotes")
-                    }
-                ),
+//                ActionChip(
+//                    "View Quote",
+//                    icon = Icons.Filled.ReceiptLong,
+//                    onClick = {
+//                        navController.navigate("quotes")
+//                    }
+//                ),
             ))
         }
     }
@@ -85,7 +85,7 @@ fun AppointmentDetails(
 @Preview(showBackground = true)
 @Composable
 fun PreviewAppointmentDetails(){
-    val appointment = Appointment2(
+    val appointment = Appointment(
         "1",
         title="My first appointment",
         address= Address("2", "", "235", "Front St", "Toronto", "ON", "L3R 0C7",
