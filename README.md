@@ -1,1 +1,1 @@
-# partner-android is a android app
+# partner-android is an android app to help manage your client
