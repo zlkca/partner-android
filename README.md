@@ -1,2 +1,1 @@
-# onsite-android
-onsite is a android app
+# partner-android is a android app
