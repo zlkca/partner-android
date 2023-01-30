@@ -1,17 +1,12 @@
 package com.artbird.onsite.ui.appointment
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
-import com.artbird.onsite.ui.client.ProfileViewModel
-import com.artbird.onsite.ui.components.FormActionBar
+import com.artbird.onsite.ui.profile.ProfileViewModel
 import com.artbird.onsite.ui.utils.getAddressString
 import com.artbird.onsite.ui.utils.getDate
 import com.artbird.onsite.ui.utils.getTime

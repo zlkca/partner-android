@@ -27,10 +27,11 @@ fun SignupScreen(
     var error by remember { mutableStateOf(mapOf<String, String>())}
 
     LaunchedEffect(key1 = auth) {
-        if(auth.error == "") {
+//        if(auth) {
             onSubmit(auth)
-        }
+//        }
     }
+
     LaunchedEffect(key1 = authError) {
         if(authError != null) {
             if(authError!!.code != 200){

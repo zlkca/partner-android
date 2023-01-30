@@ -35,8 +35,9 @@ data class Client (
 // client profile
 data class Profile (
     val id: String = "",
-    var account: Account = Account(),
+    var account: Account = Account(), // Account must have { role: {name}}
 //    val address: Address = Address(),   // not necessary
+    var recommender: Account = Account(), // retrieve from project table
     var creator: Account = Account(), // retrieve from project table
     // @Json(name="imageurl") val imageUrl: String,
     // client related

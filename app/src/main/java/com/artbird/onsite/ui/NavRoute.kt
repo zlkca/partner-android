@@ -10,7 +10,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.artbir.ClientDetailsScreen
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Appointment
 import com.artbird.onsite.domain.Role
@@ -24,6 +23,7 @@ import com.artbird.onsite.ui.appointment.AppointmentViewModel
 import com.artbird.onsite.ui.auth.AuthViewModel
 import com.artbird.onsite.ui.building.*
 import com.artbird.onsite.ui.client.*
+import com.artbird.onsite.ui.profile.ProfileViewModel
 import com.artbird.onsite.ui.project.ProjectDetailsScreen
 import com.artbird.onsite.ui.project.ProjectFormScreen
 import com.artbird.onsite.ui.project.ProjectListScreen
@@ -94,10 +94,25 @@ fun NaviRoute(
                 ClientDetailsScreen(
                     navController,
                     profileViewModel,
-                    projectViewModel,
                     clientId = it.arguments?.getString("id")!!,
                 )
             }
+        }
+
+        composable(route = "clients/{clientId}/projects",
+            arguments = listOf(
+                navArgument("clientId") {
+                    type = NavType.StringType
+                },
+            ),
+        )
+        {
+            ClientProjectListScreen(
+                navController = navController,
+                profileViewModel = profileViewModel,
+                projectViewModel = projectViewModel,
+                clientAccountId = it.arguments?.getString("clientId")!!,
+            )
         }
 
         composable(route = "clients/{clientId}/projects/{projectId}",
@@ -127,7 +142,7 @@ fun NaviRoute(
             )
         ){
             if (user != null) {
-                val role = roles!!.find { it.name == "client"}
+
                 ClientFormScreen(
                     scope = scope,
                     snackbarHostState = snackbarHostState,
@@ -136,7 +151,6 @@ fun NaviRoute(
                     profileViewModel,
                     clientId = it.arguments?.getString("id")!!,
                     recommender = user,
-                    role = role!!
                 )
             }
         }
@@ -250,8 +264,10 @@ fun NaviRoute(
 
         composable(route = "change-password") {
             ChangePasswordScreen(
+                scope = scope,
+                snackbarHostState = snackbarHostState,
                 navController,
-                authViewModel,
+                accountViewModel,
                 user
             )
         }
@@ -299,28 +315,6 @@ fun NaviRoute(
                 onSelect = onChangeAddress
             )
         }
-//        composable(
-//            route = "windows/{id}",
-//            arguments = listOf(
-//                navArgument("id") {
-//                    type = NavType.StringType
-//                }
-//            )
-//        ) {
-//            WindowScreen(
-//                navController,
-//                it.arguments?.getString("id"),
-//                windowViewModel,
-//            )
-//        }
-//        composable(
-//            route = "dashboard",
-//        ) {
-//            DashboardScreen(
-//                navController,
-//                clientViewModel
-//            )
-//        }
     }
 }
 

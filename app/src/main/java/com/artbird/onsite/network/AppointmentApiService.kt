@@ -32,5 +32,6 @@ interface AppointmentApiService {
 }
 
 object AppointmentApi {
+    val retrofit = ApiService.getNonsqlRetrofit()
     val retrofitService: AppointmentApiService by lazy { retrofit.create(AppointmentApiService::class.java) }
 }

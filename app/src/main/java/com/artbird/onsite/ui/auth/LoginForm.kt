@@ -94,7 +94,7 @@ fun LoginForm(
                 Body3(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
-                        .padding(top = 40.dp, start = 8.dp)
+                        .padding(top = 20.dp, start = 8.dp)
                         .clickable(enabled = true) {
                             onPageChange("signup")
                         },

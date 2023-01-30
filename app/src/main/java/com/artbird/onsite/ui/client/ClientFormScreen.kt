@@ -8,6 +8,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.account.AccountViewModel
+import com.artbird.onsite.ui.profile.ApiStatus
+import com.artbird.onsite.ui.profile.ProfileViewModel
+import com.artbird.onsite.ui.role.RoleViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -21,7 +24,6 @@ fun ClientFormScreen(
     profileViewModel: ProfileViewModel,
     clientId: String,
     recommender: Account,
-    role: Role,
     onSetAccountEmail: (email: String) -> Unit = {email -> }
 ){
     val clientProfile by profileViewModel.profile.observeAsState(Profile())
@@ -132,8 +134,9 @@ fun ClientFormScreen(
                 username = client.account.username,
                 email = client.account.email,
                 phone = client.account.phone,
-                role= role
+                role= Role(name="client")
             ),
+            recommender = recommender,
             creator = recommender,
         )
         if(clientId == "new"){

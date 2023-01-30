@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.account.AccountViewModel
 import com.artbird.onsite.ui.components.*
+import com.artbird.onsite.ui.profile.ProfileViewModel
 import com.google.gson.Gson
 
 

@@ -3,21 +3,10 @@ package com.artbird.onsite.network
 import com.artbird.onsite.domain.PostResponse
 import com.artbird.onsite.domain.PutResponse
 import com.artbird.onsite.domain.Role
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(APIConstant.RDB_API_URL)
-    .build()
 
 interface RoleApiService {
     @GET("roles")
@@ -37,5 +26,6 @@ interface RoleApiService {
 }
 
 object RoleApi {
+    val retrofit = ApiService.getRdbRetrofit()
     val retrofitService: RoleApiService by lazy { retrofit.create(RoleApiService::class.java) }
 }

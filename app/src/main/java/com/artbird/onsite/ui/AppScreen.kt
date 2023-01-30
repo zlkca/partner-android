@@ -21,19 +21,21 @@ import java.io.File
 
 import androidx.compose.runtime.remember
 import com.artbird.onsite.MyBottomAppBar
+import com.artbird.onsite.network.ApiService
 import com.artbird.onsite.ui.auth.SignupScreen
 import com.artbird.onsite.ui.project.ProjectViewModel
 import com.artbird.onsite.ui.account.AccountViewModel
-import com.artbird.onsite.ui.client.*
+import com.artbird.onsite.ui.profile.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyApp(
+//    cache: SharedPreferencesHelper,
     accountViewModel: AccountViewModel,
     authViewModel: AuthViewModel,
     addressViewModel: AddressViewModel,
     roleViewModel: RoleViewModel,
-    clientViewModel: ProfileViewModel,
+    profileViewModel: ProfileViewModel,
     appointmentViewModel: AppointmentViewModel,
     windowViewModel: WindowViewModel,
     buildingViewModel: BuildingViewModel,
@@ -93,7 +95,7 @@ fun MyApp(
                         quoteViewModel = quoteViewModel,
                         addressViewModel = addressViewModel,
                         projectViewModel = projectViewModel,
-                        profileViewModel = clientViewModel,
+                        profileViewModel = profileViewModel,
                         appointmentId = appointmentId,
                         appointment = appointment,
                         onMeasure = ::handleSelectAppointment, //fix me
@@ -130,10 +132,14 @@ fun MyApp(
         if(page == "login"){
             LoginScreen(
                 authViewModel = authViewModel,
-                onSubmit = {
-                    isLoggedIn = it.jwt.isNotEmpty()
-                    user = it.account
-                    roleViewModel.getRoles()
+                onAfterSubmit = {
+                    isLoggedIn = it.status == "ok"
+
+                    if(it.status == "ok"){
+                        ApiService.put("JWT_TOKEN", it.token);
+                        user = it.account
+                        roleViewModel.getRoles()
+                    }
                 },
                 onPageChange = { page = it }
             )
@@ -142,7 +148,8 @@ fun MyApp(
                 authViewModel,
                 roleViewModel,
                 onSubmit = {
-                    isLoggedIn = it.jwt.isNotEmpty()
+                    isLoggedIn = it.status == "ok"
+                    ApiService.put("JWT_TOKEN", it.token);
                     user = it.account;
                     roleViewModel.getRoles()
                 },

@@ -11,13 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.artbird.onsite.domain.Account
-import com.artbird.onsite.domain.BaseAccount
-import com.artbird.onsite.domain.BaseClient
-import com.artbird.onsite.domain.Client
-import com.artbird.onsite.ui.client.ProfileViewModel
 import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.window.WindowViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -100,9 +94,6 @@ fun AppointmentScreen(
     appointmentId: String?, // 'new' or appointmentId
     appointmentViewModel: AppointmentViewModel,
     buildingViewModel: BuildingViewModel,
-    windowViewModel: WindowViewModel,
-    clientViewModel: ProfileViewModel,
-    user: Account, // logged in user
 ) {
     var mode by remember { mutableStateOf(if(appointmentId=="new") "edit" else "view") }
 

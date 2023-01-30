@@ -1,9 +1,13 @@
 package com.artbird.onsite.ui.auth
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Auth
 import com.artbird.onsite.domain.FormError
@@ -16,12 +20,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-enum class ApiStatus { LOADING, ERROR, DONE }
+enum class ApiStatus { IDLE, LOADING, ERROR, DONE }
 
 class AuthViewModel : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus> = _status
-    
+    var status by mutableStateOf(ApiStatus.IDLE)
+
     private val _auth = MutableLiveData<Auth>()
     val auth: LiveData<Auth> = _auth
 
@@ -34,10 +37,13 @@ class AuthViewModel : ViewModel() {
     fun clearError(){
         _error.value = null
     }
+    fun clearStatus(){
+        status = ApiStatus.IDLE
+    }
 
     fun login(credential: Credential) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.login(credential)
@@ -47,17 +53,17 @@ class AuthViewModel : ViewModel() {
                 if(code == 200) {
                     _auth.value = rsp.body()!!
                     _error.value = FormError() // No error
-                    _status.value = ApiStatus.DONE
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<FormError>() {}.type
                     val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _error.value = it!!
-                    _status.value = ApiStatus.ERROR
+                    status = ApiStatus.ERROR
                 }
 
             } catch (e: Exception) {
                 _auth.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -65,7 +71,7 @@ class AuthViewModel : ViewModel() {
 
     fun signup(account: Account) {
         viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.signup(account)
@@ -74,44 +80,20 @@ class AuthViewModel : ViewModel() {
                 if(code == 200) {
                     _auth.value = rsp.body()!!
                     _error.value = FormError() // No error
-                    _status.value = ApiStatus.DONE
+                    status = ApiStatus.DONE
                 }else {
                     val type = object : TypeToken<FormError>() {}.type
                     val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _error.value = it!!
-                    _status.value = ApiStatus.ERROR
+                    status = ApiStatus.ERROR
                 }
             } catch (e: Exception) {
                 _auth.value = null
-                _status.value = ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
     }
 
-    fun changePassword(credential: Credential) {
-        viewModelScope.launch {
-            _status.value = ApiStatus.LOADING
-            try {
-                val rsp = withContext(Dispatchers.IO) {
-                    repo.changePassword(credential)
-                }
-                val code = rsp.code()
-                if(code == 200) {
-//                    _auth.value = rsp.body()!!
-                    _error.value = FormError() // No error
-                    _status.value = ApiStatus.DONE
-                }else {
-                    val type = object : TypeToken<FormError>() {}.type
-                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _error.value = it!!
-                    _status.value = ApiStatus.ERROR
-                }
-            } catch (e: Exception) {
-                _auth.value = null
-                _status.value = ApiStatus.ERROR
-                throw e
-            }
-        }
-    }
+
 }

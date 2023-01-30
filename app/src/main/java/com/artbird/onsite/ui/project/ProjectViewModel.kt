@@ -1,9 +1,13 @@
 package com.artbird.onsite.ui.project
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.artbird.onsite.domain.FormError
 import com.artbird.onsite.domain.Project
 import com.artbird.onsite.network.RecordApi
 import com.artbird.onsite.repository.ProjectRepository
@@ -14,11 +18,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-enum class ApiStatus { LOADING, ERROR, DONE }
+enum class ApiStatus { IDLE, LOADING, ERROR, DONE }
 
 class ProjectViewModel : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus> = _status
+    var status by mutableStateOf(ApiStatus.IDLE)
 
     private val _projects = MutableLiveData<List<Project>>(arrayListOf())
     val projects: LiveData<List<Project>> = _projects
@@ -26,12 +29,22 @@ class ProjectViewModel : ViewModel() {
     private val _project = MutableLiveData<Project>()
     val project: LiveData<Project> = _project
 
+    private val _error = MutableLiveData<FormError>()
+    val error: LiveData<FormError> = _error
+
     private val repo = ProjectRepository()
     private val gson = Gson()
 
+    fun clearError(){
+        _error.value = null
+    }
+    fun clearStatus(){
+        status = ApiStatus.IDLE
+    }
+
     fun getProject(projectId: String) {
         viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getRecord(projectId)
@@ -40,15 +53,17 @@ class ProjectViewModel : ViewModel() {
 
                 if(code == 200) {
                     _project.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
-                    val type = object : TypeToken<Project>() {}.type
-                    val it: Project = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _project.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _project.value = null
+                    _error.value = it
+                    status = ApiStatus.ERROR
                 }
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
             } catch (e: Exception) {
                 _project.value = null
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -56,7 +71,7 @@ class ProjectViewModel : ViewModel() {
 
     fun getProjectsByRecommenderId(recommenderId: String) {
         viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getProjectsByRecommenderId(recommenderId)
@@ -65,16 +80,17 @@ class ProjectViewModel : ViewModel() {
 
                 if(code == 200) {
                     _projects.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
-//                    val type = object : TypeToken<List<Project>>() {}.type
-//                    val it: List<Project> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-//                    _projects.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
                     _projects.value = listOf()
+                    _error.value = it
+                    status = ApiStatus.ERROR
                 }
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
             } catch (e: Exception) {
                 _projects.value = listOf()
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }
@@ -82,7 +98,7 @@ class ProjectViewModel : ViewModel() {
 
     fun getProjectsByClientId(clientId: String) {
         viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
+            status = ApiStatus.LOADING
             try {
                 val rsp = withContext(Dispatchers.IO) {
                     repo.getProjectsByClientId(clientId)
@@ -91,57 +107,17 @@ class ProjectViewModel : ViewModel() {
 
                 if(code == 200) {
                     _projects.value = rsp.body()!!
+                    status = ApiStatus.DONE
                 }else {
-                    val type = object : TypeToken<List<Project>>() {}.type
-                    val it: List<Project> = gson.fromJson(rsp.errorBody()!!.charStream(), type)
-                    _projects.value = it!!
+                    val type = object : TypeToken<FormError>() {}.type
+                    val it: FormError = gson.fromJson(rsp.errorBody()!!.charStream(), type)
+                    _projects.value = listOf()
+                    _error.value = it
+                    status = ApiStatus.ERROR
                 }
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
             } catch (e: Exception) {
                 _projects.value = listOf()
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
-                throw e
-            }
-        }
-    }
-
-    fun deleteCase(id: String) {
-        viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
-            try {
-                RecordApi.retrofitService.deleteRecord(id)
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
-            } catch (e: Exception) {
-                _project.value = null
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
-                throw e
-            }
-        }
-    }
-
-    fun createRecord(body: Project) {
-        viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
-            try {
-                RecordApi.retrofitService.createRecord(body)
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
-            } catch (e: Exception) {
-                _project.value = null // listOf()
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
-                throw e
-            }
-        }
-    }
-
-    fun updateRecord(id: String, body: Project) {
-        viewModelScope.launch {
-            _status.value = com.artbird.onsite.ui.project.ApiStatus.LOADING
-            try {
-                RecordApi.retrofitService.updateRecord(id, body)
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.DONE
-            } catch (e: Exception) {
-                _project.value = null // listOf()
-                _status.value = com.artbird.onsite.ui.project.ApiStatus.ERROR
+                status = ApiStatus.ERROR
                 throw e
             }
         }

@@ -33,8 +33,8 @@ fun ClientProjectDetailsScreen(
     ) {
         DetailsViewActionBar(
             onBack = {
-                Log.d("zlk", "From project detail back to client detail: clients/${clientId}")
-                navController.navigate("clients/${clientId}")
+                Log.d("zlk", "From project detail back to client detail: clients/${clientId}/projects")
+                navController.navigate("clients/${clientId}/projects")
                      },
             readOnly = true
         )

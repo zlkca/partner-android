@@ -1,32 +1,17 @@
 package com.artbird.onsite.ui.auth
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusTarget
-import androidx.compose.ui.unit.dp
 
-import androidx.compose.material3.Text
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Auth
 import com.artbird.onsite.domain.Credential
-import com.artbird.onsite.domain.Role
-import com.artbird.onsite.ui.components.Input
-import com.artbird.onsite.ui.components.LongButton
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
-import javax.net.ssl.SSLHandshakeException
 
 
 @Composable
 fun LoginScreen(
     authViewModel: AuthViewModel,
-    onSubmit: (auth: Auth) -> Unit = {},
+    onAfterSubmit: (auth: Auth) -> Unit = {},
     onPageChange: (page: String) -> Unit = {}
 ){
     val auth: Auth by authViewModel.auth.observeAsState(
@@ -42,7 +27,7 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = auth) {
         if(auth != null) {
-            onSubmit(auth)
+            onAfterSubmit(auth)
         }
     }
 

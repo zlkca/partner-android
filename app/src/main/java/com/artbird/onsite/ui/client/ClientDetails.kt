@@ -1,27 +1,29 @@
 package com.artbird.onsite.ui.client
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.artbird.onsite.domain.*
 import com.artbird.onsite.ui.components.*
-import com.artbird.onsite.ui.project.ProjectListItem
 import com.artbird.onsite.ui.theme.SLTheme
 
 @Composable
 fun ClientDetails(
     navController: NavController,
     profile: Profile,
-    projects: List<Project> = listOf()
 ){
     val account = profile.account
-    var selectedIndex by remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier.background(color= MaterialTheme.colorScheme.background)
@@ -52,22 +54,34 @@ fun ClientDetails(
 //        Label3("ADDRESS")
 //        Body1(getAddressString(profile.address))
 
-        Label3("PROJECTS")
-        if(projects.isEmpty()){
-            Body1("No address found, please create an appointment")
-        }else{
-                com.artbird.onsite.ui.components.List<Project>(
-                    projects,
-                    selectedIndex,
-                    onSelect = { index ->
-                        val project = projects[index]
-                        navController.navigate("clients/${profile.account.id}/projects/${project._id}")
-                    },
-                    itemContent = { it, selected, index ->
-                        ProjectListItem(item=it, selected=selected)
-                    }
-                )
-        }
+//        Label3("PROJECTS")
+//        if(projects.isEmpty()){
+//            Body1("No address found, please create an appointment")
+//        }else{
+            Column(modifier=Modifier.padding(bottom = 15.dp)) {
+                ListActionBar(items = listOf(
+                    ActionChip(
+                        "View Projects",
+                        Icons.Filled.Straighten,
+                        onClick = {
+                            Log.d("zlk", "redirect to client projects clients/${account.id}/projects")
+                            navController.navigate("clients/${account.id}/projects")
+                        }
+                    ),
+                ))
+            }
+
+//                com.artbird.onsite.ui.components.List<Project>(
+//                    projects,
+//                    selectedIndex,
+//                    onSelect = { index ->
+//                        val project = projects[index]
+//                        navController.navigate("clients/${profile.account.id}/projects/${project._id}")
+//                    },
+//                    itemContent = { it, selected, index ->
+//                        ProjectListItem(item=it, selected=selected)
+//                    }
+//                )
 //        StageList(stages = profile.stages, selectedIndex = -1) // do not select any row
     }
 }
@@ -102,7 +116,6 @@ fun PreviewClientDetails(){
         ClientDetails(
             rememberNavController(),
             profile,
-            projects
         )
     }
 }

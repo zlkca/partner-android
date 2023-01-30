@@ -1,23 +1,11 @@
 package com.artbird.onsite.network
 
 import com.artbird.onsite.domain.*
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Retrofit
 import retrofit2.Response
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(APIConstant.RDB_API_URL)
-    .build()
-
-interface AccountApiService {
+interface AccountApiInterface {
     @POST("search/accounts")
     suspend fun search(
         @Body query: Map<String, String> = mapOf<String, String>()
@@ -34,14 +22,8 @@ interface AccountApiService {
         @Query("roleName") roleName : String,
     ): Response<List<Account>>
 
-    @POST("login")
-    suspend fun login(@Body credential: Credential): Response<Auth>
-
-    @POST("signup")
-    suspend fun signup(@Body account: Account): Response<Auth>
-
     @PUT("password")
-    suspend fun changePassword(@Body credential: Credential): PutResponse
+    suspend fun changePassword(@Body credential: Credential): Response<Account>
 
 //    @GET("clients/assignment")
 //    suspend fun searchByAssignedEmployee(
@@ -64,5 +46,7 @@ interface AccountApiService {
 }
 
 object AccountApi {
-    val retrofitService: AccountApiService by lazy { retrofit.create(AccountApiService::class.java) }
+    val retrofit = ApiService.getRdbRetrofit()
+    val retrofitService: AccountApiInterface by lazy { retrofit.create(AccountApiInterface::class.java) }
+//    val retrofitService: AddressApiService by lazy { retrofit.create(AddressApiService::class.java) }
 }

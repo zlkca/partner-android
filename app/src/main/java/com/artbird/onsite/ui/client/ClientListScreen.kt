@@ -20,6 +20,7 @@ import com.artbird.onsite.ui.components.ListActionBar
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
+import com.artbird.onsite.ui.profile.ProfileViewModel
 
 @Composable
 fun ClientListScreen(
@@ -29,9 +30,6 @@ fun ClientListScreen(
     user: Account,
 ) {
     val accounts by accountViewModel.accounts.observeAsState()
-//    val selectedProfile by profileViewModel.profile.observeAsState()
-
-//    val roles: List<Role> by roleViewModel.roles.observeAsState(arrayListOf())
 
     var selectedIndex by remember { mutableStateOf(0) }
 
@@ -52,8 +50,6 @@ fun ClientListScreen(
     val menus: List<DropdownMenuItem> = listOf(
         DropdownMenuItem("edit", "Edit", Icons.Outlined.Edit, "Edit", ::handleEdit),
     )
-
-
 
     if (accountViewModel.status == ApiStatus.LOADING){
         Column(
@@ -92,90 +88,3 @@ fun ClientListScreen(
     }
 }
 
-
-
-//    fun handleAdd() {
-//        if(userId!=null) {
-//
-//            if(type == "sample") {
-//                // create default client
-//                accountViewModel.createClientSample(
-//                    Client("",
-//                        "New Address",
-//                        "New client",
-//                        appointment = BaseAppointment(userId, appointment?.title!!),
-//                        floors = listOf(
-//                            Floor("", "First Floor", "", rooms = listOf(
-//                                Room("", "Living Room", ""),
-//                                Room("", "Family Room", ""),
-//                                Room("", "Dinning Room", ""),
-//                                Room("", "Kitchen", ""),
-//                            )),
-//                            Floor("", "Second Floor", "", rooms = listOf(
-//                                Room("", "Master Bedroom", ""),
-//                                Room("", "Room 1", ""),
-//                                Room("", "Room 2", ""),
-//                                Room("", "Room 3", ""),
-//                                Room("", "Washroom1", ""),
-//                                Room("", "Washroom2", ""),
-//                            )),
-//                        )
-//                    ),
-//                )
-//            }else{
-//
-//            }
-//            accountViewModel.getClientsByRecommanderId(userId)
-//        }
-
-//    }
-
-//    when (page) {
-//        "client-list" -> {
-//            ClientListView(
-//                accounts,
-//                clientIndex,
-//                onSelect = { index ->
-//                    clientIndex = index
-//                    clientId = accounts!![clientIndex].id
-//                    toNextView()
-//                },
-//                onDelete = ::deleteClient,
-//                onAdd={
-////                    client = ClientDetails(
-////                        id= "",
-////                        username = "",
-////                        email="",
-////                        phone="",
-////                        userId= userId!!,
-////                    )
-//                    clientDetails = ClientDetails()
-//                    page = "new-client"
-//                }
-//            )
-//        }
-//        "new-client" -> {
-//            val role = roles.firstOrNull { it.name == "client" }
-//            ClientForm("new", clientDetails, role, user, accountViewModel,
-//                onCancel = { page = "client-list" },
-//                onSubmitSuccess = { page = "client-list" },
-//            )
-//        }
-//        "edit-client" -> {
-//            ClientForm(clientId, clientDetails, role =null, user, accountViewModel,
-//                onCancel = { page = "client-list" },
-//                onSubmitSuccess = { page = "client-list" },
-//            )
-//        }
-//        else -> { // client-details
-//            ClientDetailsView(
-//                clientId,
-//                accountViewModel,
-//                onEdit = { c ->
-//                    clientDetails = c
-//                    page = "edit-client"
-//                },
-//                onBack = { page = "client-list"},
-//            )
-//        }
-//    }
