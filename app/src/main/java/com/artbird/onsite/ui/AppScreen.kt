@@ -146,12 +146,13 @@ fun MyApp(
         }else{
             SignupScreen(
                 authViewModel,
-                roleViewModel,
-                onSubmit = {
+                onAfterSubmit = {
                     isLoggedIn = it.status == "ok"
-                    ApiService.put("JWT_TOKEN", it.token);
-                    user = it.account;
-                    roleViewModel.getRoles()
+                    if(it.status == "ok") {
+                        ApiService.put("JWT_TOKEN", it.token);
+                        user = it.account;
+                        roleViewModel.getRoles()
+                    }
                 },
                 onPageChange = {page = it}
             )

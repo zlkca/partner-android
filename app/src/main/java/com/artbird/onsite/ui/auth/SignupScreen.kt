@@ -5,17 +5,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.artbird.onsite.domain.Account
 import com.artbird.onsite.domain.Auth
 import com.artbird.onsite.domain.Role
-import com.artbird.onsite.ui.role.RoleViewModel
 
 @Composable
 fun SignupScreen(
     authViewModel: AuthViewModel,
-    roleViewModel: RoleViewModel,
-    onSubmit: (auth: Auth) -> Unit = {},
+    onAfterSubmit: (auth: Auth) -> Unit = {},
     onPageChange: (page: String) -> Unit = {}
     )
 {
-    val roles by roleViewModel.roles.observeAsState()
     val auth: Auth by authViewModel.auth.observeAsState(Auth("","", "", account = Account()))
     val authError by authViewModel.error.observeAsState()
 
@@ -27,9 +24,9 @@ fun SignupScreen(
     var error by remember { mutableStateOf(mapOf<String, String>())}
 
     LaunchedEffect(key1 = auth) {
-//        if(auth) {
-            onSubmit(auth)
-//        }
+        if(auth != null) {
+            onAfterSubmit(auth)
+        }
     }
 
     LaunchedEffect(key1 = authError) {
@@ -49,7 +46,6 @@ fun SignupScreen(
     }
 
     fun handleSubmit(email:String, phone: String, password: String, ){
-            val role = roles!!.find { it.name == "partner"}
             val data = Account(
                 id="",
                 username = "",
@@ -57,7 +53,7 @@ fun SignupScreen(
                 email = email,
                 phone = phone,
                 status = "Pending", // pending
-                role = role!!
+                role = Role(name="partner")
             )
             authViewModel.signup(data)
     }

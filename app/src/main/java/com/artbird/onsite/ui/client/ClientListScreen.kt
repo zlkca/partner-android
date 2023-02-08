@@ -20,6 +20,7 @@ import com.artbird.onsite.ui.components.ListActionBar
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
+import com.artbird.onsite.ui.components.Body2
 import com.artbird.onsite.ui.profile.ProfileViewModel
 
 @Composable
@@ -83,6 +84,8 @@ fun ClientListScreen(
                         AccountListItem(item = it, selected = selected, index = index)
                     }
                 )
+            }else{
+                Body2(text="There is no client yet, you can click the create button to create a client now.")
             }
         }
     }
